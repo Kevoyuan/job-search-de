@@ -1,0 +1,13 @@
+# job-search-de: Role Families and Keyword Filters
+
+ROLE_FAMILY_AGENTIC: agentic, ai agent, agent engineer, llm engineer, genai engineer, generative ai engineer, rag engineer, multi-agent, autonomous agent
+ROLE_FAMILY_APPLIED_AI: applied ai, ai engineer, ai specialist, ai product engineer, artificial intelligence engineer, ki-engineer, ki engineer, ki-ingenieur, ki entwickler, data scientist genai
+ROLE_FAMILY_SOLUTION_CONSULTING: ai solutions engineer, ai consultant, ai transformation, forward deployed, forward deployed ai, customer ai engineer, ai solution architect, generative ai consultant
+ROLE_FAMILY_AUTOMATION: ai automation, intelligent automation, ai workflow engineer, automation engineer ai
+ROLE_FAMILY_INDUSTRIAL: industrial ai, engineering ai, ai4engineering, physical ai, scientific machine learning, gnn engineer, geometric deep learning, simulation ml, digital twin ml
+
+STRONG: ai engineer, applied ai, genai, generative ai, llm, agentic, ai agent, ai solutions, ai consultant, ai transformation, ai specialist, ai integration, ai adoption, ai platform, ai automation, forward deployed, ml engineer, machine learning engineer, applied scientist, ki-engineer, ki engineer, ki-ingenieur, ki entwickler, deep learning, computer vision, gnn, rag engineer
+
+WEAK: agent, prompt, rag, copilot, automation, data science, data scientist, mlops
+
+EXCLUDE_TITLES: intern, internship, praktikum, werkstudent, working student, trainee, phd candidate, doctoral, head of, vp, director, sap consultant, devops engineer, site reliability, qa engineer
