@@ -1,0 +1,34 @@
+name: Auto Tag & Release
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Read Version
+        id: get_version
+        run: |
+          VER=$(cat VERSION | tr -d '[:space:]')
+          echo "version=$VER" >> $GITHUB_OUTPUT
+          echo "Detected version v$VER"
+
+      - name: Create Git Tag and GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: "v${{ steps.get_version.outputs.version }}"
+          name: "Release v${{ steps.get_version.outputs.version }}"
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
