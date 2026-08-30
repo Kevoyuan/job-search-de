@@ -1,0 +1,29 @@
+# job-search-de: Multi-Domain Role Families and Keyword Filters
+
+# --- Tech & Engineering ---
+ROLE_FAMILY_SOFTWARE: software engineer, softwareentwickler, full stack, fullstack, backend, frontend, web developer, python, java, golang, c++, rust, typescript
+ROLE_FAMILY_DATA: data engineer, analytics engineer, data platform, data warehouse, dbt, spark, snowflake, bi engineer, data analyst
+ROLE_FAMILY_DEVOPS_CLOUD: devops engineer, cloud engineer, platform engineer, site reliability, sre, infrastructure, kubernetes, aws, azure, gcp
+ROLE_FAMILY_AI_ML: ai engineer, machine learning engineer, ml engineer, applied ai, genai, generative ai, llm, data scientist, computer vision, nlp, ki-engineer
+ROLE_FAMILY_EMBEDDED: embedded engineer, embedded software, firmware, robotics, iot, automotive software, hardware
+ROLE_FAMILY_SECURITY: security engineer, cybersecurity, cloud security, appsec, information security
+ROLE_FAMILY_PRODUCT: product manager, technical product manager, product owner, tech lead, engineering manager, solutions architect
+
+# --- Business & Commercial ---
+ROLE_FAMILY_MARKETING: marketing manager, growth manager, performance marketing, content marketing, brand manager, seo manager, product marketing
+ROLE_FAMILY_SALES: account executive, sales manager, business development, bdr, sdr, enterprise sales, partner manager
+ROLE_FAMILY_CUSTOMER_SUCCESS: customer success manager, csm, client success, account manager, customer onboarding
+ROLE_FAMILY_FINANCE: finance manager, controller, financial analyst, accounting, buchhalter, fp&a, treasury, tax manager
+ROLE_FAMILY_HR_PEOPLE: hr manager, talent acquisition, recruiter, people operations, hr business partner, human resources
+ROLE_FAMILY_OPERATIONS: operations manager, supply chain manager, logistics, procurement, project manager, business operations
+ROLE_FAMILY_DESIGN: product designer, ui/ux designer, visual designer, ux researcher, design lead
+ROLE_FAMILY_CONSULTING: management consultant, strategy manager, business analyst, corporate strategy
+
+# Universal Strong Keywords (Auto-matched across candidate families)
+STRONG: engineer, developer, entwickler, data scientist, manager, lead, architect, consultant, designer, analyst, specialist, controller, recruiter, buyer, partner
+
+# Universal Weak Keywords
+WEAK: associate, officer, coordinator, executive, representative
+
+# Student / Internship Exclusions Only
+EXCLUDE_TITLES: intern, internship, praktikum, werkstudent, working student, trainee, phd candidate, doctoral
