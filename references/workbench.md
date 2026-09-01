@@ -49,22 +49,30 @@ Workbench UI supports instant client-side theme switching across 4 curated desig
 
 Theme selection is pure CSS-driven (zero LLM token consumption) and persists across page reloads in browser `localStorage`.
 
+## Interactive candidate config editor
+
+Workbench provides an integrated **Candidate Configuration & Preferences Drawer**:
+- Reads and displays candidate facts (`profile.md`), search preferences (`preferences.md`), and deterministic thresholds (`settings.ini`).
+- **File System Access API integration**: Users can click "关联本地目录" to authorize browser access to their local `.job-search/` folder. Edits made in the drawer (or through the visual form mode) can be written back directly to disk with one click (`Ctrl+S` / `Cmd+S`).
+- **Graceful Fallback**: For browsers without direct File System Access (like Safari), users can export modified files or copy Markdown content to clipboard.
+- **Visual Form & Source modes**: Allows editing key parameters via interactive form controls or directly editing Markdown/INI source code with real-time dirty status indicators.
+
+## Update notifications with one-click copy
+
+Top notification banner and modal prompts display available updates alongside one-click copy buttons for upgrade commands (`/update-skill` and `npx skills update job-search-de -g`) with instant clipboard toast feedback.
+
 ## Report HTML
 
 `report_zh.html` or another language-specific report is generated from Markdown by `scripts/build_html.sh`, then post-processed by `scripts/fix_html.py`. This is independent from the workbench.
 
-## Recommended deterministic architecture
-
-For a reusable multi-user skill, prefer:
+## Deterministic architecture
 
 ```text
 verified_jobs.json (job data)
-candidate config (private scoring context)
-application-status adapter
+candidate config (.job-search/profile.md, preferences.md, settings.ini)
               ↓
-build_workbench.py + neutral HTML template
+build_workbench.py + templates/workbench_template.html
               ↓
-generated workbench HTML
+generated job-hunt-workbench.html (interactive, editable, 4 themes)
 ```
 
-The builder should validate the job schema, assign/preserve stable IDs through an ID registry, serialize only display-safe candidate conclusions, and leave status/remarks outside generated job data. Until such a builder exists, describe the legacy adapter as semi-automated rather than fully generated.

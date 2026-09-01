@@ -106,27 +106,26 @@ Use [templates/report_skeleton.md](templates/report_skeleton.md) as a replaceabl
 
 ## 6. Delivery and Workbench synchronization
 
-Read delivery choices from `.job-search/preferences.md` and `.job-search/settings.ini`. The legacy `job-hunt-workbench.html` adapter must:
+Read delivery choices from `.job-search/preferences.md` and `.job-search/settings.ini`. The interactive `job-hunt-workbench.html` (generated via `scripts/build_workbench.py`):
 
-- prepend new jobs while preserving stable job IDs;
-- record `addedIn` and preferably `addedOn: YYYY-MM-DD` for every newly accepted role;
-- calculate “recently added” from the last `recent_search_days` calendar days, never from a count of versions;
-- read the Workbench interface language from `workbench_language`, independently of `report_languages`;
-- support `zh`, `en`, and `de`, with a local UI override that can return to “follow settings”;
-- preserve stored job analysis in its actual generated/source language unless localized fields exist; optional localized fields use `<field>Zh` and `<field>En` beside the base field;
-- never overwrite or bulk-migrate browser `localStorage` status and remarks;
-- keep candidate-private data out of the skill directory and out of Notion status adapters.
-
-If the user later says “change the Workbench to English/Chinese/German,” update project-level `preferences.md` and `settings.ini`, rerun the project configuration sync, and update the interface without rerunning scoring or replacing job/application state.
+- provides an integrated **Candidate Config & Preferences Drawer** that allows directly modifying `profile.md`, `preferences.md`, and `settings.ini` via browser File System Access API with `Ctrl+S` / `Cmd+S` direct save;
+- provides visual form editing alongside Markdown source mode with dirty state indicators and fallback copy/export options;
+- includes top update notification banners with one-click code copy buttons (`/update-skill`);
+- supports instant client-side theme switching (Notion, Obsidian, Bauhaus, Bento);
+- prepends new jobs while preserving stable job IDs;
+- records `addedIn` and `addedOn: YYYY-MM-DD` for every newly accepted role;
+- calculates “recently added” from the last `recent_search_days` calendar days;
+- reads the Workbench interface language from `workbench_language`, independently of `report_languages`;
+- supports `zh`, `en`, and `de`, with a local UI override that can return to “follow settings”;
+- preserves stored job analysis in its actual generated/source language;
+- never overwrites or bulk-migrates browser `localStorage` status and remarks.
 
 Before delivering any Workbench change, run:
 
 1. Node `vm.Script` syntax compilation.
-2. A DOM smoke test proving that list and board views render, recent-job counts are correct, and the newest search batch is pinned first.
-3. Language tests for `zh`, `en`, and `de`, including “follow settings,” refresh persistence for explicit local overrides, and no initial-load mutation of `localStorage`.
+2. A DOM smoke test proving that list, kanban, theme switching and config drawer render properly.
+3. Language tests for `zh`, `en`, and `de`.
 4. A mobile-width overflow check.
-
-The current legacy Workbench is a semi-automatic single-file adapter with an embedded `JOBS` array; it is not fully generated from one canonical data file. Report HTML and Notion status use separate generation paths. Read [references/workbench.md](references/workbench.md) before modifying it.
 
 ## 7. Supported Commands
 
