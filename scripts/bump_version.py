@@ -82,6 +82,13 @@ def sync_version():
             wb.write_text(content, encoding="utf-8")
             print(f"  ✓ Synced version v{curr} to {wb.name}")
 
+    # Also sync job-search-config.js if sync_workbench_config.py exists
+    sync_script = ACTIVE_WORKBENCH.parent / "sync_workbench_config.py"
+    if sync_script.exists():
+        import subprocess
+        subprocess.run(["python3", str(sync_script)], capture_output=True)
+        print(f"  ✓ Regenerated job-search-config.js")
+
 
 if __name__ == "__main__":
     part_to_bump = sys.argv[1] if len(sys.argv) > 1 else "patch"
