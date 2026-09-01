@@ -64,6 +64,28 @@ def bump(part: str = "patch") -> str:
     return new_ver
 
 
+def sync_version():
+    curr = get_current_version()
+    for wb in set([WORKBENCH_FILE, CWD_WORKBENCH, ACTIVE_WORKBENCH]):
+        if wb.exists():
+            content = wb.read_text(encoding="utf-8")
+            content = re.sub(
+                r'(<span id="versionText">)v?[0-9\.]+(</span>)',
+                rf'\g<1>v{curr}\g<2>',
+                content
+            )
+            content = re.sub(
+                r'(CURRENT_SKILL_VERSION\s*=\s*(?:\([^)]*\)\s*\?\s*[^:]+:\s*)?[\'"])[0-9\.]+([\'"])',
+                rf'\g<1>{curr}\g<2>',
+                content
+            )
+            wb.write_text(content, encoding="utf-8")
+            print(f"  ✓ Synced version v{curr} to {wb.name}")
+
+
 if __name__ == "__main__":
     part_to_bump = sys.argv[1] if len(sys.argv) > 1 else "patch"
-    bump(part_to_bump)
+    if part_to_bump == "sync":
+        sync_version()
+    else:
+        bump(part_to_bump)

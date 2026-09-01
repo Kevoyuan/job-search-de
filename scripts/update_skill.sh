@@ -21,4 +21,8 @@ if command -v npx &>/dev/null; then
     npx skills update job-search-de -g -y 2>/dev/null || true
 fi
 
-echo "✅ job-search-de is up to date!"
+# Automatically sync/rebuild active workbench HTML files so the user's workspace is upgraded instantly
+echo "🔨 Synchronizing active workbench HTML files..."
+python3 "$SKILL_DIR/scripts/bump_version.py" sync 2>/dev/null || true
+
+echo "✅ job-search-de is fully updated to $(cat "$SKILL_DIR/VERSION" 2>/dev/null || echo 'latest')!"
