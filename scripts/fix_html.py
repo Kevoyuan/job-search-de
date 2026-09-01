@@ -17,8 +17,21 @@ css = '''
 .dsh-table-scroll tr:hover td{background:#fdf1e8;}
 .dsh-table-scroll a{color:#c2410c;text-decoration:underline;font-weight:600;word-break:break-all;}
 .dsh-table-scroll td:first-child{white-space:nowrap;text-align:center;}
+.dsh-copy-btn{display:inline-flex;align-items:center;gap:4px;background:#f3f4f6;border:1px solid #d1d5db;border-radius:4px;padding:2px 8px;font-size:12px;cursor:pointer;color:#374151;margin-left:6px;transition:all 0.15s;}
+.dsh-copy-btn:hover{background:#e5e7eb;color:#111827;}
 @media (max-width:600px){.dsh-table-scroll table{font-size:12px;}.dsh-table-scroll th,.dsh-table-scroll td{padding:6px 7px;}}
 </style>
+<script>
+function dshCopy(text, btn) {
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(() => {
+      const orig = btn.innerText;
+      btn.innerText = '✓ 已复制';
+      setTimeout(() => { btn.innerText = orig; }, 2000);
+    });
+  }
+}
+</script>
 '''
 if '</head>' in raw:
     raw = raw.replace('</head>', css + '</head>', 1)

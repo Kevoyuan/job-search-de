@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html lang="__LANG__" data-theme="notion">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>__TITLE__ - Job Hunt Workbench</title>
+  <style>
+    /* Design Systems & CSS Variables */
+    :root {
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      --font-mono: "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      
+      /* Notion Theme (Default) */
+      --bg: #ffffff;
+      --bg-surface: #ffffff;
+      --bg-subtle: #f7f6f3;
+      --bg-hover: #f1f0ec;
+      --border: #e9e9e7;
+      --border-strong: #d3d1cb;
+      --text: #37352f;
+      --text-muted: #787774;
+      --text-faint: #9b9a97;
+      --primary: #2383e2;
+      --primary-bg: #ebf5fb;
+      --success: #0f7b6c;
+      --success-bg: #eef6f5;
+      --warning: #d9730d;
+      --warning-bg: #fbf3db;
+      --danger: #e03e3e;
+      --danger-bg: #fbe4e4;
+      --shadow-sm: 0 1px 2px rgba(15, 15, 15, 0.05);
+      --shadow-md: 0 4px 12px rgba(15, 15, 15, 0.08);
+      --shadow-lg: 0 12px 32px rgba(15, 15, 15, 0.12);
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 10px;
+    }
+
+    [data-theme="obsidian"] {
+      --bg: #1e1e1e;
+      --bg-surface: #252526;
+      --bg-subtle: #2d2d30;
+      --bg-hover: #37373d;
+      --border: #3e3e42;
+      --border-strong: #55555c;
+      --text: #cccccc;
+      --text-muted: #858585;
+      --text-faint: #606060;
+      --primary: #6c8cff;
+      --primary-bg: rgba(108, 140, 255, 0.15);
+      --success: #4ec9b0;
+      --success-bg: rgba(78, 201, 176, 0.15);
+      --warning: #ce9178;
+      --warning-bg: rgba(206, 145, 120, 0.15);
+      --danger: #f14c4c;
+      --danger-bg: rgba(241, 76, 76, 0.15);
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+      --shadow-md: 0 6px 16px rgba(0, 0, 0, 0.5);
+      --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.6);
+    }
+
+    [data-theme="bauhaus"] {
+      --bg: #f4f4f0;
+      --bg-surface: #ffffff;
+      --bg-subtle: #eaeae0;
+      --bg-hover: #dfdfd0;
+      --border: #000000;
+      --border-strong: #000000;
+      --text: #000000;
+      --text-muted: #444444;
+      --text-faint: #777777;
+      --primary: #0033cc;
+      --primary-bg: #e5ebff;
+      --success: #008844;
+      --success-bg: #e6f7ee;
+      --warning: #ee7700;
+      --warning-bg: #fff0db;
+      --danger: #dd1111;
+      --danger-bg: #ffe5e5;
+      --shadow-sm: 2px 2px 0px #000000;
+      --shadow-md: 4px 4px 0px #000000;
+      --shadow-lg: 8px 8px 0px #000000;
+      --radius-sm: 0px;
+      --radius-md: 0px;
+      --radius-lg: 0px;
+    }
+
+    [data-theme="bento"] {
+      --bg: #f8fafc;
+      --bg-surface: rgba(255, 255, 255, 0.85);
+      --bg-subtle: #f1f5f9;
+      --bg-hover: #e2e8f0;
+      --border: #cbd5e1;
+      --border-strong: #94a3b8;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --text-faint: #94a3b8;
+      --primary: #4f46e5;
+      --primary-bg: #e0e7ff;
+      --success: #059669;
+      --success-bg: #d1fae5;
+      --warning: #d97706;
+      --warning-bg: #fef3c7;
+      --danger: #dc2626;
+      --danger-bg: #fee2e2;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+      --shadow-md: 0 4px 14px rgba(0,0,0,0.06);
+      --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      transition: background-color 0.2s, color 0.2s;
+    }
+
+    /* Top Update Notification Banner */
+    .update-banner {
+      background: linear-gradient(90deg, #2b303a 0%, #1e222a 100%);
+      color: #ffffff;
+      padding: 10px 20px;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      z-index: 100;
+    }
+    [data-theme="obsidian"] .update-banner {
+      background: #111317;
+    }
+    .update-banner-content {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .update-badge {
+      background: #3b82f6;
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .code-pill-wrapper {
+      display: inline-flex;
+      align-items: center;
+      background: rgba(0,0,0,0.35);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: var(--radius-sm);
+      padding: 2px 4px 2px 8px;
+      gap: 6px;
+    }
+    .code-pill {
+      font-family: var(--font-mono);
+      color: #93c5fd;
+      font-size: 12px;
+    }
+    .btn-copy-code {
+      background: rgba(255,255,255,0.12);
+      border: none;
+      color: #ffffff;
+      padding: 3px 8px;
+      border-radius: var(--radius-sm);
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: var(--transition);
+    }
+    .btn-copy-code:hover {
+      background: rgba(255,255,255,0.25);
+      transform: translateY(-1px);
+    }
+
+    /* Header */
+    header {
+      padding: 16px 24px;
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .brand-title {
+      font-size: 18px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      font-size: 13px;
+      font-weight: 500;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-strong);
+      background: var(--bg-surface);
+      color: var(--text);
+      cursor: pointer;
+      transition: var(--transition);
+      text-decoration: none;
+    }
+    .btn:hover {
+      background: var(--bg-hover);
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+    }
+    .btn-primary:hover {
+      filter: brightness(1.1);
+    }
+
+    /* Main Container */
+    .main-container {
+      max-width: 1600px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 24px;
+      flex: 1;
+    }
+
+    /* Stats & Controls Bar */
+    .control-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 20px;
+      background: var(--bg-surface);
+      padding: 14px 18px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+    }
+    .stats-group {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .stat-item strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+    .filters-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .search-input {
+      padding: 6px 12px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-strong);
+      background: var(--bg);
+      color: var(--text);
+      font-size: 13px;
+      outline: none;
+      min-width: 220px;
+    }
+    .select-dropdown {
+      padding: 6px 10px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-strong);
+      background: var(--bg);
+      color: var(--text);
+      font-size: 13px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    /* Views: Table & Kanban */
+    .view-toggle-btns {
+      display: flex;
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+    .btn-toggle-view {
+      border: none;
+      background: var(--bg-surface);
+      color: var(--text-muted);
+      padding: 6px 12px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    .btn-toggle-view.active {
+      background: var(--primary-bg);
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    /* Table View */
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+      background: var(--bg-surface);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      text-align: left;
+    }
+    th {
+      background: var(--bg-subtle);
+      color: var(--text-muted);
+      font-weight: 600;
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    tr:hover td {
+      background: var(--bg-hover);
+    }
+    .score-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+    }
+    .score-high { background: var(--success-bg); color: var(--success); }
+    .score-med { background: var(--warning-bg); color: var(--warning); }
+    .score-low { background: var(--danger-bg); color: var(--danger); }
+
+    /* Kanban View */
+    .kanban-board {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin-top: 10px;
+    }
+    .kanban-col {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-height: 400px;
+    }
+    .kanban-col-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 600;
+      font-size: 13px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+    .kanban-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 12px;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+      cursor: pointer;
+    }
+    .kanban-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+
+    /* Configuration Drawer */
+    .drawer-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(2px);
+      z-index: 200;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.25s ease, visibility 0.25s ease;
+    }
+    .drawer-overlay.open {
+      opacity: 1;
+      visibility: visible;
+    }
+    .drawer {
+      position: fixed;
+      top: 0; right: 0; bottom: 0;
+      width: min(840px, 92vw);
+      background: var(--bg-surface);
+      border-left: 1px solid var(--border);
+      box-shadow: var(--shadow-lg);
+      z-index: 210;
+      transform: translateX(100%);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+    }
+    .drawer.open {
+      transform: translateX(0);
+    }
+
+    /* Drawer Header */
+    .drawer-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--bg-subtle);
+    }
+    .drawer-title {
+      font-size: 16px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-close-drawer {
+      background: transparent;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px; height: 32px;
+      border-radius: var(--radius-sm);
+    }
+    .btn-close-drawer:hover {
+      background: var(--bg-hover);
+      color: var(--text);
+    }
+
+    /* Workspace Connection Status Bar */
+    .fs-status-bar {
+      padding: 10px 20px;
+      background: var(--bg-hover);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .fs-status-indicator {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 500;
+    }
+    .status-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--text-faint);
+    }
+    .status-dot.connected {
+      background: var(--success);
+      box-shadow: 0 0 6px var(--success);
+    }
+
+    /* Drawer Tabs */
+    .drawer-tabs {
+      display: flex;
+      padding: 0 20px;
+      background: var(--bg-subtle);
+      border-bottom: 1px solid var(--border);
+      gap: 4px;
+    }
+    .drawer-tab {
+      padding: 10px 16px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-muted);
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: var(--transition);
+    }
+    .drawer-tab:hover {
+      color: var(--text);
+    }
+    .drawer-tab.active {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+      font-weight: 600;
+      background: var(--bg-surface);
+    }
+
+    /* Drawer Mode Toggle (Form / Markdown Source) */
+    .mode-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 20px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-surface);
+      font-size: 12px;
+    }
+    .mode-toggle {
+      display: flex;
+      gap: 2px;
+      background: var(--bg-subtle);
+      padding: 2px;
+      border-radius: var(--radius-sm);
+    }
+    .mode-btn {
+      padding: 3px 10px;
+      font-size: 11px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      border-radius: var(--radius-sm);
+    }
+    .mode-btn.active {
+      background: var(--bg-surface);
+      color: var(--text);
+      font-weight: 600;
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* Drawer Body */
+    .drawer-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+    .editor-textarea {
+      width: 100%;
+      flex: 1;
+      min-height: 420px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1.6;
+      padding: 14px;
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-md);
+      background: var(--bg);
+      color: var(--text);
+      resize: vertical;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .editor-textarea:focus {
+      border-color: var(--primary);
+    }
+
+    /* Form Fields Styling */
+    .form-section {
+      margin-bottom: 18px;
+    }
+    .form-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .form-hint {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+    .form-input {
+      width: 100%;
+      padding: 8px 12px;
+      font-size: 13px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-strong);
+      background: var(--bg);
+      color: var(--text);
+      outline: none;
+    }
+    .checkbox-group {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+    .checkbox-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    /* Drawer Footer */
+    .drawer-footer {
+      padding: 14px 20px;
+      border-top: 1px solid var(--border);
+      background: var(--bg-subtle);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+    .dirty-indicator {
+      font-size: 12px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .dirty-indicator.dirty {
+      color: var(--warning);
+      font-weight: 600;
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #1e293b;
+      color: #ffffff;
+      padding: 10px 18px;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      z-index: 300;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.25s, transform 0.25s;
+      pointer-events: none;
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Version Update Banner with One-Click Copy -->
+  <div id="updateBanner" class="update-banner">
+    <div class="update-banner-content">
+      <span class="update-badge">Update Available</span>
+      <span>发现新版本 <strong id="remoteVerText">v__LATEST_VERSION__</strong> (当前版本: v__CURRENT_VERSION__)</span>
+      <div class="code-pill-wrapper">
+        <span class="code-pill">/update-skill</span>
+        <button class="btn-copy-code" onclick="copyUpdateCommand('/update-skill', this)" title="复制代码到剪贴板">
+          📋 复制
+        </button>
+      </div>
+      <div class="code-pill-wrapper">
+        <span class="code-pill">npx skills update job-search-de -g</span>
+        <button class="btn-copy-code" onclick="copyUpdateCommand('npx skills update job-search-de -g', this)" title="复制代码到剪贴板">
+          📋 复制
+        </button>
+      </div>
+    </div>
+    <button style="background:transparent;border:none;color:#aaa;cursor:pointer;font-size:16px;padding:4px;" onclick="document.getElementById('updateBanner').style.display='none'">✕</button>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <div class="brand-title">
+      <span>🇩🇪</span>
+      <span>__TITLE__</span>
+      <span style="font-size: 12px; font-weight: normal; color: var(--text-muted);">v__CURRENT_VERSION__</span>
+    </div>
+    <div class="header-actions">
+      <!-- Theme Switcher -->
+      <select id="themeSelector" class="select-dropdown" onchange="switchTheme(this.value)">
+        <option value="notion">🎨 Notion Craft (Default)</option>
+        <option value="obsidian">🌑 Obsidian Dark</option>
+        <option value="bauhaus">📐 Bauhaus Grid</option>
+        <option value="bento">🍱 Spatial Bento</option>
+      </select>
+
+      <!-- Candidate Config Button -->
+      <button class="btn btn-primary" onclick="openConfigDrawer()">
+        ⚙️ 候选人配置与偏好
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <div class="main-container">
+    <!-- Controls & Stats -->
+    <div class="control-bar">
+      <div class="stats-group">
+        <div class="stat-item">全部岗位: <strong id="totalJobsCount">0</strong></div>
+        <div class="stat-item">近期新增: <strong id="recentJobsCount" style="color:var(--primary);">0</strong></div>
+        <div class="stat-item">高匹配 (≥75): <strong id="highFitCount" style="color:var(--success);">0</strong></div>
+      </div>
+      
+      <div class="filters-group">
+        <input type="text" id="searchInput" class="search-input" placeholder="🔍 搜索公司、职位、技能..." oninput="filterJobs()">
+        <select id="freshnessFilter" class="select-dropdown" onchange="filterJobs()">
+          <option value="all">全部新鲜度</option>
+          <option value="VERIFIED_FRESH">✨ 官方极鲜 (VERIFIED_FRESH)</option>
+          <option value="LIKELY_FRESH">⚡ 活跃近期 (LIKELY_FRESH)</option>
+        </select>
+        <select id="scoreFilter" class="select-dropdown" onchange="filterJobs()">
+          <option value="0">全部匹配度</option>
+          <option value="75">≥ 75 分 (深度分析)</option>
+          <option value="80">≥ 80 分 (高度匹配)</option>
+        </select>
+        <div class="view-toggle-btns">
+          <button id="viewBtnTable" class="btn-toggle-view active" onclick="switchView('table')">📋 表格</button>
+          <button id="viewBtnKanban" class="btn-toggle-view" onclick="switchView('kanban')">📊 看板</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Table View -->
+    <div id="tableView" class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>匹配度</th>
+            <th>公司</th>
+            <th>职位</th>
+            <th>类型</th>
+            <th>地点</th>
+            <th>工作模式</th>
+            <th>发布日期</th>
+            <th>新鲜度</th>
+            <th>官方链接</th>
+          </tr>
+        </thead>
+        <tbody id="jobsTableBody">
+          <!-- Dynamically populated -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Kanban View -->
+    <div id="kanbanView" class="kanban-board" style="display: none;">
+      <div class="kanban-col">
+        <div class="kanban-col-header">
+          <span>🎯 待评估 / 新增</span>
+          <span id="colCount-todo" class="score-badge score-med">0</span>
+        </div>
+        <div id="kanbanCards-todo" style="display: flex; flex-direction: column; gap: 10px;"></div>
+      </div>
+      <div class="kanban-col">
+        <div class="kanban-col-header">
+          <span>📝 准备申请 / 定制CV</span>
+          <span id="colCount-prep" class="score-badge score-med">0</span>
+        </div>
+        <div id="kanbanCards-prep" style="display: flex; flex-direction: column; gap: 10px;"></div>
+      </div>
+      <div class="kanban-col">
+        <div class="kanban-col-header">
+          <span>🚀 已投递 (Applied)</span>
+          <span id="colCount-applied" class="score-badge score-high">0</span>
+        </div>
+        <div id="kanbanCards-applied" style="display: flex; flex-direction: column; gap: 10px;"></div>
+      </div>
+      <div class="kanban-col">
+        <div class="kanban-col-header">
+          <span>💬 面试中 (Interviewing)</span>
+          <span id="colCount-interview" class="score-badge score-high">0</span>
+        </div>
+        <div id="kanbanCards-interview" style="display: flex; flex-direction: column; gap: 10px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Candidate Config Drawer -->
+  <div id="drawerOverlay" class="drawer-overlay" onclick="closeConfigDrawer()"></div>
+  <div id="configDrawer" class="drawer">
+    <div class="drawer-header">
+      <div class="drawer-title">
+        <span>⚙️</span>
+        <span>候选人配置与偏好设置</span>
+      </div>
+      <button class="btn-close-drawer" onclick="closeConfigDrawer()">✕</button>
+    </div>
+
+    <!-- File System Access Status Bar -->
+    <div class="fs-status-bar">
+      <div class="fs-status-indicator">
+        <span id="fsStatusDot" class="status-dot"></span>
+        <span id="fsStatusText">未连接本地工作区（只读预览模式）</span>
+      </div>
+      <button id="btnConnectDir" class="btn" style="padding: 4px 10px; font-size: 11px;" onclick="connectLocalWorkspace()">
+        📂 关联本地 .job-search 目录
+      </button>
+    </div>
+
+    <!-- Drawer Tabs -->
+    <div class="drawer-tabs">
+      <button class="drawer-tab active" onclick="switchConfigTab('profile')">👤 profile.md (画像与事实)</button>
+      <button class="drawer-tab" onclick="switchConfigTab('preferences')">🎯 preferences.md (搜索偏好)</button>
+      <button class="drawer-tab" onclick="switchConfigTab('settings')">⚙️ settings.ini (运行设置)</button>
+    </div>
+
+    <!-- Mode bar (Form vs Markdown Source) -->
+    <div class="mode-bar">
+      <span id="currentFileLabel" style="font-weight: 600; font-family: var(--font-mono);">profile.md</span>
+      <div class="mode-toggle">
+        <button id="modeBtnForm" class="mode-btn" onclick="setEditorMode('form')">✨ 可视化表单</button>
+        <button id="modeBtnSource" class="mode-btn active" onclick="setEditorMode('source')">📝 源码模式</button>
+      </div>
+    </div>
+
+    <!-- Drawer Body -->
+    <div class="drawer-body">
+      <!-- Source Mode -->
+      <div id="sourceEditorContainer" style="display: flex; flex-direction: column; flex: 1;">
+        <textarea id="configTextarea" class="editor-textarea" oninput="markConfigDirty()" placeholder="正在加载配置内容..."></textarea>
+      </div>
+
+      <!-- Form Mode (Preferences / Settings helper) -->
+      <div id="formEditorContainer" style="display: none;">
+        <div id="formPreferences" style="display: none;">
+          <div class="form-section">
+            <label class="form-label">🎯 目标城市与优先级 (Priority Locations)</label>
+            <input type="text" id="formInputLocations" class="form-input" placeholder="例如: Frankfurt, Eschborn, Remote" oninput="syncFormToPreferences()">
+            <div class="form-hint">优先级按顺序列出，用逗号隔开。支持 Frankfurt, Munich, Berlin 等及 Remote。</div>
+          </div>
+          <div class="form-section">
+            <label class="form-label">💼 工作模式 (Work Modes)</label>
+            <div class="checkbox-group">
+              <label class="checkbox-label"><input type="checkbox" id="chkRemote" onchange="syncFormToPreferences()"> Remote (远程)</label>
+              <label class="checkbox-label"><input type="checkbox" id="chkHybrid" onchange="syncFormToPreferences()"> Hybrid (混合办公)</label>
+              <label class="checkbox-label"><input type="checkbox" id="chkOnsite" onchange="syncFormToPreferences()"> On-site (现场)</label>
+            </div>
+          </div>
+          <div class="form-section">
+            <label class="form-label">🚫 硬性排除关键词 (Exclusions)</label>
+            <input type="text" id="formInputExclusions" class="form-input" placeholder="例如: PHP, WordPress, 德语C1必选" oninput="syncFormToPreferences()">
+            <div class="form-hint">命中此列表的职位将在第一阶段初筛中直接排除。</div>
+          </div>
+        </div>
+
+        <div id="formSettings" style="display: none;">
+          <div class="form-section">
+            <label class="form-label">📊 筛选与打分门槛 (Thresholds)</label>
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
+              <div>
+                <label class="form-hint">初筛保留 (Triage Keep)</label>
+                <input type="number" id="formTriageKeep" class="form-input" value="65" oninput="syncFormToSettings()">
+              </div>
+              <div>
+                <label class="form-hint">深度分析 (Deep Score)</label>
+                <input type="number" id="formDeepScore" class="form-input" value="75" oninput="syncFormToSettings()">
+              </div>
+              <div>
+                <label class="form-hint">高契合 (High Value)</label>
+                <input type="number" id="formHighValue" class="form-input" value="80" oninput="syncFormToSettings()">
+              </div>
+            </div>
+          </div>
+          <div class="form-section">
+            <label class="form-label">📅 新鲜度抓取窗口 (Freshness Days)</label>
+            <input type="number" id="formFreshDays" class="form-input" value="14" oninput="syncFormToSettings()">
+          </div>
+        </div>
+
+        <div id="formProfileNotice" style="display: none; padding: 20px; text-align: center; color: var(--text-muted); font-size: 13px;">
+          ℹ️ 候选人画像 <code>profile.md</code> 包含详尽的技能与证据链，建议使用 <strong>📝 源码模式</strong> 进行精准编辑。
+        </div>
+      </div>
+    </div>
+
+    <!-- Drawer Footer -->
+    <div class="drawer-footer">
+      <div class="dirty-indicator" id="dirtyStatus">
+        <span>●</span>
+        <span id="dirtyText">无未保存更改</span>
+      </div>
+      <div style="display: flex; gap: 8px;">
+        <button class="btn" onclick="copyCurrentConfig()">📋 复制内容</button>
+        <button class="btn" onclick="exportCurrentConfig()">📥 导出文件</button>
+        <button class="btn btn-primary" onclick="saveCurrentConfig()">💾 保存到本地文件</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Box -->
+  <div id="toast" class="toast">
+    <span id="toastIcon">✅</span>
+    <span id="toastMsg">操作成功</span>
+  </div>
+
+  <script>
+    // Embedded Data injected by build_workbench.py
+    const EMBEDDED_CONFIG = __EMBEDDED_CONFIG_JSON__;
+    const JOBS = __JOBS_JSON__;
+
+    // State Variables
+    let currentConfigTab = 'profile'; // 'profile' | 'preferences' | 'settings'
+    let currentEditorMode = 'source'; // 'source' | 'form'
+    let isDirty = { profile: false, preferences: false, settings: false };
+    let configData = {
+      profile: EMBEDDED_CONFIG.profile || '',
+      preferences: EMBEDDED_CONFIG.preferences || '',
+      settings: EMBEDDED_CONFIG.settings || ''
+    };
+    let dirHandle = null;
+    let fileHandles = {};
+
+    // 1. One-click Copy Helper with Toast
+    function showToast(msg, icon = '✅') {
+      const toast = document.getElementById('toast');
+      document.getElementById('toastIcon').textContent = icon;
+      document.getElementById('toastMsg').textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => { toast.classList.remove('show'); }, 2600);
+    }
+
+    function copyUpdateCommand(cmd, btnElement) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(cmd).then(() => {
+          showToast('已复制命令: ' + cmd);
+          if (btnElement) {
+            const orig = btnElement.innerHTML;
+            btnElement.innerHTML = '✓ 已复制';
+            setTimeout(() => { btnElement.innerHTML = orig; }, 2000);
+          }
+        }).catch(() => {
+          fallbackCopy(cmd);
+        });
+      } else {
+        fallbackCopy(cmd);
+      }
+    }
+
+    function fallbackCopy(text) {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      showToast('已复制到剪贴板: ' + text);
+    }
+
+    // 2. Theme Management
+    function switchTheme(themeName) {
+      document.documentElement.setAttribute('data-theme', themeName);
+      localStorage.setItem('job_workbench_theme', themeName);
+    }
+    const savedTheme = localStorage.getItem('job_workbench_theme');
+    if (savedTheme) {
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      document.getElementById('themeSelector').value = savedTheme;
+    }
+
+    // 3. Candidate Config Drawer & File System Access API
+    function openConfigDrawer() {
+      document.getElementById('drawerOverlay').classList.add('open');
+      document.getElementById('configDrawer').classList.add('open');
+      loadConfigTabContent();
+    }
+
+    function closeConfigDrawer() {
+      if (isDirty[currentConfigTab]) {
+        if (!confirm('存在未保存的修改，确定要关闭吗？')) return;
+      }
+      document.getElementById('drawerOverlay').classList.remove('open');
+      document.getElementById('configDrawer').classList.remove('open');
+    }
+
+    function switchConfigTab(tab) {
+      if (isDirty[currentConfigTab]) {
+        saveDraftInMemory();
+      }
+      currentConfigTab = tab;
+      document.querySelectorAll('.drawer-tab').forEach((btn, idx) => {
+        btn.classList.toggle('active', 
+          (tab === 'profile' && idx === 0) || 
+          (tab === 'preferences' && idx === 1) || 
+          (tab === 'settings' && idx === 2)
+        );
+      });
+      document.getElementById('currentFileLabel').textContent = 
+        tab === 'profile' ? 'profile.md' : (tab === 'preferences' ? 'preferences.md' : 'settings.ini');
+      loadConfigTabContent();
+    }
+
+    function loadConfigTabContent() {
+      const val = configData[currentConfigTab] || '';
+      document.getElementById('configTextarea').value = val;
+      updateDirtyDisplay();
+      if (currentEditorMode === 'form') {
+        populateFormFromData();
+      }
+    }
+
+    function markConfigDirty() {
+      configData[currentConfigTab] = document.getElementById('configTextarea').value;
+      isDirty[currentConfigTab] = true;
+      updateDirtyDisplay();
+    }
+
+    function saveDraftInMemory() {
+      configData[currentConfigTab] = document.getElementById('configTextarea').value;
+    }
+
+    function updateDirtyDisplay() {
+      const dirty = isDirty[currentConfigTab];
+      const indicator = document.getElementById('dirtyStatus');
+      const text = document.getElementById('dirtyText');
+      indicator.classList.toggle('dirty', dirty);
+      text.textContent = dirty ? '● 有未保存的修改' : '已就绪 (无未保存更改)';
+    }
+
+    // Connect Local .job-search Directory via File System Access API
+    async function connectLocalWorkspace() {
+      if (!window.showDirectoryPicker) {
+        alert('当前浏览器不支持直接访问本地文件系统，建议使用 Chrome, Edge 或 Arc 浏览器。\n您仍可在此编辑并通过“导出文件”覆盖。');
+        return;
+      }
+      try {
+        dirHandle = await window.showDirectoryPicker();
+        document.getElementById('fsStatusDot').classList.add('connected');
+        document.getElementById('fsStatusText').textContent = '🟢 已关联本地目录: ' + dirHandle.name;
+        document.getElementById('btnConnectDir').textContent = '🔄 重新选择目录';
+
+        // Read files if present
+        for (const filename of ['profile.md', 'preferences.md', 'settings.ini']) {
+          try {
+            const handle = await dirHandle.getFileHandle(filename, { create: false });
+            fileHandles[filename] = handle;
+            const file = await handle.getFile();
+            const text = await file.text();
+            if (filename === 'profile.md') configData.profile = text;
+            if (filename === 'preferences.md') configData.preferences = text;
+            if (filename === 'settings.ini') configData.settings = text;
+          } catch (e) {
+            console.log('File not directly found in picked directory:', filename);
+          }
+        }
+        loadConfigTabContent();
+        showToast('工作区已连接并同步文件！');
+      } catch (err) {
+        if (err.name !== 'AbortError') {
+          console.error(err);
+          showToast('连接本地目录取消或失败', '⚠️');
+        }
+      }
+    }
+
+    // Save File Back to Disk
+    async function saveCurrentConfig() {
+      saveDraftInMemory();
+      const filename = currentConfigTab === 'profile' ? 'profile.md' : (currentConfigTab === 'preferences' ? 'preferences.md' : 'settings.ini');
+      const content = configData[currentConfigTab];
+
+      if (dirHandle) {
+        try {
+          const fileHandle = await dirHandle.getFileHandle(filename, { create: true });
+          const writable = await fileHandle.createWritable();
+          await writable.write(content);
+          await writable.close();
+          isDirty[currentConfigTab] = false;
+          updateDirtyDisplay();
+          showToast(`已成功保存到本地: ${filename}`);
+          return;
+        } catch (err) {
+          console.error('File write error:', err);
+          showToast('写入本地文件失败，已切换为下载导出', '⚠️');
+        }
+      }
+
+      // Fallback: Export Download
+      exportCurrentConfig();
+      isDirty[currentConfigTab] = false;
+      updateDirtyDisplay();
+    }
+
+    function exportCurrentConfig() {
+      const filename = currentConfigTab === 'profile' ? 'profile.md' : (currentConfigTab === 'preferences' ? 'preferences.md' : 'settings.ini');
+      const blob = new Blob([configData[currentConfigTab]], { type: 'text/markdown;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast(`已导出 ${filename}`);
+    }
+
+    function copyCurrentConfig() {
+      saveDraftInMemory();
+      copyUpdateCommand(configData[currentConfigTab], null);
+      showToast(`已复制 ${currentConfigTab} 配置内容`);
+    }
+
+    // Form vs Source Mode
+    function setEditorMode(mode) {
+      currentEditorMode = mode;
+      document.getElementById('modeBtnForm').classList.toggle('active', mode === 'form');
+      document.getElementById('modeBtnSource').classList.toggle('active', mode === 'source');
+      
+      const sourceBox = document.getElementById('sourceEditorContainer');
+      const formBox = document.getElementById('formEditorContainer');
+      
+      if (mode === 'form') {
+        sourceBox.style.display = 'none';
+        formBox.style.display = 'block';
+        populateFormFromData();
+      } else {
+        sourceBox.style.display = 'flex';
+        formBox.style.display = 'none';
+        document.getElementById('configTextarea').value = configData[currentConfigTab];
+      }
+    }
+
+    function populateFormFromData() {
+      document.getElementById('formPreferences').style.display = currentConfigTab === 'preferences' ? 'block' : 'none';
+      document.getElementById('formSettings').style.display = currentConfigTab === 'settings' ? 'block' : 'none';
+      document.getElementById('formProfileNotice').style.display = currentConfigTab === 'profile' ? 'block' : 'none';
+
+      if (currentConfigTab === 'preferences') {
+        const text = configData.preferences;
+        const locMatch = text.match(/locations?[:：]\s*(.+)/i);
+        if (locMatch) document.getElementById('formInputLocations').value = locMatch[1];
+        document.getElementById('chkRemote').checked = /remote/i.test(text);
+        document.getElementById('chkHybrid').checked = /hybrid/i.test(text);
+        document.getElementById('chkOnsite').checked = /on-site|onsite/i.test(text);
+      } else if (currentConfigTab === 'settings') {
+        const text = configData.settings;
+        const triage = text.match(/triage_keep\s*=\s*(\d+)/);
+        const deep = text.match(/deep_score\s*=\s*(\d+)/);
+        const high = text.match(/high_value_fit\s*=\s*(\d+)/);
+        const fresh = text.match(/fresh_days\s*=\s*(\d+)/);
+        if (triage) document.getElementById('formTriageKeep').value = triage[1];
+        if (deep) document.getElementById('formDeepScore').value = deep[1];
+        if (high) document.getElementById('formHighValue').value = high[1];
+        if (fresh) document.getElementById('formFreshDays').value = fresh[1];
+      }
+    }
+
+    function syncFormToPreferences() {
+      let text = configData.preferences;
+      const locs = document.getElementById('formInputLocations').value;
+      if (locs) {
+        if (/locations?[:：]/i.test(text)) {
+          text = text.replace(/locations?[:：].+/i, `locations: ${locs}`);
+        } else {
+          text = `locations: ${locs}\n` + text;
+        }
+      }
+      configData.preferences = text;
+      document.getElementById('configTextarea').value = text;
+      markConfigDirty();
+    }
+
+    function syncFormToSettings() {
+      let text = configData.settings;
+      const triage = document.getElementById('formTriageKeep').value;
+      const deep = document.getElementById('formDeepScore').value;
+      const high = document.getElementById('formHighValue').value;
+      const fresh = document.getElementById('formFreshDays').value;
+      
+      text = text.replace(/triage_keep\s*=\s*\d+/, `triage_keep = ${triage}`);
+      text = text.replace(/deep_score\s*=\s*\d+/, `deep_score = ${deep}`);
+      text = text.replace(/high_value_fit\s*=\s*\d+/, `high_value_fit = ${high}`);
+      text = text.replace(/fresh_days\s*=\s*\d+/, `fresh_days = ${fresh}`);
+      
+      configData.settings = text;
+      document.getElementById('configTextarea').value = text;
+      markConfigDirty();
+    }
+
+    // 4. Job Rendering & Filtering
+    function renderJobs() {
+      const tbody = document.getElementById('jobsTableBody');
+      tbody.innerHTML = '';
+      
+      let total = JOBS.length;
+      let highCount = 0;
+      let recentCount = 0;
+
+      JOBS.forEach((job) => {
+        if (job.score >= 75) highCount++;
+        if (job.isRecent) recentCount++;
+
+        const tr = document.createElement('tr');
+        const scoreClass = job.score >= 80 ? 'score-high' : (job.score >= 70 ? 'score-med' : 'score-low');
+        tr.innerHTML = `
+          <td><code>${job.id || '-'}</code></td>
+          <td><span class="score-badge ${scoreClass}">${job.score || 0}</span></td>
+          <td><strong>${job.company || '-'}</strong></td>
+          <td>${job.title || '-'}</td>
+          <td><span style="font-size:11px;color:var(--text-muted);">${job.roleType || '-'}</span></td>
+          <td>${job.location || '-'}</td>
+          <td>${job.workModel || '-'}</td>
+          <td>${job.datePosted || '-'}</td>
+          <td><span class="score-badge score-med">${job.freshness || '-'}</span></td>
+          <td><a href="${job.url}" target="_blank" style="color:var(--primary);text-decoration:none;font-weight:600;">官方投递 ↗</a></td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      document.getElementById('totalJobsCount').textContent = total;
+      document.getElementById('highFitCount').textContent = highCount;
+      document.getElementById('recentJobsCount').textContent = recentCount;
+      renderKanban();
+    }
+
+    function renderKanban() {
+      const cols = {
+        todo: document.getElementById('kanbanCards-todo'),
+        prep: document.getElementById('kanbanCards-prep'),
+        applied: document.getElementById('kanbanCards-applied'),
+        interview: document.getElementById('kanbanCards-interview')
+      };
+      Object.values(cols).forEach(c => c.innerHTML = '');
+
+      JOBS.forEach(job => {
+        const card = document.createElement('div');
+        card.className = 'kanban-card';
+        const scoreClass = job.score >= 80 ? 'score-high' : (job.score >= 70 ? 'score-med' : 'score-low');
+        card.innerHTML = `
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;">
+            <strong style="font-size:13px;">${job.company}</strong>
+            <span class="score-badge ${scoreClass}">${job.score}</span>
+          </div>
+          <div style="font-size:12px;color:var(--text);margin-bottom:6px;">${job.title}</div>
+          <div style="font-size:11px;color:var(--text-muted);">${job.location} · ${job.workModel || ''}</div>
+          <div style="margin-top:8px;display:flex;justify-content:flex-end;">
+            <a href="${job.url}" target="_blank" style="font-size:11px;color:var(--primary);text-decoration:none;font-weight:600;">查看岗位 ↗</a>
+          </div>
+        `;
+        cols.todo.appendChild(card);
+      });
+      document.getElementById('colCount-todo').textContent = JOBS.length;
+    }
+
+    function filterJobs() {
+      const q = document.getElementById('searchInput').value.toLowerCase();
+      const minScore = parseInt(document.getElementById('scoreFilter').value, 10);
+      const freshness = document.getElementById('freshnessFilter').value;
+
+      const rows = document.querySelectorAll('#jobsTableBody tr');
+      rows.forEach((row, idx) => {
+        const job = JOBS[idx];
+        if (!job) return;
+        const text = `${job.company} ${job.title} ${job.location} ${job.roleType}`.toLowerCase();
+        const matchesQ = !q || text.includes(q);
+        const matchesScore = job.score >= minScore;
+        const matchesFresh = freshness === 'all' || job.freshness === freshness;
+
+        row.style.display = (matchesQ && matchesScore && matchesFresh) ? '' : 'none';
+      });
+    }
+
+    function switchView(view) {
+      document.getElementById('tableView').style.display = view === 'table' ? 'block' : 'none';
+      document.getElementById('kanbanView').style.display = view === 'kanban' ? 'grid' : 'none';
+      document.getElementById('viewBtnTable').classList.toggle('active', view === 'table');
+      document.getElementById('viewBtnKanban').classList.toggle('active', view === 'kanban');
+    }
+
+    // Keyboard Shortcut (Ctrl+S / Cmd+S to save)
+    window.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+        if (document.getElementById('configDrawer').classList.contains('open')) {
+          e.preventDefault();
+          saveCurrentConfig();
+        }
+      }
+    });
+
+    // Initialize
+    renderJobs();
+  </script>
+</body>
+</html>
