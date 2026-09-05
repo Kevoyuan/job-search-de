@@ -1423,26 +1423,26 @@
 <body>
 
   <!-- Top Version Update Banner with One-Click Copy -->
-  <div id="updateBanner" class="update-banner">
+  <div id="updateBanner" class="update-banner" style="display: none;">
     <div class="update-banner-content">
       <span class="update-badge">Skill Update</span>
-      <span>发现新版本 <strong id="remoteVerText">v__LATEST_VERSION__</strong> (当前版本: v__CURRENT_VERSION__)</span>
+      <span id="updateBannerMsg">New version available <strong id="remoteVerText">v__LATEST_VERSION__</strong> (Current: v__CURRENT_VERSION__)</span>
       <div class="code-pill-wrapper">
         <span class="code-pill">/update-skill</span>
-        <button class="btn-copy-code" onclick="copyUpdateCommand('/update-skill', this)" title="复制命令">
+        <button class="btn-copy-code" onclick="copyUpdateCommand('/update-skill', this)" title="Copy Command" data-i18n-title="btnCopy">
           <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
-          <span>复制</span>
+          <span data-i18n="btnCopy">Copy</span>
         </button>
       </div>
       <div class="code-pill-wrapper">
         <span class="code-pill">npx skills update job-search-de -g</span>
-        <button class="btn-copy-code" onclick="copyUpdateCommand('npx skills update job-search-de -g', this)" title="复制命令">
+        <button class="btn-copy-code" onclick="copyUpdateCommand('npx skills update job-search-de -g', this)" title="Copy Command" data-i18n-title="btnCopy">
           <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
-          <span>复制</span>
+          <span data-i18n="btnCopy">Copy</span>
         </button>
       </div>
     </div>
-    <button style="background:transparent;border:none;color:#aaa;cursor:pointer;padding:4px;display:inline-flex;align-items:center;" onclick="document.getElementById('updateBanner').style.display='none'" title="关闭" aria-label="关闭">
+    <button style="background:transparent;border:none;color:#aaa;cursor:pointer;padding:4px;display:inline-flex;align-items:center;" onclick="document.getElementById('updateBanner').style.display='none'" title="Close" aria-label="Close" data-i18n-title="btnClose" data-i18n-aria="btnClose">
       <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
     </button>
   </div>
@@ -1453,18 +1453,25 @@
       <div class="brand-mark" aria-hidden="true">
         <svg class="ui-icon ui-icon-md" viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="5" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
       </div>
-      <span>__TITLE__</span>
+      <span id="brandTitleText">__TITLE__</span>
       <span class="brand-version-pill">v__CURRENT_VERSION__</span>
     </div>
     <div class="header-actions">
       <!-- Keyboard Help Button -->
-      <button class="btn btn-icon" onclick="openShortcutsModal()" title="快捷键帮助 (按 ? 打开)" aria-label="快捷键帮助">
+      <button class="btn btn-icon" onclick="openShortcutsModal()" title="Keyboard Shortcuts (Press ?)" aria-label="Keyboard Shortcuts" data-i18n-title="shortcutsBtn" data-i18n-aria="shortcutsBtn">
         <svg class="ui-icon ui-icon-md" viewBox="0 0 24 24"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="M6 8h.01M10 8h.01M14 8h.01M18 8h.01M6 12h.01M10 12h.01M14 12h.01M18 12h.01M7 16h10"/></svg>
       </button>
 
+      <!-- Language Switcher -->
+      <select id="langSelector" class="select-dropdown" onchange="switchLanguage(this.value)" aria-label="Language">
+        <option value="en">English</option>
+        <option value="zh">中文</option>
+        <option value="de">Deutsch</option>
+      </select>
+
       <!-- Theme Switcher -->
-      <select id="themeSelector" class="select-dropdown" onchange="switchTheme(this.value)">
-        <option value="notion">Notion Craft (默认)</option>
+      <select id="themeSelector" class="select-dropdown" onchange="switchTheme(this.value)" aria-label="Theme">
+        <option value="notion">Notion Craft</option>
         <option value="obsidian">Linear Obsidian</option>
         <option value="bauhaus">Bauhaus Grid</option>
         <option value="bento">Spatial Bento</option>
@@ -1473,7 +1480,7 @@
       <!-- Candidate Config Button -->
       <button class="btn btn-primary" onclick="openConfigDrawer()">
         <svg class="ui-icon" viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
-        <span>候选人配置与偏好</span>
+        <span data-i18n="configBtn">Candidate Profile &amp; Config</span>
         <kbd style="margin-left:4px;">C</kbd>
       </button>
     </div>
@@ -1487,15 +1494,15 @@
       <div class="stats-group">
         <div class="stat-chip">
           <span class="stat-chip-dot" style="background:var(--primary);"></span>
-          全部岗位: <strong id="totalJobsCount" class="tabular-nums">0</strong>
+          <span data-i18n="allJobs">All Jobs:</span> <strong id="totalJobsCount" class="tabular-nums">0</strong>
         </div>
         <div class="stat-chip">
           <span class="stat-chip-dot" style="background:var(--success);"></span>
-          近期极鲜: <strong id="recentJobsCount" class="tabular-nums" style="color:var(--success);">0</strong>
+          <span data-i18n="verifiedFresh">Verified Fresh:</span> <strong id="recentJobsCount" class="tabular-nums" style="color:var(--success);">0</strong>
         </div>
         <div class="stat-chip">
           <span class="stat-chip-dot" style="background:var(--warning);"></span>
-          高匹配 (≥75): <strong id="highFitCount" class="tabular-nums" style="color:var(--warning);">0</strong>
+          <span data-i18n="highFit">High Fit (≥75):</span> <strong id="highFitCount" class="tabular-nums" style="color:var(--warning);">0</strong>
         </div>
       </div>
       
@@ -1505,35 +1512,35 @@
           <span class="search-icon">
             <svg class="ui-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
           </span>
-          <input type="text" id="searchInput" class="search-input" placeholder="搜索公司、职位、地点..." oninput="onSearchInput()">
+          <input type="text" id="searchInput" class="search-input" placeholder="Search company, title, location..." data-i18n-placeholder="searchPlaceholder" oninput="onSearchInput()">
           <span class="search-shortcut-hint" id="searchKbdHint"><kbd>/</kbd></span>
-          <button id="btnClearSearch" class="btn-clear-search" onclick="clearSearch()" title="清空搜索" aria-label="清空搜索">
+          <button id="btnClearSearch" class="btn-clear-search" onclick="clearSearch()" title="Clear search" aria-label="Clear search" data-i18n-title="scEsc" data-i18n-aria="scEsc">
             <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
           </button>
         </div>
 
         <select id="freshnessFilter" class="select-dropdown" onchange="filterJobs()">
-          <option value="all">全部时效</option>
-          <option value="VERIFIED_FRESH">官方极鲜 (VERIFIED_FRESH)</option>
-          <option value="LIKELY_FRESH">活跃近期 (LIKELY_FRESH)</option>
+          <option value="all" data-i18n="freshnessAll">All Freshness</option>
+          <option value="VERIFIED_FRESH" data-i18n="freshnessVerified">Verified Fresh (Official ATS)</option>
+          <option value="LIKELY_FRESH" data-i18n="freshnessLikely">Likely Fresh (Recent Active)</option>
         </select>
 
         <select id="scoreFilter" class="select-dropdown" onchange="filterJobs()">
-          <option value="0">全部匹配度</option>
-          <option value="75">≥ 75 分 (深度分析)</option>
-          <option value="80">≥ 80 分 (高度契合)</option>
-          <option value="85">≥ 85 分 (极高优先级)</option>
+          <option value="0" data-i18n="scoreAll">All Scores</option>
+          <option value="75" data-i18n="score75">≥ 75 Score (Deep Fit)</option>
+          <option value="80" data-i18n="score80">≥ 80 Score (High Fit)</option>
+          <option value="85" data-i18n="score85">≥ 85 Score (Top Match)</option>
         </select>
 
         <div class="view-toggle-btns">
           <button id="viewBtnTable" class="btn-toggle-view active" onclick="switchView('table')">
             <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24"><path d="M12 3v18M3 9h18M3 15h18"/><rect width="18" height="18" x="3" y="3" rx="2"/></svg>
-            <span>表格</span>
+            <span data-i18n="tableView">Table</span>
             <kbd>T</kbd>
           </button>
           <button id="viewBtnKanban" class="btn-toggle-view" onclick="switchView('kanban')">
             <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24"><rect width="6" height="18" x="3" y="3" rx="1.5"/><rect width="6" height="12" x="15" y="3" rx="1.5"/></svg>
-            <span>看板</span>
+            <span data-i18n="kanbanView">Kanban</span>
             <kbd>K</kbd>
           </button>
         </div>
@@ -1542,12 +1549,12 @@
 
     <!-- Quick Filter Chips -->
     <div class="filter-chips-bar">
-      <span style="font-size:12px;color:var(--text-muted);font-weight:600;">快速筛选:</span>
-      <button class="filter-chip-btn active" onclick="setQuickFilter('all', this)">全部</button>
-      <button class="filter-chip-btn" onclick="setQuickFilter('high-fit', this)">高契合 (≥75)</button>
-      <button class="filter-chip-btn" onclick="setQuickFilter('remote-only', this)">远程 (Remote)</button>
-      <button class="filter-chip-btn" onclick="setQuickFilter('fresh-only', this)">极鲜 (Fresh)</button>
-      <button class="filter-chip-btn" onclick="setQuickFilter('in-progress', this)">申请中 / 面试中</button>
+      <span style="font-size:12px;color:var(--text-muted);font-weight:600;" data-i18n="quickFilter">Quick Filters:</span>
+      <button class="filter-chip-btn active" onclick="setQuickFilter('all', this)" data-i18n="filterAll">All</button>
+      <button class="filter-chip-btn" onclick="setQuickFilter('high-fit', this)" data-i18n="filterHighFit">High Fit (≥75)</button>
+      <button class="filter-chip-btn" onclick="setQuickFilter('remote-only', this)" data-i18n="filterRemote">Remote Only</button>
+      <button class="filter-chip-btn" onclick="setQuickFilter('fresh-only', this)" data-i18n="filterFresh">Fresh Only</button>
+      <button class="filter-chip-btn" onclick="setQuickFilter('in-progress', this)" data-i18n="filterProgress">In Progress</button>
     </div>
 
     <!-- Table View -->
@@ -1555,16 +1562,16 @@
       <table>
         <thead>
           <tr>
-            <th class="sortable" onclick="sortTable('id')">ID <span class="sort-icon" id="sortIcon-id">↕</span></th>
-            <th class="sortable" onclick="sortTable('score')">契合分 <span class="sort-icon" id="sortIcon-score">↕</span></th>
-            <th class="sortable" onclick="sortTable('company')">公司 <span class="sort-icon" id="sortIcon-company">↕</span></th>
-            <th class="sortable" onclick="sortTable('title')">招聘职位 <span class="sort-icon" id="sortIcon-title">↕</span></th>
-            <th>职能分类</th>
-            <th>工作地点</th>
-            <th>工作模式</th>
-            <th class="sortable" onclick="sortTable('datePosted')">发布日期 <span class="sort-icon" id="sortIcon-datePosted">↕</span></th>
-            <th>时效状态</th>
-            <th>操作与投递</th>
+            <th class="sortable" onclick="sortTable('id')"><span data-i18n="thId">ID</span> <span class="sort-icon" id="sortIcon-id">↕</span></th>
+            <th class="sortable" onclick="sortTable('score')"><span data-i18n="thScore">Fit Score</span> <span class="sort-icon" id="sortIcon-score">↕</span></th>
+            <th class="sortable" onclick="sortTable('company')"><span data-i18n="thCompany">Company</span> <span class="sort-icon" id="sortIcon-company">↕</span></th>
+            <th class="sortable" onclick="sortTable('title')"><span data-i18n="thTitle">Job Title</span> <span class="sort-icon" id="sortIcon-title">↕</span></th>
+            <th data-i18n="thRole">Role Type</th>
+            <th data-i18n="thLocation">Location</th>
+            <th data-i18n="thWorkModel">Work Model</th>
+            <th class="sortable" onclick="sortTable('datePosted')"><span data-i18n="thDate">Date Posted</span> <span class="sort-icon" id="sortIcon-datePosted">↕</span></th>
+            <th data-i18n="thFreshness">Freshness</th>
+            <th data-i18n="thActions">Actions</th>
           </tr>
         </thead>
         <tbody id="jobsTableBody">
@@ -1580,7 +1587,7 @@
         <div class="kanban-col-header">
           <div class="kanban-lane-title">
             <svg class="ui-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke-dasharray="3 3"/></svg>
-            <span>待评估 / 新增</span>
+            <span data-i18n="laneTodo">To Evaluate / New</span>
           </div>
           <span id="colCount-todo" class="kanban-count-pill tabular-nums">0</span>
         </div>
@@ -1592,7 +1599,7 @@
         <div class="kanban-col-header">
           <div class="kanban-lane-title">
             <svg class="ui-icon" viewBox="0 0 24 24"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
-            <span>准备申请 / 定制CV</span>
+            <span data-i18n="lanePrep">Prep &amp; Custom CV</span>
           </div>
           <span id="colCount-prep" class="kanban-count-pill tabular-nums">0</span>
         </div>
@@ -1604,7 +1611,7 @@
         <div class="kanban-col-header">
           <div class="kanban-lane-title">
             <svg class="ui-icon" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-            <span>已投递 (Applied)</span>
+            <span data-i18n="laneApplied">Applied</span>
           </div>
           <span id="colCount-applied" class="kanban-count-pill tabular-nums">0</span>
         </div>
@@ -1616,7 +1623,7 @@
         <div class="kanban-col-header">
           <div class="kanban-lane-title">
             <svg class="ui-icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-            <span>面试中 / 沟通</span>
+            <span data-i18n="laneInterview">Interviewing / Talking</span>
           </div>
           <span id="colCount-interview" class="kanban-count-pill tabular-nums">0</span>
         </div>
@@ -1634,9 +1641,9 @@
           <line x1="11" y1="12" x2="11" y2="14" stroke-width="2"></line>
         </svg>
       </div>
-      <div class="empty-state-title">未找到匹配的岗位</div>
-      <div class="empty-state-desc">当前筛选条件下暂无数据，请尝试调整关键词或降低匹配度门槛。</div>
-      <button class="btn btn-primary" onclick="resetAllFilters()">重置所有筛选条件</button>
+      <div class="empty-state-title" data-i18n="emptyTitle">No Matching Jobs Found</div>
+      <div class="empty-state-desc" data-i18n="emptyDesc">No jobs match your current filters. Try changing keywords or score threshold.</div>
+      <button class="btn btn-primary" onclick="resetAllFilters()" data-i18n="emptyReset">Reset All Filters</button>
     </div>
   </main>
 
@@ -1646,9 +1653,9 @@
     <div class="drawer-header">
       <div class="drawer-title">
         <svg class="ui-icon ui-icon-md" viewBox="0 0 24 24"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
-        <span id="jobDetailHeaderCompany">岗位详情</span>
+        <span id="jobDetailHeaderCompany" data-i18n="detailHeader">Job Details</span>
       </div>
-      <button class="btn-close-drawer" onclick="closeJobDetail()" aria-label="关闭">
+      <button class="btn-close-drawer" onclick="closeJobDetail()" title="Close" aria-label="Close" data-i18n-title="btnClose" data-i18n-aria="btnClose">
         <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
     </div>
@@ -1664,42 +1671,42 @@
       <!-- Metadata Grid -->
       <div class="job-detail-grid">
         <div class="detail-card">
-          <div class="detail-card-label">工作地点</div>
+          <div class="detail-card-label" data-i18n="detailLoc">Location</div>
           <div id="jobDetailLocation" class="detail-card-value">-</div>
         </div>
         <div class="detail-card">
-          <div class="detail-card-label">工作模式</div>
+          <div class="detail-card-label" data-i18n="detailModel">Work Model</div>
           <div id="jobDetailWorkModel" class="detail-card-value">-</div>
         </div>
         <div class="detail-card">
-          <div class="detail-card-label">发布时间</div>
+          <div class="detail-card-label" data-i18n="detailDate">Date Posted</div>
           <div id="jobDetailDate" class="detail-card-value tabular-nums">-</div>
         </div>
         <div class="detail-card">
-          <div class="detail-card-label">时效状态</div>
+          <div class="detail-card-label" data-i18n="detailFresh">Freshness</div>
           <div id="jobDetailFreshness" class="detail-card-value">-</div>
         </div>
       </div>
 
       <!-- Application Status Selector -->
       <div class="form-section">
-        <label class="form-label">当前投递进度状态</label>
+        <label class="form-label" data-i18n="detailStatus">Application Status</label>
         <div style="display:flex;gap:8px;flex-wrap:wrap;">
-          <button class="btn" id="statusBtn-todo" onclick="setJobStatus('todo')">待评估</button>
-          <button class="btn" id="statusBtn-prep" onclick="setJobStatus('prep')">准备申请</button>
-          <button class="btn" id="statusBtn-applied" onclick="setJobStatus('applied')">已投递</button>
-          <button class="btn" id="statusBtn-interview" onclick="setJobStatus('interview')">面试中</button>
-          <button class="btn" id="statusBtn-offer" onclick="setJobStatus('offer')">Offer / 意向</button>
+          <button class="btn" id="statusBtn-todo" onclick="setJobStatus('todo')" data-i18n="optTodo">To Evaluate</button>
+          <button class="btn" id="statusBtn-prep" onclick="setJobStatus('prep')" data-i18n="optPrep">Preparing</button>
+          <button class="btn" id="statusBtn-applied" onclick="setJobStatus('applied')" data-i18n="optApplied">Applied</button>
+          <button class="btn" id="statusBtn-interview" onclick="setJobStatus('interview')" data-i18n="optInterview">Interview</button>
+          <button class="btn" id="statusBtn-offer" onclick="setJobStatus('offer')" data-i18n="optOffer">Offer</button>
         </div>
       </div>
 
       <!-- AI Prompt Generation for Cover Letter & Resume Tuning -->
       <div class="form-section">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-          <label class="form-label" style="margin:0;">AI 定制求职信与对齐提示词</label>
+          <label class="form-label" style="margin:0;" data-i18n="detailPrompt">AI Cover Letter &amp; Alignment Prompt</label>
           <button class="btn" style="padding:3px 8px;font-size:11px;" onclick="copyJobPrompt()">
             <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
-            <span>复制提示词</span>
+            <span data-i18n="btnCopyPrompt">Copy Prompt</span>
           </button>
         </div>
         <div id="jobPromptBox" class="prompt-box"></div>
@@ -1707,14 +1714,14 @@
 
       <!-- Personal Remarks / Notes -->
       <div class="form-section">
-        <label class="form-label">个人求职备注与跟踪笔记 (自动保存到本地)</label>
-        <textarea id="jobNotesInput" class="form-input" style="min-height:90px;resize:vertical;" placeholder="在此记录联系人、投递日期、面试问题或后续备忘..." oninput="saveJobNotes()"></textarea>
+        <label class="form-label" data-i18n="detailNotes">Personal Remarks &amp; Tracking Notes (Auto-saved locally)</label>
+        <textarea id="jobNotesInput" class="form-input" style="min-height:90px;resize:vertical;" placeholder="Record interview questions, contacts, follow-up dates..." data-i18n-placeholder="notesPlaceholder" oninput="saveJobNotes()"></textarea>
       </div>
     </div>
     <div class="drawer-footer">
-      <button class="btn" onclick="closeJobDetail()">关闭</button>
+      <button class="btn" onclick="closeJobDetail()" data-i18n="btnClose">Close</button>
       <a id="jobDetailApplyLink" href="#" target="_blank" class="btn btn-primary">
-        <span>前往官方投递网站</span>
+        <span data-i18n="btnOfficialApply">Apply on Official Site</span>
         <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
       </a>
     </div>
@@ -1726,9 +1733,9 @@
     <div class="drawer-header">
       <div class="drawer-title">
         <svg class="ui-icon ui-icon-md" viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
-        <span>候选人配置与偏好设置</span>
+        <span data-i18n="cfgTitle">Candidate Profiles &amp; Preferences</span>
       </div>
-      <button class="btn-close-drawer" onclick="closeConfigDrawer()" aria-label="关闭">
+      <button class="btn-close-drawer" onclick="closeConfigDrawer()" title="Close" aria-label="Close" data-i18n-title="btnClose" data-i18n-aria="btnClose">
         <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
     </div>
@@ -1737,27 +1744,27 @@
     <div class="fs-status-bar">
       <div class="fs-status-indicator">
         <span id="fsStatusDot" class="status-dot"></span>
-        <span id="fsStatusText">未连接本地工作区（只读预览模式）</span>
+        <span id="fsStatusText" data-i18n="cfgFsDisconnected">Local workspace not connected (Read-only preview mode)</span>
       </div>
       <button id="btnConnectDir" class="btn" style="padding: 4px 10px; font-size: 11px;" onclick="connectLocalWorkspace()">
         <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>
-        <span>关联本地 .job-search 目录</span>
+        <span data-i18n="btnConnectDir">Connect local .job-search directory</span>
       </button>
     </div>
 
     <!-- Drawer Tabs -->
     <div class="drawer-tabs">
-      <button class="drawer-tab active" onclick="switchConfigTab('profile')">profile.md (画像与事实)</button>
-      <button class="drawer-tab" onclick="switchConfigTab('preferences')">preferences.md (搜索偏好)</button>
-      <button class="drawer-tab" onclick="switchConfigTab('settings')">settings.ini (运行设置)</button>
+      <button class="drawer-tab active" onclick="switchConfigTab('profile')" data-i18n="tabProfile">profile.md (Profile &amp; Facts)</button>
+      <button class="drawer-tab" onclick="switchConfigTab('preferences')" data-i18n="tabPreferences">preferences.md (Search Preferences)</button>
+      <button class="drawer-tab" onclick="switchConfigTab('settings')" data-i18n="tabSettings">settings.ini (Runtime Settings)</button>
     </div>
 
     <!-- Mode bar (Form vs Markdown Source) -->
     <div class="mode-bar">
       <span id="currentFileLabel" style="font-weight: 600; font-family: var(--font-mono);">profile.md</span>
       <div class="mode-toggle">
-        <button id="modeBtnForm" class="mode-btn" onclick="setEditorMode('form')">可视化表单</button>
-        <button id="modeBtnSource" class="mode-btn active" onclick="setEditorMode('source')">源码模式</button>
+        <button id="modeBtnForm" class="mode-btn" onclick="setEditorMode('form')" data-i18n="modeForm">Visual Form</button>
+        <button id="modeBtnSource" class="mode-btn active" onclick="setEditorMode('source')" data-i18n="modeSource">Source Mode</button>
       </div>
     </div>
 
@@ -1765,58 +1772,58 @@
     <div class="drawer-body">
       <!-- Source Mode -->
       <div id="sourceEditorContainer" style="display: flex; flex-direction: column; flex: 1;">
-        <textarea id="configTextarea" class="editor-textarea" oninput="markConfigDirty()" placeholder="正在加载配置内容..."></textarea>
+        <textarea id="configTextarea" class="editor-textarea" oninput="markConfigDirty()" placeholder="Loading configuration content..." data-i18n-placeholder="cfgPlaceholder"></textarea>
       </div>
 
       <!-- Form Mode (Preferences / Settings helper) -->
       <div id="formEditorContainer" style="display: none;">
         <div id="formPreferences" style="display: none;">
           <div class="form-section">
-            <label class="form-label">目标城市与优先级 (Priority Locations)</label>
-            <input type="text" id="formInputLocations" class="form-input" placeholder="例如: Frankfurt, Eschborn, Remote" oninput="syncFormToPreferences()">
-            <div class="form-hint">优先级按顺序列出，用逗号隔开。支持 Frankfurt, Munich, Berlin 等及 Remote。</div>
+            <label class="form-label" data-i18n="lblLocations">Target Cities &amp; Priorities (Priority Locations)</label>
+            <input type="text" id="formInputLocations" class="form-input" placeholder="E.g. Frankfurt, Munich, Remote" data-i18n-placeholder="hintLocations" oninput="syncFormToPreferences()">
+            <div class="form-hint" data-i18n="hintLocations">Listed in order of priority, separated by commas. E.g. Frankfurt, Munich, Berlin, Remote.</div>
           </div>
           <div class="form-section">
-            <label class="form-label">工作模式 (Work Modes)</label>
+            <label class="form-label" data-i18n="lblWorkModes">Work Modes</label>
             <div class="checkbox-group">
-              <label class="checkbox-label"><input type="checkbox" id="chkRemote" onchange="syncFormToPreferences()"> Remote (远程)</label>
-              <label class="checkbox-label"><input type="checkbox" id="chkHybrid" onchange="syncFormToPreferences()"> Hybrid (混合办公)</label>
-              <label class="checkbox-label"><input type="checkbox" id="chkOnsite" onchange="syncFormToPreferences()"> On-site (现场)</label>
+              <label class="checkbox-label"><input type="checkbox" id="chkRemote" onchange="syncFormToPreferences()"> <span data-i18n="lblRemote">Remote</span></label>
+              <label class="checkbox-label"><input type="checkbox" id="chkHybrid" onchange="syncFormToPreferences()"> <span data-i18n="lblHybrid">Hybrid</span></label>
+              <label class="checkbox-label"><input type="checkbox" id="chkOnsite" onchange="syncFormToPreferences()"> <span data-i18n="lblOnsite">On-site</span></label>
             </div>
           </div>
           <div class="form-section">
-            <label class="form-label">硬性排除关键词 (Exclusions)</label>
-            <input type="text" id="formInputExclusions" class="form-input" placeholder="例如: PHP, WordPress, 德语C1必选" oninput="syncFormToPreferences()">
-            <div class="form-hint">命中此列表的职位将在第一阶段初筛中直接排除。</div>
+            <label class="form-label" data-i18n="lblExclusions">Hard Exclusions (Keywords)</label>
+            <input type="text" id="formInputExclusions" class="form-input" placeholder="E.g. PHP, WordPress, German C1 Required" oninput="syncFormToPreferences()">
+            <div class="form-hint" data-i18n="hintExclusions">Jobs containing these keywords will be excluded during triage.</div>
           </div>
         </div>
 
         <div id="formSettings" style="display: none;">
           <div class="form-section">
-            <label class="form-label">筛选与打分门槛 (Thresholds)</label>
+            <label class="form-label" data-i18n="lblThresholds">Screening &amp; Scoring Thresholds</label>
             <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
               <div>
-                <label class="form-hint">初筛保留 (Triage Keep)</label>
+                <label class="form-hint" data-i18n="hintTriage">Triage Keep</label>
                 <input type="number" id="formTriageKeep" class="form-input tabular-nums" value="65" oninput="syncFormToSettings()">
               </div>
               <div>
-                <label class="form-hint">深度分析 (Deep Score)</label>
+                <label class="form-hint" data-i18n="hintDeep">Deep Score</label>
                 <input type="number" id="formDeepScore" class="form-input tabular-nums" value="75" oninput="syncFormToSettings()">
               </div>
               <div>
-                <label class="form-hint">高契合 (High Value)</label>
+                <label class="form-hint" data-i18n="hintHigh">High Value</label>
                 <input type="number" id="formHighValue" class="form-input tabular-nums" value="80" oninput="syncFormToSettings()">
               </div>
             </div>
           </div>
           <div class="form-section">
-            <label class="form-label">新鲜度抓取窗口 (Freshness Days)</label>
+            <label class="form-label" data-i18n="lblFreshDays">Freshness Window (Days)</label>
             <input type="number" id="formFreshDays" class="form-input tabular-nums" value="14" oninput="syncFormToSettings()">
           </div>
         </div>
 
-        <div id="formProfileNotice" style="display: none; padding: 20px; text-align: center; color: var(--text-muted); font-size: 13px;">
-          候选人画像 <code>profile.md</code> 包含详尽的技能与事实链，建议使用 <strong>源码模式</strong> 进行精准编辑。
+        <div id="formProfileNotice" style="display: none; padding: 20px; text-align: center; color: var(--text-muted); font-size: 13px;" data-i18n="profileNotice">
+          Candidate profile <code>profile.md</code> contains detailed skills and evidence chains. Please use <strong>Source Mode</strong> for precise edits.
         </div>
       </div>
     </div>
@@ -1825,20 +1832,20 @@
     <div class="drawer-footer">
       <div class="dirty-indicator" id="dirtyStatus">
         <span class="status-dot"></span>
-        <span id="dirtyText">无未保存更改</span>
+        <span id="dirtyText" data-i18n="cfgDirtyNo">Ready (No unsaved changes)</span>
       </div>
       <div style="display: flex; gap: 8px;">
         <button class="btn" onclick="copyCurrentConfig()">
           <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
-          <span>复制内容</span>
+          <span data-i18n="btnCopy">Copy</span>
         </button>
         <button class="btn" onclick="exportCurrentConfig()">
           <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          <span>导出文件</span>
+          <span data-i18n="btnExport">Export</span>
         </button>
         <button class="btn btn-primary" onclick="saveCurrentConfig()">
           <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
-          <span>保存修改</span>
+          <span data-i18n="btnSave">Save Changes</span>
           <kbd style="margin-left:4px;">Ctrl+S</kbd>
         </button>
       </div>
@@ -1849,23 +1856,23 @@
   <div id="shortcutsModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="shortcutsTitle" onclick="closeShortcutsModal(event)">
     <div class="modal-box" onclick="event.stopPropagation()">
       <div class="modal-header">
-        <h3 id="shortcutsTitle" style="font-size:16px;font-weight:700;">快捷键指南</h3>
-        <button class="btn-close-drawer" onclick="closeShortcutsModal()" aria-label="关闭">
+        <h3 id="shortcutsTitle" style="font-size:16px;font-weight:700;" data-i18n="shortcutsTitle">Keyboard Shortcuts</h3>
+        <button class="btn-close-drawer" onclick="closeShortcutsModal()" title="Close" aria-label="Close" data-i18n-title="btnClose" data-i18n-aria="btnClose">
           <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
       </div>
-      <p style="font-size:13px;color:var(--text-muted);">本求职工作台支持完整的键盘快捷操作，提高海投筛选效率：</p>
+      <p style="font-size:13px;color:var(--text-muted);" data-i18n="shortcutsDesc">This workbench supports full keyboard navigation to accelerate job hunting:</p>
       <div class="shortcut-list">
-        <div class="shortcut-item"><span>聚焦搜索框</span> <kbd>/</kbd></div>
-        <div class="shortcut-item"><span>关闭弹窗/清空</span> <kbd>Esc</kbd></div>
-        <div class="shortcut-item"><span>切换表格视图</span> <kbd>T</kbd></div>
-        <div class="shortcut-item"><span>切换看板视图</span> <kbd>K</kbd></div>
-        <div class="shortcut-item"><span>打开候选人配置</span> <kbd>C</kbd></div>
-        <div class="shortcut-item"><span>保存当前配置</span> <kbd>Ctrl+S</kbd></div>
-        <div class="shortcut-item"><span>切换 Notion 主题</span> <kbd>1</kbd></div>
-        <div class="shortcut-item"><span>切换 Obsidian 主题</span> <kbd>2</kbd></div>
-        <div class="shortcut-item"><span>切换 Bauhaus 主题</span> <kbd>3</kbd></div>
-        <div class="shortcut-item"><span>切换 Bento 主题</span> <kbd>4</kbd></div>
+        <div class="shortcut-item"><span data-i18n="scSearch">Focus search input</span> <kbd>/</kbd></div>
+        <div class="shortcut-item"><span data-i18n="scEsc">Close modal / Clear search</span> <kbd>Esc</kbd></div>
+        <div class="shortcut-item"><span data-i18n="scTable">Toggle Table view</span> <kbd>T</kbd></div>
+        <div class="shortcut-item"><span data-i18n="scKanban">Toggle Kanban view</span> <kbd>K</kbd></div>
+        <div class="shortcut-item"><span data-i18n="scConfig">Open candidate configs</span> <kbd>C</kbd></div>
+        <div class="shortcut-item"><span data-i18n="scSave">Save current config</span> <kbd>Ctrl+S</kbd></div>
+        <div class="shortcut-item"><span data-i18n="scNotion">Switch to Notion theme</span> <kbd>1</kbd></div>
+        <div class="shortcut-item"><span data-i18n="scObsidian">Switch to Obsidian theme</span> <kbd>2</kbd></div>
+        <div class="shortcut-item"><span data-i18n="scBauhaus">Switch to Bauhaus theme</span> <kbd>3</kbd></div>
+        <div class="shortcut-item"><span data-i18n="scBento">Switch to Bento theme</span> <kbd>4</kbd></div>
       </div>
     </div>
   </div>
@@ -1952,7 +1959,386 @@
 
     const JOBS = (Array.isArray(RAW_JOBS) && RAW_JOBS.length > 0) ? RAW_JOBS : SAMPLE_JOBS;
 
+    // Internationalization (i18n) Dictionary
+    const I18N = {
+      en: {
+        title: "Germany Job Hunt Workbench",
+        shortcutsBtn: "Keyboard Shortcuts (Press ?)",
+        configBtn: "Candidate Profile & Config",
+        allJobs: "All Jobs:",
+        verifiedFresh: "Verified Fresh:",
+        highFit: "High Fit (≥75):",
+        searchPlaceholder: "Search company, title, location...",
+        freshnessAll: "All Freshness",
+        freshnessVerified: "Verified Fresh (Official ATS)",
+        freshnessLikely: "Likely Fresh (Recent Active)",
+        scoreAll: "All Scores",
+        score75: "≥ 75 Score (Deep Fit)",
+        score80: "≥ 80 Score (High Fit)",
+        score85: "≥ 85 Score (Top Match)",
+        tableView: "Table",
+        kanbanView: "Kanban",
+        quickFilter: "Quick Filters:",
+        filterAll: "All",
+        filterHighFit: "High Fit (≥75)",
+        filterRemote: "Remote Only",
+        filterFresh: "Fresh Only",
+        filterProgress: "In Progress",
+        thId: "ID",
+        thScore: "Fit Score",
+        thCompany: "Company",
+        thTitle: "Job Title",
+        thRole: "Role Type",
+        thLocation: "Location",
+        thWorkModel: "Work Model",
+        thDate: "Date Posted",
+        thFreshness: "Freshness",
+        thActions: "Actions",
+        btnDetails: "Details",
+        btnApply: "Apply ↗",
+        freshVerified: "Verified",
+        freshActive: "Active",
+        laneTodo: "To Evaluate / New",
+        lanePrep: "Prep & Custom CV",
+        laneApplied: "Applied",
+        laneInterview: "Interviewing / Talking",
+        optTodo: "To Evaluate",
+        optPrep: "Preparing",
+        optApplied: "Applied",
+        optInterview: "Interview",
+        optOffer: "Offer",
+        emptyTitle: "No Matching Jobs Found",
+        emptyDesc: "No jobs match your current filters. Try changing keywords or score threshold.",
+        emptyReset: "Reset All Filters",
+        detailHeader: "Job Details",
+        detailLoc: "Location",
+        detailModel: "Work Model",
+        detailDate: "Date Posted",
+        detailFresh: "Freshness",
+        detailStatus: "Application Status",
+        detailPrompt: "AI Cover Letter & Alignment Prompt",
+        btnCopyPrompt: "Copy Prompt",
+        detailNotes: "Personal Remarks & Tracking Notes (Auto-saved locally)",
+        notesPlaceholder: "Record interview questions, contacts, follow-up dates...",
+        btnClose: "Close",
+        btnOfficialApply: "Apply on Official Site",
+        cfgTitle: "Candidate Profiles & Preferences",
+        cfgFsDisconnected: "Local workspace not connected (Read-only preview mode)",
+        cfgFsConnected: "Connected to local directory: ",
+        btnConnectDir: "Connect local .job-search directory",
+        btnReconnectDir: "Change directory",
+        tabProfile: "profile.md (Profile & Facts)",
+        tabPreferences: "preferences.md (Search Preferences)",
+        tabSettings: "settings.ini (Runtime Settings)",
+        modeForm: "Visual Form",
+        modeSource: "Source Mode",
+        cfgPlaceholder: "Loading configuration content...",
+        lblLocations: "Target Cities & Priorities (Priority Locations)",
+        hintLocations: "Listed in order of priority, separated by commas. E.g. Frankfurt, Munich, Berlin, Remote.",
+        lblWorkModes: "Work Modes",
+        lblRemote: "Remote",
+        lblHybrid: "Hybrid",
+        lblOnsite: "On-site",
+        lblExclusions: "Hard Exclusions (Keywords)",
+        hintExclusions: "Jobs containing these keywords will be excluded during triage.",
+        lblThresholds: "Screening & Scoring Thresholds",
+        hintTriage: "Triage Keep",
+        hintDeep: "Deep Score",
+        hintHigh: "High Value",
+        lblFreshDays: "Freshness Window (Days)",
+        profileNotice: "Candidate profile profile.md contains detailed skills and evidence chains. Please use Source Mode for precise edits.",
+        cfgDirtyNo: "Ready (No unsaved changes)",
+        cfgDirtyYes: "Unsaved changes",
+        btnCopy: "Copy",
+        btnExport: "Export",
+        btnSave: "Save Changes",
+        shortcutsTitle: "Keyboard Shortcuts",
+        shortcutsDesc: "This workbench supports full keyboard navigation to accelerate job hunting:",
+        scSearch: "Focus search input",
+        scEsc: "Close modal / Clear search",
+        scTable: "Toggle Table view",
+        scKanban: "Toggle Kanban view",
+        scConfig: "Open candidate configs",
+        scSave: "Save current config",
+        scNotion: "Switch to Notion theme",
+        scObsidian: "Switch to Obsidian theme",
+        scBauhaus: "Switch to Bauhaus theme",
+        scBento: "Switch to Bento theme",
+        toastSuccess: "Operation successful",
+        toastCopied: "Copied to clipboard",
+        toastStatusUpdated: "Status updated: ",
+        toastConfigSaved: "Successfully saved to local: ",
+        toastExported: "Exported ",
+        toastWorkspaceConnected: "Workspace connected and files synchronized!",
+        toastWorkspaceFailed: "Workspace connection canceled or failed",
+        toastPromptCopied: "AI Cover Letter Prompt copied!",
+        statusNames: {
+          todo: "To Evaluate",
+          prep: "Preparing",
+          applied: "Applied",
+          interview: "Interviewing",
+          offer: "Offer"
+        },
+        aiPromptTemplate: (job) => `Please analyze the German job position 【${job.company} - ${job.title}】(Location: ${job.location}, Work Model: ${job.workModel}).
+I am preparing to apply. Based on my candidate profile (profile.md), please provide:
+1. Top 3 core skill highlights & cultural fit nuances for this German employer;
+2. A tailored Cover Letter opening hook in English/German;
+3. The 2 strongest evidence chains and quantified metrics from my resume matching this role.`
+      },
+      zh: {
+        title: "德国岗位求职工作台",
+        shortcutsBtn: "快捷键帮助 (按 ? 打开)",
+        configBtn: "候选人配置与偏好",
+        allJobs: "全部岗位:",
+        verifiedFresh: "近期极鲜:",
+        highFit: "高匹配 (≥75):",
+        searchPlaceholder: "搜索公司、职位、地点...",
+        freshnessAll: "全部时效",
+        freshnessVerified: "官方极鲜 (VERIFIED_FRESH)",
+        freshnessLikely: "活跃近期 (LIKELY_FRESH)",
+        scoreAll: "全部匹配度",
+        score75: "≥ 75 分 (深度分析)",
+        score80: "≥ 80 分 (高度契合)",
+        score85: "≥ 85 分 (极高优先级)",
+        tableView: "表格",
+        kanbanView: "看板",
+        quickFilter: "快速筛选:",
+        filterAll: "全部",
+        filterHighFit: "高契合 (≥75)",
+        filterRemote: "远程 (Remote)",
+        filterFresh: "极鲜 (Fresh)",
+        filterProgress: "申请中 / 面试中",
+        thId: "ID",
+        thScore: "契合分",
+        thCompany: "公司",
+        thTitle: "招聘职位",
+        thRole: "职能分类",
+        thLocation: "工作地点",
+        thWorkModel: "工作模式",
+        thDate: "发布日期",
+        thFreshness: "时效状态",
+        thActions: "操作与投递",
+        btnDetails: "详情",
+        btnApply: "投递 ↗",
+        freshVerified: "官方极鲜",
+        freshActive: "活跃",
+        laneTodo: "待评估 / 新增",
+        lanePrep: "准备申请 / 定制CV",
+        laneApplied: "已投递 (Applied)",
+        laneInterview: "面试中 / 沟通",
+        optTodo: "待评估",
+        optPrep: "准备中",
+        optApplied: "已投递",
+        optInterview: "面试中",
+        optOffer: "录用意向",
+        emptyTitle: "未找到匹配的岗位",
+        emptyDesc: "当前筛选条件下暂无数据，请尝试调整关键词或降低匹配度门槛。",
+        emptyReset: "重置所有筛选条件",
+        detailHeader: "岗位详情",
+        detailLoc: "工作地点",
+        detailModel: "工作模式",
+        detailDate: "发布时间",
+        detailFresh: "时效状态",
+        detailStatus: "当前投递进度状态",
+        detailPrompt: "AI 定制求职信与对齐提示词",
+        btnCopyPrompt: "复制提示词",
+        detailNotes: "个人求职备注与跟踪笔记 (自动保存到本地)",
+        notesPlaceholder: "在此记录联系人、投递日期、面试问题或后续备忘...",
+        btnClose: "关闭",
+        btnOfficialApply: "前往官方投递网站",
+        cfgTitle: "候选人配置与偏好设置",
+        cfgFsDisconnected: "未连接本地工作区（只读预览模式）",
+        cfgFsConnected: "已关联本地目录: ",
+        btnConnectDir: "关联本地 .job-search 目录",
+        btnReconnectDir: "重新选择目录",
+        tabProfile: "profile.md (画像与事实)",
+        tabPreferences: "preferences.md (搜索偏好)",
+        tabSettings: "settings.ini (运行设置)",
+        modeForm: "可视化表单",
+        modeSource: "源码模式",
+        cfgPlaceholder: "正在加载配置内容...",
+        lblLocations: "目标城市与优先级 (Priority Locations)",
+        hintLocations: "优先级按顺序列出，用逗号隔开。支持 Frankfurt, Munich, Berlin 等及 Remote。",
+        lblWorkModes: "工作模式",
+        lblRemote: "Remote (远程)",
+        lblHybrid: "Hybrid (混合办公)",
+        lblOnsite: "On-site (现场)",
+        lblExclusions: "硬性排除关键词 (Exclusions)",
+        hintExclusions: "命中此列表的职位将在第一阶段初筛中直接排除。",
+        lblThresholds: "筛选与打分门槛 (Thresholds)",
+        hintTriage: "初筛保留 (Triage Keep)",
+        hintDeep: "深度分析 (Deep Score)",
+        hintHigh: "高契合 (High Value)",
+        lblFreshDays: "新鲜度抓取窗口 (Freshness Days)",
+        profileNotice: "候选人画像 profile.md 包含详尽的技能与事实链，建议使用 源码模式 进行精准编辑。",
+        cfgDirtyNo: "已就绪 (无未保存更改)",
+        cfgDirtyYes: "有未保存的修改",
+        btnCopy: "复制内容",
+        btnExport: "导出文件",
+        btnSave: "保存修改",
+        shortcutsTitle: "快捷键指南",
+        shortcutsDesc: "本求职工作台支持完整的键盘快捷操作，提高海投筛选效率：",
+        scSearch: "聚焦搜索框",
+        scEsc: "关闭弹窗/清空",
+        scTable: "切换表格视图",
+        scKanban: "切换看板视图",
+        scConfig: "打开候选人配置",
+        scSave: "保存当前配置",
+        scNotion: "切换 Notion 主题",
+        scObsidian: "切换 Obsidian 主题",
+        scBauhaus: "切换 Bauhaus 主题",
+        scBento: "切换 Bento 主题",
+        toastSuccess: "操作成功",
+        toastCopied: "已复制到剪贴板",
+        toastStatusUpdated: "已更新状态: ",
+        toastConfigSaved: "已成功保存到本地: ",
+        toastExported: "已导出 ",
+        toastWorkspaceConnected: "工作区已连接并同步文件！",
+        toastWorkspaceFailed: "连接本地目录取消或失败",
+        toastPromptCopied: "已复制 AI 推荐信定制提示词！",
+        statusNames: {
+          todo: "待评估",
+          prep: "准备申请",
+          applied: "已投递",
+          interview: "面试中",
+          offer: "录用意向"
+        },
+        aiPromptTemplate: (job) => `请帮我分析德国职位【${job.company} - ${job.title}】（地点: ${job.location}，工作模式: ${job.workModel}）。
+我正在准备投递，请结合我的候选人画像（profile.md）完成：
+1. 提炼本岗位的 3 个核心技能抓手与德企文化偏好；
+2. 为我量身定制一段英文/德文的求职动机信开头（Cover Letter hook）；
+3. 指出我履历中最契合该职位的 2 个经验证据链与量化指标。`
+      },
+      de: {
+        title: "Deutschland Job-Suche Workbench",
+        shortcutsBtn: "Tastenkombinationen (? drücken)",
+        configBtn: "Kandidatenprofil & Einstellungen",
+        allJobs: "Alle Stellen:",
+        verifiedFresh: "Geprüft aktuell:",
+        highFit: "Hohe Passung (≥75):",
+        searchPlaceholder: "Firma, Stelle, Ort suchen...",
+        freshnessAll: "Alle Aktualitäten",
+        freshnessVerified: "Offiziell aktuell (VERIFIED_FRESH)",
+        freshnessLikely: "Kürzlich aktiv (LIKELY_FRESH)",
+        scoreAll: "Alle Passungsgrade",
+        score75: "≥ 75 Punkte (Vertiefte Analyse)",
+        score80: "≥ 80 Punkte (Hohe Passung)",
+        score85: "≥ 85 Punkte (Top-Priorität)",
+        tableView: "Tabelle",
+        kanbanView: "Kanban",
+        quickFilter: "Schnellfilter:",
+        filterAll: "Alle",
+        filterHighFit: "Hohe Passung (≥75)",
+        filterRemote: "Nur Remote",
+        filterFresh: "Nur Neu",
+        filterProgress: "In Bearbeitung",
+        thId: "ID",
+        thScore: "Passung",
+        thCompany: "Unternehmen",
+        thTitle: "Stellenbezeichnung",
+        thRole: "Funktionsbereich",
+        thLocation: "Standort",
+        thWorkModel: "Arbeitsmodell",
+        thDate: "Veröffentlicht am",
+        thFreshness: "Aktualität",
+        thActions: "Aktionen",
+        btnDetails: "Details",
+        btnApply: "Bewerben ↗",
+        freshVerified: "Geprüft",
+        freshActive: "Aktiv",
+        laneTodo: "Zu bewerten / Neu",
+        lanePrep: "Vorbereitung / CV anpassen",
+        laneApplied: "Beworben (Applied)",
+        laneInterview: "Im Gespräch / Interview",
+        optTodo: "Zu bewerten",
+        optPrep: "In Vorbereitung",
+        optApplied: "Beworben",
+        optInterview: "Im Vorstellungsgespräch",
+        optOffer: "Angebot",
+        emptyTitle: "Keine passenden Stellen gefunden",
+        emptyDesc: "Keine Stellen entsprechen den Filtern. Bitte Suchbegriffe oder Schwellenwert anpassen.",
+        emptyReset: "Alle Filter zurücksetzen",
+        detailHeader: "Stellendetails",
+        detailLoc: "Standort",
+        detailModel: "Arbeitsmodell",
+        detailDate: "Veröffentlichungsdatum",
+        detailFresh: "Aktualität",
+        detailStatus: "Bewerbungsstatus",
+        detailPrompt: "KI-Anschreiben & Alignment-Prompt",
+        btnCopyPrompt: "Prompt kopieren",
+        detailNotes: "Persönliche Notizen & Tracking (Lokal gespeichert)",
+        notesPlaceholder: "Notizen zu Kontakten, Terminen, Fragen...",
+        btnClose: "Schließen",
+        btnOfficialApply: "Zur Karriereseite",
+        cfgTitle: "Kandidatenkonfiguration & Präferenzen",
+        cfgFsDisconnected: "Kein lokales Verzeichnis verknüpft (Nur-Lese-Vorschau)",
+        cfgFsConnected: "Verknüpft mit lokalem Verzeichnis: ",
+        btnConnectDir: "Lokales .job-search Verzeichnis verknüpfen",
+        btnReconnectDir: "Anderes Verzeichnis wählen",
+        tabProfile: "profile.md (Profil & Fakten)",
+        tabPreferences: "preferences.md (Suchpräferenzen)",
+        tabSettings: "settings.ini (Einstellungen)",
+        modeForm: "Formularansicht",
+        modeSource: "Quellcode",
+        cfgPlaceholder: "Lade Konfiguration...",
+        lblLocations: "Zielstädte & Prioritäten (Priority Locations)",
+        hintLocations: "Priorisierte Reihenfolge, kommagetrennt. Z. B. Frankfurt, München, Berlin, Remote.",
+        lblWorkModes: "Arbeitsmodelle",
+        lblRemote: "Remote (Vollständig)",
+        lblHybrid: "Hybrid (Teilweise Vor-Ort)",
+        lblOnsite: "Vor-Ort (Präsenz)",
+        lblExclusions: "Ausschlusskriterien (Hard Exclusions)",
+        hintExclusions: "Stellen mit diesen Schlagwörtern werden direkt gefiltert.",
+        lblThresholds: "Bewertungsschwellen (Thresholds)",
+        hintTriage: "Vorselektion (Triage Keep)",
+        hintDeep: "Vertiefte Analyse (Deep Score)",
+        hintHigh: "Top-Passung (High Value)",
+        lblFreshDays: "Aktualitätsfenster (Tage)",
+        profileNotice: "Kandidatenprofil profile.md enthält detaillierte Qualifikationen. Bitte Quellcode-Modus für genaue Bearbeitung nutzen.",
+        cfgDirtyNo: "Bereit (Keine ungespeicherten Änderungen)",
+        cfgDirtyYes: "Ungespeicherte Änderungen",
+        btnCopy: "Kopieren",
+        btnExport: "Exportieren",
+        btnSave: "Änderungen speichern",
+        shortcutsTitle: "Tastaturkürzel",
+        shortcutsDesc: "Die Workbench unterstützt Tastaturnavigation für maximale Effizienz:",
+        scSearch: "Suchfeld fokussieren",
+        scEsc: "Fenster schließen / Suche leeren",
+        scTable: "Tabellenansicht",
+        scKanban: "Kanbanansicht",
+        scConfig: "Kandidatenprofil öffnen",
+        scSave: "Konfiguration speichern",
+        scNotion: "Notion Theme",
+        scObsidian: "Obsidian Theme",
+        scBauhaus: "Bauhaus Theme",
+        scBento: "Bento Theme",
+        toastSuccess: "Erfolgreich",
+        toastCopied: "In Zwischenablage kopiert",
+        toastStatusUpdated: "Status aktualisiert: ",
+        toastConfigSaved: "Lokal gespeichert: ",
+        toastExported: "Exportiert ",
+        toastWorkspaceConnected: "Arbeitsbereich verbunden und synchronisiert!",
+        toastWorkspaceFailed: "Verzeichnisverbindung abgebrochen",
+        toastPromptCopied: "Prompt in Zwischenablage kopiert!",
+        statusNames: {
+          todo: "Zu bewerten",
+          prep: "In Vorbereitung",
+          applied: "Beworben",
+          interview: "Im Gespräch",
+          offer: "Angebot"
+        },
+        aiPromptTemplate: (job) => `Bitte analysiere die deutsche Stelle 【${job.company} - ${job.title}】 (Standort: ${job.location}, Arbeitsmodell: ${job.workModel}).
+Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Profil (profile.md):
+1. Die 3 wichtigsten Kernkompetenzen und Unternehmenskulturmerkmale;
+2. Einen maßgeschneiderten Hook für mein Anschreiben auf Deutsch/Englisch;
+3. Die 2 stärksten Erfahrungsbelege und Kennzahlen aus meinem Lebenslauf passend zu dieser Stelle.`
+      }
+    };
+
     // State Variables
+    let currentLang = localStorage.getItem('job_workbench_lang') || '__LANG__' || 'en';
+    if (!I18N[currentLang]) currentLang = 'en';
+
     let currentConfigTab = 'profile'; // 'profile' | 'preferences' | 'settings'
     let currentEditorMode = 'source'; // 'source' | 'form'
     let currentQuickFilter = 'all';
@@ -1983,12 +2369,13 @@
     }
 
     function copyUpdateCommand(cmd, btnElement) {
+      const dict = I18N[currentLang] || I18N.en;
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(cmd).then(() => {
-          showToast('已复制命令: ' + cmd);
+          showToast(dict.toastCopied + ': ' + cmd);
           if (btnElement) {
             const orig = btnElement.innerHTML;
-            btnElement.innerHTML = '<svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> <span>已复制</span>';
+            btnElement.innerHTML = `<svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> <span>${dict.btnCopy}</span>`;
             setTimeout(() => { btnElement.innerHTML = orig; }, 2000);
           }
         }).catch(() => fallbackCopy(cmd));
@@ -1998,20 +2385,62 @@
     }
 
     function fallbackCopy(text) {
+      const dict = I18N[currentLang] || I18N.en;
       const ta = document.createElement('textarea');
       ta.value = text;
       document.body.appendChild(ta);
       ta.select();
       document.execCommand('copy');
       document.body.removeChild(ta);
-      showToast('已复制到剪贴板');
+      showToast(dict.toastCopied);
     }
 
-    // 2. Theme Switching
+    // 2. Language & Theme Switching
+    function switchLanguage(lang) {
+      currentLang = lang;
+      localStorage.setItem('job_workbench_lang', lang);
+      document.documentElement.lang = lang;
+      applyLanguage(lang);
+      renderJobs();
+    }
+
+    function applyLanguage(lang) {
+      const dict = I18N[lang] || I18N.en;
+      const langSel = document.getElementById('langSelector');
+      if (langSel) langSel.value = lang;
+
+      // Update text nodes
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (dict[key]) el.textContent = dict[key];
+      });
+
+      // Update attributes
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (dict[key]) el.setAttribute('placeholder', dict[key]);
+      });
+      document.querySelectorAll('[data-i18n-title]').forEach(el => {
+        const key = el.getAttribute('data-i18n-title');
+        if (dict[key]) el.setAttribute('title', dict[key]);
+      });
+      document.querySelectorAll('[data-i18n-aria]').forEach(el => {
+        const key = el.getAttribute('data-i18n-aria');
+        if (dict[key]) el.setAttribute('aria-label', dict[key]);
+      });
+
+      const titleEl = document.getElementById('brandTitleText');
+      if (titleEl) titleEl.textContent = dict.title;
+      document.title = `${dict.title} - Job Hunt Workbench`;
+
+      updateDirtyDisplay();
+    }
+
     function switchTheme(themeName) {
       document.documentElement.setAttribute('data-theme', themeName);
       localStorage.setItem('job_workbench_theme', themeName);
-      document.getElementById('themeSelector').value = themeName;
+      const sel = document.getElementById('themeSelector');
+      if (sel) sel.value = themeName;
     }
     const savedTheme = localStorage.getItem('job_workbench_theme') || 'notion';
     switchTheme(savedTheme);
@@ -2032,11 +2461,12 @@
       localStorage.setItem('job_status_' + jobId, status);
       renderKanban();
       filterJobs();
-      showToast('已更新状态: ' + formatStatusName(status));
+      const dict = I18N[currentLang] || I18N.en;
+      showToast(dict.toastStatusUpdated + formatStatusName(status));
     }
     function formatStatusName(s) {
-      const map = { todo: '待评估', prep: '准备申请', applied: '已投递', interview: '面试中', offer: '录用意向' };
-      return map[s] || s;
+      const dict = I18N[currentLang] || I18N.en;
+      return (dict.statusNames && dict.statusNames[s]) ? dict.statusNames[s] : s;
     }
 
     // 5. Rendering & Filtering
@@ -2061,6 +2491,7 @@
     }
 
     function renderTable() {
+      const dict = I18N[currentLang] || I18N.en;
       const tbody = document.getElementById('jobsTableBody');
       tbody.innerHTML = '';
 
@@ -2080,6 +2511,7 @@
         const scoreClass = score >= 80 ? 'score-high' : (score >= 70 ? 'score-med' : 'score-low');
         const workModelClass = /remote/i.test(job.workModel) ? 'tag-remote' : (/hybrid/i.test(job.workModel) ? 'tag-hybrid' : 'tag-onsite');
         const freshClass = job.freshness === 'VERIFIED_FRESH' ? 'fresh-verified' : 'fresh-likely';
+        const freshText = job.freshness === 'VERIFIED_FRESH' ? dict.freshVerified : dict.freshActive;
 
         const tr = document.createElement('tr');
         tr.className = 'job-row';
@@ -2099,11 +2531,11 @@
           <td><span style="font-size:12px;">${escapeHtml(job.location || '-')}</span></td>
           <td><span class="tag-badge ${workModelClass}">${job.workModel || '-'}</span></td>
           <td class="tabular-nums" style="font-size:12px;color:var(--text-muted);">${job.datePosted || '-'}</td>
-          <td><span class="freshness-pill ${freshClass}"><span class="${job.freshness === 'VERIFIED_FRESH' ? 'status-dot-pulse' : 'status-dot'}"></span>${job.freshness === 'VERIFIED_FRESH' ? '官方极鲜' : '活跃'}</span></td>
+          <td><span class="freshness-pill ${freshClass}"><span class="${job.freshness === 'VERIFIED_FRESH' ? 'status-dot-pulse' : 'status-dot'}"></span>${freshText}</span></td>
           <td>
             <div style="display:flex;align-items:center;gap:6px;">
-              <button class="btn" style="padding:3px 8px;font-size:11px;" onclick="openJobDetailById('${job.id}');event.stopPropagation();">详情</button>
-              <a href="${job.url}" target="_blank" class="btn-apply-link" onclick="event.stopPropagation()">投递 ↗</a>
+              <button class="btn" style="padding:3px 8px;font-size:11px;" onclick="openJobDetailById('${job.id}');event.stopPropagation();">${dict.btnDetails}</button>
+              <a href="${job.url}" target="_blank" class="btn-apply-link" onclick="event.stopPropagation()">${dict.btnApply}</a>
             </div>
           </td>
         `;
@@ -2112,6 +2544,7 @@
     }
 
     function renderKanban() {
+      const dict = I18N[currentLang] || I18N.en;
       const cols = {
         todo: document.getElementById('kanbanCards-todo'),
         prep: document.getElementById('kanbanCards-prep'),
@@ -2154,10 +2587,10 @@
             <span class="tabular-nums">${job.datePosted || ''}</span>
             <div style="display:flex;align-items:center;gap:6px;">
               <select class="select-dropdown" style="padding:2px 6px;font-size:10px;" onchange="updateJobStatus('${job.id}', this.value);event.stopPropagation();">
-                <option value="todo" ${status==='todo'?'selected':''}>待评估</option>
-                <option value="prep" ${status==='prep'?'selected':''}>准备中</option>
-                <option value="applied" ${status==='applied'?'selected':''}>已投递</option>
-                <option value="interview" ${status==='interview'?'selected':''}>面试中</option>
+                <option value="todo" ${status==='todo'?'selected':''}>${dict.optTodo}</option>
+                <option value="prep" ${status==='prep'?'selected':''}>${dict.optPrep}</option>
+                <option value="applied" ${status==='applied'?'selected':''}>${dict.optApplied}</option>
+                <option value="interview" ${status==='interview'?'selected':''}>${dict.optInterview}</option>
               </select>
               <a href="${job.url}" target="_blank" class="btn-apply-link" style="padding:2px 4px;font-size:11px;" onclick="event.stopPropagation()">↗</a>
             </div>
@@ -2301,6 +2734,7 @@
 
     // 9. Job Detail Drawer
     function openJobDetail(job) {
+      const dict = I18N[currentLang] || I18N.en;
       activeJobForDetail = job;
       document.getElementById('jobDetailHeaderCompany').textContent = job.company;
       document.getElementById('jobDetailTitle').textContent = job.title;
@@ -2308,7 +2742,8 @@
       
       const scoreBadge = document.getElementById('jobDetailScoreBadge');
       scoreBadge.className = 'score-badge ' + (job.score >= 80 ? 'score-high' : (job.score >= 70 ? 'score-med' : 'score-low'));
-      scoreBadge.textContent = '契合分: ' + (job.score || 0);
+      const scoreLabel = currentLang === 'en' ? 'Fit Score: ' : (currentLang === 'de' ? 'Passung: ' : '契合分: ');
+      scoreBadge.textContent = scoreLabel + (job.score || 0);
 
       document.getElementById('jobDetailLocation').textContent = job.location || '-';
       document.getElementById('jobDetailWorkModel').textContent = job.workModel || '-';
@@ -2328,11 +2763,7 @@
       document.getElementById('jobNotesInput').value = notes;
 
       // AI Prompt Preview
-      const prompt = `请帮我分析德国职位【${job.company} - ${job.title}】（地点: ${job.location}，工作模式: ${job.workModel}）。
-我正在准备投递，请结合我的候选人画像（profile.md）完成：
-1. 提炼本岗位的 3 个核心技能抓手与德企文化偏好；
-2. 为我量身定制一段英文/德文的求职动机信开头（Cover Letter hook）；
-3. 指出我履历中最契合该职位的 2 个经验证据链与量化指标。`;
+      const prompt = dict.aiPromptTemplate(job);
       document.getElementById('jobPromptBox').textContent = prompt;
 
       document.getElementById('jobDetailOverlay').classList.add('open');
@@ -2368,9 +2799,10 @@
     }
 
     function copyJobPrompt() {
+      const dict = I18N[currentLang] || I18N.en;
       const text = document.getElementById('jobPromptBox').textContent;
       fallbackCopy(text);
-      showToast('已复制 AI 推荐信定制提示词！');
+      showToast(dict.toastPromptCopied);
     }
 
     // 10. Candidate Config Drawer & File System Access API
@@ -2382,7 +2814,8 @@
 
     function closeConfigDrawer() {
       if (isDirty[currentConfigTab]) {
-        if (!confirm('存在未保存的修改，确定要关闭吗？')) return;
+        const msg = currentLang === 'en' ? 'Unsaved changes exist. Close anyway?' : (currentLang === 'de' ? 'Ungespeicherte Änderungen vorhanden. Wirklich schließen?' : '存在未保存的修改，确定要关闭吗？');
+        if (!confirm(msg)) return;
       }
       document.getElementById('drawerOverlay').classList.remove('open');
       document.getElementById('configDrawer').classList.remove('open');
@@ -2425,23 +2858,27 @@
     }
 
     function updateDirtyDisplay() {
+      const dict = I18N[currentLang] || I18N.en;
       const dirty = isDirty[currentConfigTab];
       const indicator = document.getElementById('dirtyStatus');
       const text = document.getElementById('dirtyText');
-      indicator.classList.toggle('dirty', dirty);
-      text.textContent = dirty ? '有未保存的修改' : '已就绪 (无未保存更改)';
+      if (indicator) indicator.classList.toggle('dirty', dirty);
+      if (text) text.textContent = dirty ? dict.cfgDirtyYes : dict.cfgDirtyNo;
     }
 
     async function connectLocalWorkspace() {
+      const dict = I18N[currentLang] || I18N.en;
       if (!window.showDirectoryPicker) {
-        alert('当前浏览器不支持直接访问本地文件系统，建议使用 Chrome, Edge 或 Arc 浏览器。\n您仍可在此编辑并通过“导出文件”覆盖。');
+        alert(currentLang === 'en' 
+          ? 'Direct local folder access is supported in Chrome, Edge or Arc.\nYou can still edit here and use Export.' 
+          : '当前浏览器不支持直接访问本地文件系统，建议使用 Chrome, Edge 或 Arc 浏览器。\n您仍可在此编辑并通过“导出文件”覆盖。');
         return;
       }
       try {
         dirHandle = await window.showDirectoryPicker();
         document.getElementById('fsStatusDot').classList.add('connected');
-        document.getElementById('fsStatusText').textContent = '已关联本地目录: ' + dirHandle.name;
-        document.getElementById('btnConnectDir').innerHTML = '<svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg> <span>重新选择目录</span>';
+        document.getElementById('fsStatusText').textContent = dict.cfgFsConnected + dirHandle.name;
+        document.getElementById('btnConnectDir').innerHTML = `<svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg> <span>${dict.btnReconnectDir}</span>`;
 
         for (const filename of ['profile.md', 'preferences.md', 'settings.ini']) {
           try {
@@ -2457,16 +2894,17 @@
           }
         }
         loadConfigTabContent();
-        showToast('工作区已连接并同步文件！');
+        showToast(dict.toastWorkspaceConnected);
       } catch (err) {
         if (err.name !== 'AbortError') {
           console.error(err);
-          showToast('连接本地目录取消或失败', 'warn');
+          showToast(dict.toastWorkspaceFailed, 'warn');
         }
       }
     }
 
     async function saveCurrentConfig() {
+      const dict = I18N[currentLang] || I18N.en;
       saveDraftInMemory();
       const filename = currentConfigTab === 'profile' ? 'profile.md' : (currentConfigTab === 'preferences' ? 'preferences.md' : 'settings.ini');
       const content = configData[currentConfigTab];
@@ -2479,11 +2917,10 @@
           await writable.close();
           isDirty[currentConfigTab] = false;
           updateDirtyDisplay();
-          showToast(`已成功保存到本地: ${filename}`);
+          showToast(`${dict.toastConfigSaved}${filename}`);
           return;
         } catch (err) {
           console.error('File write error:', err);
-          showToast('写入本地文件失败，已切换为下载导出', 'warn');
         }
       }
 
@@ -2493,6 +2930,7 @@
     }
 
     function exportCurrentConfig() {
+      const dict = I18N[currentLang] || I18N.en;
       const filename = currentConfigTab === 'profile' ? 'profile.md' : (currentConfigTab === 'preferences' ? 'preferences.md' : 'settings.ini');
       const blob = new Blob([configData[currentConfigTab]], { type: 'text/markdown;charset=utf-8' });
       const url = URL.createObjectURL(blob);
@@ -2501,13 +2939,14 @@
       a.download = filename;
       a.click();
       URL.revokeObjectURL(url);
-      showToast(`已导出 ${filename}`);
+      showToast(`${dict.toastExported}${filename}`);
     }
 
     function copyCurrentConfig() {
+      const dict = I18N[currentLang] || I18N.en;
       saveDraftInMemory();
       fallbackCopy(configData[currentConfigTab]);
-      showToast(`已复制 ${currentConfigTab} 配置内容`);
+      showToast(`${dict.toastCopied}: ${currentConfigTab}`);
     }
 
     function setEditorMode(mode) {
@@ -2561,8 +3000,7 @@
         if (/locations?[:：]/i.test(text)) {
           text = text.replace(/locations?[:：].+/i, `locations: ${locs}`);
         } else {
-          text = `locations: ${locs}
-` + text;
+          text = `locations: ${locs}\n` + text;
         }
       }
       configData.preferences = text;
@@ -2596,7 +3034,6 @@
     }
 
     window.addEventListener('keydown', (e) => {
-      // Don't trigger shortcuts if user is typing in an input/textarea
       const isInput = ['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName);
       
       if ((e.ctrlKey || e.metaKey) && e.key === 's') {
@@ -2661,7 +3098,8 @@
         .replace(/'/g, '&#039;');
     }
 
-    // Initialize UI
+    // Initialize UI with preferred language
+    applyLanguage(currentLang);
     renderJobs();
   </script>
 </body>

@@ -23,7 +23,7 @@ def main():
     parser.add_argument("--workdir", default=".", help="Working directory containing .job-search and job files")
     parser.add_argument("--jobs-file", default=None, help="Path to verified_jobs.json")
     parser.add_argument("--output", default=None, help="Output HTML file path (default: <workdir>/job-hunt-workbench.html)")
-    parser.add_argument("--lang", default="zh", choices=["zh", "en", "de"], help="Workbench UI language")
+    parser.add_argument("--lang", default="en", choices=["zh", "en", "de"], help="Workbench UI language")
     args = parser.parse_args()
 
     workdir = Path(args.workdir).resolve()
