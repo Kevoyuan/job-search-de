@@ -133,15 +133,18 @@ job-search-de/
 │   ├── scoring.md            # Calibrated evidence scoring rubric
 │   └── workbench.md          # Workbench integration & multi-theme contract
 ├── scripts/
-│   ├── bump_version.py       # Auto semantic version bumper
+│   ├── bump_version.py       # Auto semantic version bumper (decoupled paths)
 │   ├── check_update.py       # Online/offline upstream update checker
 │   ├── update_skill.sh       # One-command skill updater
-│   ├── download.sh           # Batch ATS API downloader
-│   ├── parse_ats.py          # ATS data parser & normalizer
-│   ├── verify.sh             # Job URL & metadata validator
+│   ├── download.sh           # Batch ATS API downloader (concurrency pool)
+│   ├── parse_ats.py          # Universal ATS data parser & normalizer
+│   ├── verify_urls.py        # Schema.org JSON-LD structured extractor
+│   ├── verify.sh             # Job URL & metadata validator CLI
+│   ├── build_workbench.py    # Workbench HTML builder & data injector
+│   ├── test_ats_universal.py # Comprehensive regression test suite
 │   ├── init_config.py        # Initialize .job-search/ templates
 │   ├── build_html.sh         # Workbench packaging script
-│   └── fix_html.py           # HTML report data injector
+│   └── fix_html.py           # HTML report table & typography post-processor
 ├── templates/
 │   ├── agent_prompt_common.md# Standardized agent prompt blocks
 │   ├── report_skeleton.md    # Executive report template

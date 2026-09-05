@@ -49,6 +49,7 @@ ROLE_FAMILIES = {
     "industrial_scientific": ["industrial ai", "engineering ai", "ai4engineering", "physical ai", "scientific machine learning", "gnn", "geometric deep learning", "simulation", "digital twin"]
 }
 
+custom_role_families = {}
 try:
     for line in open(kw_path, encoding='utf-8'):
         line_str = line.strip()
@@ -62,8 +63,10 @@ try:
             EXCLUDE_TITLES = [k.strip().lower() for k in line_str.split(':', 1)[1].split(',') if k.strip()]
         elif line_str.startswith('ROLE_FAMILY_') or '_FAMILY_' in line_str:
             key, vals = line_str.split(':', 1)
-            fam_name = key.replace('ROLE_FAMILY_', '').lower()
-            ROLE_FAMILIES[fam_name] = [k.strip().lower() for k in vals.split(',') if k.strip()]
+            fam_name = key.replace('ROLE_FAMILY_', '').lower().strip()
+            custom_role_families[fam_name] = [k.strip().lower() for k in vals.split(',') if k.strip()]
+    if custom_role_families:
+        ROLE_FAMILIES = custom_role_families
 except FileNotFoundError:
     pass
 
@@ -110,7 +113,9 @@ def infer_role_type(title, content=""):
         return "generic_ml_engineer"
     if "data scientist" in tl or "data science" in tl:
         return "applied_data_science"
-    return "applied_ai"
+    if any(k in tl for k in ["ai engineer", "artificial intelligence", "applied ai", "llm"]):
+        return "applied_ai"
+    return "general_match"
 
 def title_match(t):
     if is_excluded(t):
@@ -118,11 +123,15 @@ def title_match(t):
     tl = t.lower()
     return any(k in tl for k in STRONG) or any(k in tl for k in WEAK)
 
-def content_ai(text):
+def content_matches_target(text):
+    """Dynamic target keyword verification: checks whether description contains any configured STRONG or family keywords."""
     tl = text.lower()
-    return any(k in tl for k in ["machine learning", "artificial intelligence", "llm",
-                                 "generative", "deep learning", "neural network",
-                                 "genai", "large language", "agentic", "rag"])
+    if any(k in tl for k in STRONG):
+        return True
+    for keywords in ROLE_FAMILIES.values():
+        if any(k in tl for k in keywords):
+            return True
+    return False
 
 def loc_match(l):
     ll = l.lower()
@@ -189,7 +198,7 @@ def gh():
             if not title_match(t) or not loc_match(loc): continue
             content = j.get("content") or ""
             if not any(k in t.lower() for k in STRONG):
-                if not content_ai(content): continue
+                if not content_matches_target(content): continue
             upd = j.get("updated_at") or ""
             add("greenhouse", t, j.get("company_name") or slug, loc, "", None,
                 j.get("absolute_url") or "", "", "updated_at=" + upd,
@@ -211,7 +220,7 @@ def lv():
             if not title_match(t) or not loc_match(loc): continue
             desc = j.get("descriptionPlain") or ""
             if not any(k in t.lower() for k in STRONG):
-                if not content_ai(desc): continue
+                if not content_matches_target(desc): continue
             d = parse_date(j.get("createdAt"))
             sal = j.get("salaryRange") or ""
             if isinstance(sal, dict): sal = json.dumps(sal)[:150]
@@ -228,7 +237,7 @@ def ab():
             if not title_match(t) or not loc_match(loc): continue
             desc = j.get("descriptionHtml") or ""
             if not any(k in t.lower() for k in STRONG):
-                if not content_ai(desc): continue
+                if not content_matches_target(desc): continue
             d = parse_date(j.get("publishedAt"))
             comp = ""
             if j.get("compensation"): comp = json.dumps(j.get("compensation"))[:200]
@@ -254,7 +263,7 @@ def pj():
                 for dsc in jds.iter("jobDescription"):
                     jd += " " + (dsc.findtext("name") or "") + " " + (dsc.findtext("value") or "")
             if not any(k in name.lower() for k in STRONG):
-                if not content_ai(jd): continue
+                if not content_matches_target(jd): continue
             d = parse_date(pub or created)
             url = "https://" + slug + ".jobs.personio.de/job/" + jid if jid else "https://" + slug + ".jobs.personio.de"
             add("personio", name, sub or slug, loc, "", d, url, "", source_conf="official_ats", content=jd)
@@ -300,7 +309,7 @@ def an():
             tags = " ".join(j.get("tags") or [])
             desc = j.get("description") or ""
             if not any(k in t.lower() for k in STRONG):
-                if not content_ai(tags + " " + desc[:500]): continue
+                if not content_matches_target(tags + " " + desc[:500]): continue
             d = parse_date(j.get("created_at"))
             add("arbeitnow", t, j.get("company_name") or "", loc,
                 "remote" if j.get("remote") else "", d, j.get("url") or "",
@@ -319,7 +328,7 @@ def ro():
         if not title_match(t): continue
         tags = " ".join(j.get("tags") or [])
         if not any(k in t.lower() for k in STRONG):
-            if not content_ai(tags): continue
+            if not content_matches_target(tags): continue
         d = parse_date(j.get("date"))
         add("remoteok", t, j.get("company") or "", loc, "remote", d, j.get("url") or "", "",
             source_conf="aggregator", content=tags)

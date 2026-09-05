@@ -1,6 +1,11 @@
 #!/bin/bash
 # job-search-de: verify posting URLs -> title / datePosted / datePublished / validThrough / http code
 # Usage: scripts/verify.sh urls.txt   (one URL per line)
+DIR="$(cd "$(dirname "$0")" && pwd)"
+if command -v python3 >/dev/null 2>&1 && [ -f "$DIR/verify_urls.py" ]; then
+  exec python3 "$DIR/verify_urls.py" "$@"
+fi
+
 while IFS= read -r u; do
   [ -z "$u" ] && continue
   f=$(mktemp)
@@ -11,4 +16,4 @@ while IFS= read -r u; do
   vt=$(grep -oE '"validThrough"[^,}]{0,42}' "$f" 2>/dev/null | head -1)
   echo "[$code] $d $d2 $vt :: $(echo "$t" | head -c 60) :: $u"
   rm -f "$f"
-done < "$1"
+done < "${1:-/dev/stdin}"

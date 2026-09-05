@@ -133,15 +133,18 @@ job-search-de/
 │   ├── scoring.md            # 两阶段证据链打分细则
 │   └── workbench.md          # 工作台设计系统与多主题规范
 ├── scripts/
-│   ├── bump_version.py       # 语义化版本自动递增脚本
+│   ├── bump_version.py       # 语义化版本自动递增脚本（解耦路径）
 │   ├── check_update.py       # 在线/离线上游版本检测脚本
 │   ├── update_skill.sh       # 一键 Skill 自动更新脚本
-│   ├── download.sh           # ATS API 批量下载脚本
-│   ├── parse_ats.py          # ATS 数据解析与归一化
-│   ├── verify.sh             # 职位链接与时效性验证
+│   ├── download.sh           # ATS API 批量下载脚本（含并发限流池）
+│   ├── parse_ats.py          # 全行业通用 ATS 数据解析与归一化
+│   ├── verify_urls.py        # Schema.org JSON-LD 结构化提取引擎
+│   ├── verify.sh             # 职位链接与时效性验证 CLI
+│   ├── build_workbench.py    # 工作台 HTML 生成与配置注入工具
+│   ├── test_ats_universal.py # 全量回归与正确性验证测试套件
 │   ├── init_config.py        # 本地 .job-search/ 模板初始化
 │   ├── build_html.sh         # 工作台打包脚本
-│   └── fix_html.py           # HTML 研报数据注入脚本
+│   └── fix_html.py           # HTML 研报排版与交互增强脚本
 ├── templates/
 │   ├── agent_prompt_common.md# 规范化 Agent 提示词模块
 │   ├── report_skeleton.md    # 决策分析研报骨架模板

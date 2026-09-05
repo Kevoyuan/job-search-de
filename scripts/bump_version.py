@@ -1,6 +1,4 @@
-#!/usr/bin/env python3
-"""Automatically bump semantic version and synchronize across all repository files."""
-
+import os
 import sys
 import re
 from pathlib import Path
@@ -9,7 +7,10 @@ SKILL_ROOT = Path(__file__).resolve().parent.parent
 VERSION_FILE = SKILL_ROOT / "VERSION"
 WORKBENCH_FILE = SKILL_ROOT / "job-hunt-workbench.html"
 CWD_WORKBENCH = Path.cwd() / "job-hunt-workbench.html"
-ACTIVE_WORKBENCH = Path("job-hunt-workbench.html")
+
+# Support custom active workbench sync via environment variables without hardcoding user home paths
+_custom_wb = os.environ.get("ACTIVE_WORKBENCH_PATH") or os.environ.get("GSTACK_JOB_WORKBENCH")
+ACTIVE_WORKBENCH = Path(_custom_wb).resolve() if _custom_wb else None
 
 
 def get_current_version() -> str:
@@ -43,7 +44,8 @@ def bump(part: str = "patch") -> str:
     print(f"📦 Bumped version: v{curr} ➔ v{new_ver}")
 
     # 2. Update workbench files if they exist
-    for wb in set([WORKBENCH_FILE, CWD_WORKBENCH, ACTIVE_WORKBENCH]):
+    target_workbenches = [w for w in [WORKBENCH_FILE, CWD_WORKBENCH, ACTIVE_WORKBENCH] if w is not None]
+    for wb in set(target_workbenches):
         if wb.exists():
             content = wb.read_text(encoding="utf-8")
             # Replace <span id="versionText">vX.X.X</span>
@@ -66,7 +68,8 @@ def bump(part: str = "patch") -> str:
 
 def sync_version():
     curr = get_current_version()
-    for wb in set([WORKBENCH_FILE, CWD_WORKBENCH, ACTIVE_WORKBENCH]):
+    target_workbenches = [w for w in [WORKBENCH_FILE, CWD_WORKBENCH, ACTIVE_WORKBENCH] if w is not None]
+    for wb in set(target_workbenches):
         if wb.exists():
             content = wb.read_text(encoding="utf-8")
             content = re.sub(
@@ -83,11 +86,12 @@ def sync_version():
             print(f"  ✓ Synced version v{curr} to {wb.name}")
 
     # Also sync job-search-config.js if sync_workbench_config.py exists
-    sync_script = ACTIVE_WORKBENCH.parent / "sync_workbench_config.py"
-    if sync_script.exists():
-        import subprocess
-        subprocess.run(["python3", str(sync_script)], capture_output=True)
-        print(f"  ✓ Regenerated job-search-config.js")
+    if ACTIVE_WORKBENCH and ACTIVE_WORKBENCH.exists():
+        sync_script = ACTIVE_WORKBENCH.parent / "sync_workbench_config.py"
+        if sync_script.exists():
+            import subprocess
+            subprocess.run(["python3", str(sync_script)], capture_output=True)
+            print(f"  ✓ Regenerated job-search-config.js")
 
 
 if __name__ == "__main__":

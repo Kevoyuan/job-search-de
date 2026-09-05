@@ -1,0 +1,56 @@
+name: CI & Regression Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Validate Python Scripts Syntax
+        run: |
+          python3 -m py_compile scripts/*.py
+
+      - name: Validate Shell Scripts Syntax
+        run: |
+          for s in scripts/*.sh; do
+            bash -n "$s"
+          done
+
+      - name: Validate Workbench HTML JavaScript Syntax
+        run: |
+          node -e '
+          const fs = require("fs");
+          const vm = require("vm");
+          const html = fs.readFileSync("job-hunt-workbench.html", "utf8");
+          const scriptMatches = html.matchAll(/<script[\s\S]*?>([\s\S]*?)<\/script>/gi);
+          let idx = 0;
+          for (const match of scriptMatches) {
+            idx++;
+            const js = match[1].trim();
+            if (!js) continue;
+            new vm.Script(js);
+            console.log(`✓ Script block ${idx} compiled (${js.length} chars)`);
+          }
+          '
+
+      - name: Run Universal Verification Tests
+        run: |
+          python3 scripts/test_ats_universal.py
