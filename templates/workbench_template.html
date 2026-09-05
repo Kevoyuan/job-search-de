@@ -4,15 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>__TITLE__ - Job Hunt Workbench</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     /* ==========================================================================
-       Design Systems & CSS Tokens (Calibrated from awesome-design-md & GStack)
+       Design Systems & CSS Tokens (Calibrated from Stitch Design Taste & GStack)
        ========================================================================== */
     :root {
-      --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      --font-mono: ui-monospace, "SF Mono", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      --transition-fast: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
-      --transition-normal: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      --font-sans: Geist, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --font-mono: "Geist Mono", "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Monaco, Consolas, monospace;
+      --transition-fast: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+      --transition-normal: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease, background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
       
       /* Radius Scales (Anti-Slop: Calibrated strictly per component) */
       --radius-xs: 4px;
@@ -204,6 +207,10 @@
       padding: 0;
     }
 
+    html, body {
+      overflow-x: hidden;
+      max-width: 100vw;
+    }
     body {
       font-family: var(--font-sans);
       background-color: var(--bg);
@@ -244,6 +251,58 @@
       border: 1px solid var(--border);
       border-radius: var(--radius-xs);
       box-shadow: 0 1px 0 var(--border-strong);
+    }
+
+    /* ==========================================================================
+       Open Design SVG Icon System (Lucide / Radix Style)
+       ========================================================================== */
+    .ui-icon {
+      display: inline-block;
+      vertical-align: -0.15em;
+      width: 14px;
+      height: 14px;
+      stroke: currentColor;
+      stroke-width: 1.75;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+      flex-shrink: 0;
+    }
+    .ui-icon-sm {
+      width: 12px;
+      height: 12px;
+    }
+    .ui-icon-md {
+      width: 16px;
+      height: 16px;
+    }
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+    @keyframes pulse-ring {
+      0% {
+        box-shadow: 0 0 0 0 rgba(46, 160, 67, 0.45);
+      }
+      70% {
+        box-shadow: 0 0 0 5px rgba(46, 160, 67, 0);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(46, 160, 67, 0);
+      }
+    }
+    .status-dot-pulse {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--success);
+      display: inline-block;
+      flex-shrink: 0;
+      animation: pulse-ring 2.4s cubic-bezier(0.16, 1, 0.3, 1) infinite;
     }
 
     /* ==========================================================================
@@ -326,15 +385,25 @@
       box-shadow: var(--shadow-sm);
     }
     .brand-title {
-      font-size: 17px;
+      font-size: 16px;
       font-weight: 700;
       display: flex;
       align-items: center;
       gap: 10px;
       letter-spacing: -0.015em;
     }
-    .brand-icon {
-      font-size: 20px;
+    .brand-mark {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-surface);
+      border: 1px solid var(--border-strong);
+      color: var(--primary);
+      box-shadow: var(--shadow-sm);
+      flex-shrink: 0;
     }
     .brand-version-pill {
       font-size: 11px;
@@ -377,7 +446,7 @@
       transform: translateY(-1px);
     }
     .btn:active {
-      transform: translateY(0);
+      transform: translateY(1px);
     }
     .btn-primary {
       background: var(--primary);
@@ -496,7 +565,8 @@
     .search-icon {
       position: absolute;
       left: 10px;
-      font-size: 13px;
+      display: flex;
+      align-items: center;
       color: var(--text-faint);
       pointer-events: none;
     }
@@ -507,9 +577,16 @@
       border: none;
       color: var(--text-muted);
       cursor: pointer;
-      font-size: 12px;
       display: none;
-      padding: 2px 4px;
+      align-items: center;
+      justify-content: center;
+      padding: 4px;
+      border-radius: var(--radius-xs);
+      transition: var(--transition-fast);
+    }
+    .btn-clear-search:hover {
+      color: var(--text);
+      background: var(--bg-hover);
     }
     .search-shortcut-hint {
       position: absolute;
@@ -651,12 +728,13 @@
     .score-badge {
       display: inline-flex;
       align-items: center;
-      gap: 4px;
+      justify-content: center;
       font-weight: 700;
-      padding: 3px 8px;
+      padding: 2px 7px;
       border-radius: var(--radius-full);
-      font-size: 12px;
+      font-size: 11px;
       font-variant-numeric: tabular-nums;
+      letter-spacing: 0.02em;
     }
     .score-high {
       background: var(--success-bg);
@@ -698,9 +776,12 @@
     }
 
     .freshness-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
       font-size: 11px;
       font-weight: 600;
-      padding: 2px 6px;
+      padding: 2px 7px;
       border-radius: var(--radius-xs);
     }
     .fresh-verified {
@@ -792,6 +873,7 @@
       transition: var(--transition-fast);
       cursor: grab;
       user-select: none;
+      will-change: transform;
     }
     .kanban-card:hover {
       box-shadow: var(--shadow-md);
@@ -900,12 +982,16 @@
       box-shadow: var(--shadow-lg);
       z-index: 210;
       transform: translateX(100%);
-      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      visibility: hidden;
+      pointer-events: none;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.3s;
       display: flex;
       flex-direction: column;
     }
     .drawer.open {
       transform: translateX(0);
+      visibility: visible;
+      pointer-events: auto;
     }
 
     /* Drawer Header */
@@ -1176,11 +1262,12 @@
       position: fixed;
       bottom: 24px;
       right: 24px;
-      background: #111317;
-      color: #ffffff;
+      background: var(--bg-surface);
+      color: var(--text);
       padding: 10px 18px;
       border-radius: var(--radius-md);
       font-size: 13px;
+      font-weight: 500;
       box-shadow: var(--shadow-lg);
       display: flex;
       align-items: center;
@@ -1190,11 +1277,17 @@
       transform: translateY(16px);
       transition: opacity 0.25s, transform 0.25s;
       pointer-events: none;
-      border: 1px solid rgba(255, 255, 255, 0.15);
+      border: 1px solid var(--border-strong);
     }
     .toast.show {
       opacity: 1;
       transform: translateY(0);
+    }
+    .toast-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
     }
 
     /* Keyboard Shortcuts Modal */
@@ -1254,7 +1347,41 @@
     }
     @media (max-width: 768px) {
       header {
-        padding: 12px 16px;
+        padding: 10px 14px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+      }
+      .brand-title {
+        font-size: 15px;
+        justify-content: space-between;
+      }
+      .header-actions {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 8px;
+        width: 100%;
+      }
+      .header-actions .select-dropdown {
+        width: 100%;
+      }
+      .header-actions .btn-primary {
+        grid-column: 1 / -1;
+        width: 100%;
+        padding: 9px 14px;
+        font-size: 13px;
+      }
+      .update-banner {
+        padding: 10px 14px;
+      }
+      .update-banner-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+      .code-pill-wrapper {
+        width: 100%;
+        justify-content: space-between;
       }
       .main-container {
         padding: 16px;
@@ -1303,43 +1430,51 @@
       <div class="code-pill-wrapper">
         <span class="code-pill">/update-skill</span>
         <button class="btn-copy-code" onclick="copyUpdateCommand('/update-skill', this)" title="复制命令">
-          📋 复制
+          <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+          <span>复制</span>
         </button>
       </div>
       <div class="code-pill-wrapper">
         <span class="code-pill">npx skills update job-search-de -g</span>
         <button class="btn-copy-code" onclick="copyUpdateCommand('npx skills update job-search-de -g', this)" title="复制命令">
-          📋 复制
+          <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+          <span>复制</span>
         </button>
       </div>
     </div>
-    <button style="background:transparent;border:none;color:#aaa;cursor:pointer;font-size:16px;padding:4px;" onclick="document.getElementById('updateBanner').style.display='none'">✕</button>
+    <button style="background:transparent;border:none;color:#aaa;cursor:pointer;padding:4px;display:inline-flex;align-items:center;" onclick="document.getElementById('updateBanner').style.display='none'" title="关闭" aria-label="关闭">
+      <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
   </div>
 
   <!-- Main Header -->
   <header>
     <div class="brand-title">
-      <span class="brand-icon">🇩🇪</span>
+      <div class="brand-mark" aria-hidden="true">
+        <svg class="ui-icon ui-icon-md" viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="5" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+      </div>
       <span>__TITLE__</span>
       <span class="brand-version-pill">v__CURRENT_VERSION__</span>
     </div>
     <div class="header-actions">
       <!-- Keyboard Help Button -->
-      <button class="btn btn-icon" onclick="openShortcutsModal()" title="快捷键帮助 (按 ? 打开)">
-        ⌨️
+      <button class="btn btn-icon" onclick="openShortcutsModal()" title="快捷键帮助 (按 ? 打开)" aria-label="快捷键帮助">
+        <svg class="ui-icon ui-icon-md" viewBox="0 0 24 24"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="M6 8h.01M10 8h.01M14 8h.01M18 8h.01M6 12h.01M10 12h.01M14 12h.01M18 12h.01M7 16h10"/></svg>
       </button>
 
       <!-- Theme Switcher -->
       <select id="themeSelector" class="select-dropdown" onchange="switchTheme(this.value)">
-        <option value="notion">🎨 Notion Craft (默认)</option>
-        <option value="obsidian">🌑 Linear Obsidian</option>
-        <option value="bauhaus">📐 Bauhaus Grid</option>
-        <option value="bento">🍱 Spatial Bento</option>
+        <option value="notion">Notion Craft (默认)</option>
+        <option value="obsidian">Linear Obsidian</option>
+        <option value="bauhaus">Bauhaus Grid</option>
+        <option value="bento">Spatial Bento</option>
       </select>
 
       <!-- Candidate Config Button -->
       <button class="btn btn-primary" onclick="openConfigDrawer()">
-        ⚙️ 候选人配置与偏好 <kbd style="margin-left:4px;">C</kbd>
+        <svg class="ui-icon" viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+        <span>候选人配置与偏好</span>
+        <kbd style="margin-left:4px;">C</kbd>
       </button>
     </div>
   </header>
@@ -1367,20 +1502,24 @@
       <!-- Filters and View Switcher -->
       <div class="filters-group">
         <div class="search-box">
-          <span class="search-icon">🔍</span>
+          <span class="search-icon">
+            <svg class="ui-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          </span>
           <input type="text" id="searchInput" class="search-input" placeholder="搜索公司、职位、地点..." oninput="onSearchInput()">
           <span class="search-shortcut-hint" id="searchKbdHint"><kbd>/</kbd></span>
-          <button id="btnClearSearch" class="btn-clear-search" onclick="clearSearch()" title="清空搜索">✕</button>
+          <button id="btnClearSearch" class="btn-clear-search" onclick="clearSearch()" title="清空搜索" aria-label="清空搜索">
+            <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
         </div>
 
         <select id="freshnessFilter" class="select-dropdown" onchange="filterJobs()">
-          <option value="all">⚡ 全部新鲜度</option>
-          <option value="VERIFIED_FRESH">✨ 官方极鲜 (VERIFIED_FRESH)</option>
-          <option value="LIKELY_FRESH">⚡ 活跃近期 (LIKELY_FRESH)</option>
+          <option value="all">全部时效</option>
+          <option value="VERIFIED_FRESH">官方极鲜 (VERIFIED_FRESH)</option>
+          <option value="LIKELY_FRESH">活跃近期 (LIKELY_FRESH)</option>
         </select>
 
         <select id="scoreFilter" class="select-dropdown" onchange="filterJobs()">
-          <option value="0">🎯 全部匹配度</option>
+          <option value="0">全部匹配度</option>
           <option value="75">≥ 75 分 (深度分析)</option>
           <option value="80">≥ 80 分 (高度契合)</option>
           <option value="85">≥ 85 分 (极高优先级)</option>
@@ -1388,10 +1527,14 @@
 
         <div class="view-toggle-btns">
           <button id="viewBtnTable" class="btn-toggle-view active" onclick="switchView('table')">
-            📋 表格 <kbd>T</kbd>
+            <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24"><path d="M12 3v18M3 9h18M3 15h18"/><rect width="18" height="18" x="3" y="3" rx="2"/></svg>
+            <span>表格</span>
+            <kbd>T</kbd>
           </button>
           <button id="viewBtnKanban" class="btn-toggle-view" onclick="switchView('kanban')">
-            📊 看板 <kbd>K</kbd>
+            <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24"><rect width="6" height="18" x="3" y="3" rx="1.5"/><rect width="6" height="12" x="15" y="3" rx="1.5"/></svg>
+            <span>看板</span>
+            <kbd>K</kbd>
           </button>
         </div>
       </div>
@@ -1401,10 +1544,10 @@
     <div class="filter-chips-bar">
       <span style="font-size:12px;color:var(--text-muted);font-weight:600;">快速筛选:</span>
       <button class="filter-chip-btn active" onclick="setQuickFilter('all', this)">全部</button>
-      <button class="filter-chip-btn" onclick="setQuickFilter('high-fit', this)">⭐️ 高契合 (≥75)</button>
-      <button class="filter-chip-btn" onclick="setQuickFilter('remote-only', this)">🌐 远程 (Remote)</button>
-      <button class="filter-chip-btn" onclick="setQuickFilter('fresh-only', this)">⚡️ 极鲜 (Fresh)</button>
-      <button class="filter-chip-btn" onclick="setQuickFilter('in-progress', this)">🚀 申请中 / 面试中</button>
+      <button class="filter-chip-btn" onclick="setQuickFilter('high-fit', this)">高契合 (≥75)</button>
+      <button class="filter-chip-btn" onclick="setQuickFilter('remote-only', this)">远程 (Remote)</button>
+      <button class="filter-chip-btn" onclick="setQuickFilter('fresh-only', this)">极鲜 (Fresh)</button>
+      <button class="filter-chip-btn" onclick="setQuickFilter('in-progress', this)">申请中 / 面试中</button>
     </div>
 
     <!-- Table View -->
@@ -1436,7 +1579,7 @@
       <div class="kanban-col" ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event, 'todo')">
         <div class="kanban-col-header">
           <div class="kanban-lane-title">
-            <span>🎯</span>
+            <svg class="ui-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke-dasharray="3 3"/></svg>
             <span>待评估 / 新增</span>
           </div>
           <span id="colCount-todo" class="kanban-count-pill tabular-nums">0</span>
@@ -1448,7 +1591,7 @@
       <div class="kanban-col" ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event, 'prep')">
         <div class="kanban-col-header">
           <div class="kanban-lane-title">
-            <span>📝</span>
+            <svg class="ui-icon" viewBox="0 0 24 24"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
             <span>准备申请 / 定制CV</span>
           </div>
           <span id="colCount-prep" class="kanban-count-pill tabular-nums">0</span>
@@ -1460,7 +1603,7 @@
       <div class="kanban-col" ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event, 'applied')">
         <div class="kanban-col-header">
           <div class="kanban-lane-title">
-            <span>🚀</span>
+            <svg class="ui-icon" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
             <span>已投递 (Applied)</span>
           </div>
           <span id="colCount-applied" class="kanban-count-pill tabular-nums">0</span>
@@ -1472,7 +1615,7 @@
       <div class="kanban-col" ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event, 'interview')">
         <div class="kanban-col-header">
           <div class="kanban-lane-title">
-            <span>💬</span>
+            <svg class="ui-icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
             <span>面试中 / 沟通</span>
           </div>
           <span id="colCount-interview" class="kanban-count-pill tabular-nums">0</span>
@@ -1483,7 +1626,14 @@
 
     <!-- Empty State -->
     <div id="emptyState" class="empty-state-container">
-      <div class="empty-state-icon">🔍</div>
+      <div class="empty-state-icon">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-muted);opacity:0.85;">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          <line x1="11" y1="8" x2="11" y2="8.01" stroke-width="2"></line>
+          <line x1="11" y1="12" x2="11" y2="14" stroke-width="2"></line>
+        </svg>
+      </div>
       <div class="empty-state-title">未找到匹配的岗位</div>
       <div class="empty-state-desc">当前筛选条件下暂无数据，请尝试调整关键词或降低匹配度门槛。</div>
       <button class="btn btn-primary" onclick="resetAllFilters()">重置所有筛选条件</button>
@@ -1495,10 +1645,12 @@
   <div id="jobDetailDrawer" class="drawer">
     <div class="drawer-header">
       <div class="drawer-title">
-        <span>📄</span>
+        <svg class="ui-icon ui-icon-md" viewBox="0 0 24 24"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
         <span id="jobDetailHeaderCompany">岗位详情</span>
       </div>
-      <button class="btn-close-drawer" onclick="closeJobDetail()">✕</button>
+      <button class="btn-close-drawer" onclick="closeJobDetail()" aria-label="关闭">
+        <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
     </div>
     <div class="drawer-body">
       <div style="margin-bottom:18px;">
@@ -1531,35 +1683,39 @@
 
       <!-- Application Status Selector -->
       <div class="form-section">
-        <label class="form-label">📌 当前投递进度状态</label>
+        <label class="form-label">当前投递进度状态</label>
         <div style="display:flex;gap:8px;flex-wrap:wrap;">
-          <button class="btn" id="statusBtn-todo" onclick="setJobStatus('todo')">🎯 待评估</button>
-          <button class="btn" id="statusBtn-prep" onclick="setJobStatus('prep')">📝 准备申请</button>
-          <button class="btn" id="statusBtn-applied" onclick="setJobStatus('applied')">🚀 已投递</button>
-          <button class="btn" id="statusBtn-interview" onclick="setJobStatus('interview')">💬 面试中</button>
-          <button class="btn" id="statusBtn-offer" onclick="setJobStatus('offer')">🎉 Offer / 意向</button>
+          <button class="btn" id="statusBtn-todo" onclick="setJobStatus('todo')">待评估</button>
+          <button class="btn" id="statusBtn-prep" onclick="setJobStatus('prep')">准备申请</button>
+          <button class="btn" id="statusBtn-applied" onclick="setJobStatus('applied')">已投递</button>
+          <button class="btn" id="statusBtn-interview" onclick="setJobStatus('interview')">面试中</button>
+          <button class="btn" id="statusBtn-offer" onclick="setJobStatus('offer')">Offer / 意向</button>
         </div>
       </div>
 
       <!-- AI Prompt Generation for Cover Letter & Resume Tuning -->
       <div class="form-section">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-          <label class="form-label" style="margin:0;">💡 AI 定制求职信与对齐提示词</label>
-          <button class="btn" style="padding:3px 8px;font-size:11px;" onclick="copyJobPrompt()">📋 复制提示词</button>
+          <label class="form-label" style="margin:0;">AI 定制求职信与对齐提示词</label>
+          <button class="btn" style="padding:3px 8px;font-size:11px;" onclick="copyJobPrompt()">
+            <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+            <span>复制提示词</span>
+          </button>
         </div>
         <div id="jobPromptBox" class="prompt-box"></div>
       </div>
 
       <!-- Personal Remarks / Notes -->
       <div class="form-section">
-        <label class="form-label">📝 个人求职备注与跟踪笔记 (自动保存到本地)</label>
+        <label class="form-label">个人求职备注与跟踪笔记 (自动保存到本地)</label>
         <textarea id="jobNotesInput" class="form-input" style="min-height:90px;resize:vertical;" placeholder="在此记录联系人、投递日期、面试问题或后续备忘..." oninput="saveJobNotes()"></textarea>
       </div>
     </div>
     <div class="drawer-footer">
       <button class="btn" onclick="closeJobDetail()">关闭</button>
       <a id="jobDetailApplyLink" href="#" target="_blank" class="btn btn-primary">
-        🚀 前往官方投递网站 ↗
+        <span>前往官方投递网站</span>
+        <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
       </a>
     </div>
   </div>
@@ -1569,10 +1725,12 @@
   <div id="configDrawer" class="drawer">
     <div class="drawer-header">
       <div class="drawer-title">
-        <span>⚙️</span>
+        <svg class="ui-icon ui-icon-md" viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
         <span>候选人配置与偏好设置</span>
       </div>
-      <button class="btn-close-drawer" onclick="closeConfigDrawer()">✕</button>
+      <button class="btn-close-drawer" onclick="closeConfigDrawer()" aria-label="关闭">
+        <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
     </div>
 
     <!-- File System Access Status Bar -->
@@ -1582,23 +1740,24 @@
         <span id="fsStatusText">未连接本地工作区（只读预览模式）</span>
       </div>
       <button id="btnConnectDir" class="btn" style="padding: 4px 10px; font-size: 11px;" onclick="connectLocalWorkspace()">
-        📂 关联本地 .job-search 目录
+        <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>
+        <span>关联本地 .job-search 目录</span>
       </button>
     </div>
 
     <!-- Drawer Tabs -->
     <div class="drawer-tabs">
-      <button class="drawer-tab active" onclick="switchConfigTab('profile')">👤 profile.md (画像与事实)</button>
-      <button class="drawer-tab" onclick="switchConfigTab('preferences')">🎯 preferences.md (搜索偏好)</button>
-      <button class="drawer-tab" onclick="switchConfigTab('settings')">⚙️ settings.ini (运行设置)</button>
+      <button class="drawer-tab active" onclick="switchConfigTab('profile')">profile.md (画像与事实)</button>
+      <button class="drawer-tab" onclick="switchConfigTab('preferences')">preferences.md (搜索偏好)</button>
+      <button class="drawer-tab" onclick="switchConfigTab('settings')">settings.ini (运行设置)</button>
     </div>
 
     <!-- Mode bar (Form vs Markdown Source) -->
     <div class="mode-bar">
       <span id="currentFileLabel" style="font-weight: 600; font-family: var(--font-mono);">profile.md</span>
       <div class="mode-toggle">
-        <button id="modeBtnForm" class="mode-btn" onclick="setEditorMode('form')">✨ 可视化表单</button>
-        <button id="modeBtnSource" class="mode-btn active" onclick="setEditorMode('source')">📝 源码模式</button>
+        <button id="modeBtnForm" class="mode-btn" onclick="setEditorMode('form')">可视化表单</button>
+        <button id="modeBtnSource" class="mode-btn active" onclick="setEditorMode('source')">源码模式</button>
       </div>
     </div>
 
@@ -1613,12 +1772,12 @@
       <div id="formEditorContainer" style="display: none;">
         <div id="formPreferences" style="display: none;">
           <div class="form-section">
-            <label class="form-label">🎯 目标城市与优先级 (Priority Locations)</label>
+            <label class="form-label">目标城市与优先级 (Priority Locations)</label>
             <input type="text" id="formInputLocations" class="form-input" placeholder="例如: Frankfurt, Eschborn, Remote" oninput="syncFormToPreferences()">
             <div class="form-hint">优先级按顺序列出，用逗号隔开。支持 Frankfurt, Munich, Berlin 等及 Remote。</div>
           </div>
           <div class="form-section">
-            <label class="form-label">💼 工作模式 (Work Modes)</label>
+            <label class="form-label">工作模式 (Work Modes)</label>
             <div class="checkbox-group">
               <label class="checkbox-label"><input type="checkbox" id="chkRemote" onchange="syncFormToPreferences()"> Remote (远程)</label>
               <label class="checkbox-label"><input type="checkbox" id="chkHybrid" onchange="syncFormToPreferences()"> Hybrid (混合办公)</label>
@@ -1626,7 +1785,7 @@
             </div>
           </div>
           <div class="form-section">
-            <label class="form-label">🚫 硬性排除关键词 (Exclusions)</label>
+            <label class="form-label">硬性排除关键词 (Exclusions)</label>
             <input type="text" id="formInputExclusions" class="form-input" placeholder="例如: PHP, WordPress, 德语C1必选" oninput="syncFormToPreferences()">
             <div class="form-hint">命中此列表的职位将在第一阶段初筛中直接排除。</div>
           </div>
@@ -1634,7 +1793,7 @@
 
         <div id="formSettings" style="display: none;">
           <div class="form-section">
-            <label class="form-label">📊 筛选与打分门槛 (Thresholds)</label>
+            <label class="form-label">筛选与打分门槛 (Thresholds)</label>
             <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
               <div>
                 <label class="form-hint">初筛保留 (Triage Keep)</label>
@@ -1651,13 +1810,13 @@
             </div>
           </div>
           <div class="form-section">
-            <label class="form-label">📅 新鲜度抓取窗口 (Freshness Days)</label>
+            <label class="form-label">新鲜度抓取窗口 (Freshness Days)</label>
             <input type="number" id="formFreshDays" class="form-input tabular-nums" value="14" oninput="syncFormToSettings()">
           </div>
         </div>
 
         <div id="formProfileNotice" style="display: none; padding: 20px; text-align: center; color: var(--text-muted); font-size: 13px;">
-          ℹ️ 候选人画像 <code>profile.md</code> 包含详尽的技能与事实链，建议使用 <strong>📝 源码模式</strong> 进行精准编辑。
+          候选人画像 <code>profile.md</code> 包含详尽的技能与事实链，建议使用 <strong>源码模式</strong> 进行精准编辑。
         </div>
       </div>
     </div>
@@ -1665,23 +1824,35 @@
     <!-- Drawer Footer -->
     <div class="drawer-footer">
       <div class="dirty-indicator" id="dirtyStatus">
-        <span>●</span>
+        <span class="status-dot"></span>
         <span id="dirtyText">无未保存更改</span>
       </div>
       <div style="display: flex; gap: 8px;">
-        <button class="btn" onclick="copyCurrentConfig()">📋 复制内容</button>
-        <button class="btn" onclick="exportCurrentConfig()">📥 导出文件</button>
-        <button class="btn btn-primary" onclick="saveCurrentConfig()">💾 保存修改 <kbd style="margin-left:4px;">Ctrl+S</kbd></button>
+        <button class="btn" onclick="copyCurrentConfig()">
+          <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+          <span>复制内容</span>
+        </button>
+        <button class="btn" onclick="exportCurrentConfig()">
+          <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span>导出文件</span>
+        </button>
+        <button class="btn btn-primary" onclick="saveCurrentConfig()">
+          <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+          <span>保存修改</span>
+          <kbd style="margin-left:4px;">Ctrl+S</kbd>
+        </button>
       </div>
     </div>
   </div>
 
   <!-- Keyboard Shortcuts Cheat Sheet Modal -->
-  <div id="shortcutsModal" class="modal-overlay" onclick="closeShortcutsModal(event)">
+  <div id="shortcutsModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="shortcutsTitle" onclick="closeShortcutsModal(event)">
     <div class="modal-box" onclick="event.stopPropagation()">
       <div class="modal-header">
-        <h3 style="font-size:16px;font-weight:700;">⌨️ 快捷键指南</h3>
-        <button class="btn-close-drawer" onclick="closeShortcutsModal()">✕</button>
+        <h3 id="shortcutsTitle" style="font-size:16px;font-weight:700;">快捷键指南</h3>
+        <button class="btn-close-drawer" onclick="closeShortcutsModal()" aria-label="关闭">
+          <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
       </div>
       <p style="font-size:13px;color:var(--text-muted);">本求职工作台支持完整的键盘快捷操作，提高海投筛选效率：</p>
       <div class="shortcut-list">
@@ -1701,7 +1872,7 @@
 
   <!-- Toast Notification Box -->
   <div id="toast" class="toast">
-    <span id="toastIcon">✅</span>
+    <span id="toastIcon" class="toast-icon"></span>
     <span id="toastMsg">操作成功</span>
   </div>
 
@@ -1798,9 +1969,14 @@
     let fileHandles = {};
 
     // 1. Toast Notification Helper
-    function showToast(msg, icon = '✅') {
+    function showToast(msg, type = 'success') {
       const toast = document.getElementById('toast');
-      document.getElementById('toastIcon').textContent = icon;
+      const toastIcon = document.getElementById('toastIcon');
+      if (type === 'warn' || type === 'error') {
+        toastIcon.innerHTML = '<svg class="ui-icon" style="color:var(--warning);" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>';
+      } else {
+        toastIcon.innerHTML = '<svg class="ui-icon" style="color:var(--success);" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>';
+      }
       document.getElementById('toastMsg').textContent = msg;
       toast.classList.add('show');
       setTimeout(() => { toast.classList.remove('show'); }, 2600);
@@ -1812,7 +1988,7 @@
           showToast('已复制命令: ' + cmd);
           if (btnElement) {
             const orig = btnElement.innerHTML;
-            btnElement.innerHTML = '✓ 已复制';
+            btnElement.innerHTML = '<svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> <span>已复制</span>';
             setTimeout(() => { btnElement.innerHTML = orig; }, 2000);
           }
         }).catch(() => fallbackCopy(cmd));
@@ -1914,7 +2090,7 @@
 
         tr.innerHTML = `
           <td><code style="font-size:11px;">${job.id || '-'}</code></td>
-          <td><span class="score-badge ${scoreClass}">★ ${score}</span></td>
+          <td><span class="score-badge ${scoreClass}">${score}</span></td>
           <td><strong>${escapeHtml(job.company || '-')}</strong></td>
           <td>
             <div style="font-weight:600;color:var(--text);">${escapeHtml(job.title || '-')}</div>
@@ -1923,7 +2099,7 @@
           <td><span style="font-size:12px;">${escapeHtml(job.location || '-')}</span></td>
           <td><span class="tag-badge ${workModelClass}">${job.workModel || '-'}</span></td>
           <td class="tabular-nums" style="font-size:12px;color:var(--text-muted);">${job.datePosted || '-'}</td>
-          <td><span class="freshness-pill ${freshClass}">${job.freshness === 'VERIFIED_FRESH' ? '✨ 官方极鲜' : '⚡ 活跃'}</span></td>
+          <td><span class="freshness-pill ${freshClass}"><span class="${job.freshness === 'VERIFIED_FRESH' ? 'status-dot-pulse' : 'status-dot'}"></span>${job.freshness === 'VERIFIED_FRESH' ? '官方极鲜' : '活跃'}</span></td>
           <td>
             <div style="display:flex;align-items:center;gap:6px;">
               <button class="btn" style="padding:3px 8px;font-size:11px;" onclick="openJobDetailById('${job.id}');event.stopPropagation();">详情</button>
@@ -1978,10 +2154,10 @@
             <span class="tabular-nums">${job.datePosted || ''}</span>
             <div style="display:flex;align-items:center;gap:6px;">
               <select class="select-dropdown" style="padding:2px 6px;font-size:10px;" onchange="updateJobStatus('${job.id}', this.value);event.stopPropagation();">
-                <option value="todo" ${status==='todo'?'selected':''}>🎯 待评估</option>
-                <option value="prep" ${status==='prep'?'selected':''}>📝 准备</option>
-                <option value="applied" ${status==='applied'?'selected':''}>🚀 已投递</option>
-                <option value="interview" ${status==='interview'?'selected':''}>💬 面试中</option>
+                <option value="todo" ${status==='todo'?'selected':''}>待评估</option>
+                <option value="prep" ${status==='prep'?'selected':''}>准备中</option>
+                <option value="applied" ${status==='applied'?'selected':''}>已投递</option>
+                <option value="interview" ${status==='interview'?'selected':''}>面试中</option>
               </select>
               <a href="${job.url}" target="_blank" class="btn-apply-link" style="padding:2px 4px;font-size:11px;" onclick="event.stopPropagation()">↗</a>
             </div>
@@ -2253,7 +2429,7 @@
       const indicator = document.getElementById('dirtyStatus');
       const text = document.getElementById('dirtyText');
       indicator.classList.toggle('dirty', dirty);
-      text.textContent = dirty ? '● 有未保存的修改' : '已就绪 (无未保存更改)';
+      text.textContent = dirty ? '有未保存的修改' : '已就绪 (无未保存更改)';
     }
 
     async function connectLocalWorkspace() {
@@ -2264,8 +2440,8 @@
       try {
         dirHandle = await window.showDirectoryPicker();
         document.getElementById('fsStatusDot').classList.add('connected');
-        document.getElementById('fsStatusText').textContent = '🟢 已关联本地目录: ' + dirHandle.name;
-        document.getElementById('btnConnectDir').textContent = '🔄 重新选择目录';
+        document.getElementById('fsStatusText').textContent = '已关联本地目录: ' + dirHandle.name;
+        document.getElementById('btnConnectDir').innerHTML = '<svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg> <span>重新选择目录</span>';
 
         for (const filename of ['profile.md', 'preferences.md', 'settings.ini']) {
           try {
@@ -2285,7 +2461,7 @@
       } catch (err) {
         if (err.name !== 'AbortError') {
           console.error(err);
-          showToast('连接本地目录取消或失败', '⚠️');
+          showToast('连接本地目录取消或失败', 'warn');
         }
       }
     }
@@ -2307,7 +2483,7 @@
           return;
         } catch (err) {
           console.error('File write error:', err);
-          showToast('写入本地文件失败，已切换为下载导出', '⚠️');
+          showToast('写入本地文件失败，已切换为下载导出', 'warn');
         }
       }
 
