@@ -5,140 +5,260 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>__TITLE__ - Job Hunt Workbench</title>
   <style>
-    /* Design Systems & CSS Variables */
+    /* ==========================================================================
+       Design Systems & CSS Tokens (Calibrated from awesome-design-md & GStack)
+       ========================================================================== */
     :root {
-      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-      --font-mono: "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      --transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --font-mono: ui-monospace, "SF Mono", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --transition-fast: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+      --transition-normal: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
       
-      /* Notion Theme (Default) */
+      /* Radius Scales (Anti-Slop: Calibrated strictly per component) */
+      --radius-xs: 4px;
+      --radius-sm: 6px;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+      --radius-xl: 16px;
+      --radius-full: 9999px;
+
+      /* Notion Craft Theme (Default - Source: notion/DESIGN.md) */
       --bg: #ffffff;
       --bg-surface: #ffffff;
-      --bg-subtle: #f7f6f3;
+      --bg-subtle: #f7f6f5;
       --bg-hover: #f1f0ec;
-      --border: #e9e9e7;
-      --border-strong: #d3d1cb;
+      --border: #e5e3df;
+      --border-strong: #c8c4be;
+      --border-focus: #5645d4;
+      
       --text: #37352f;
-      --text-muted: #787774;
-      --text-faint: #9b9a97;
-      --primary: #2383e2;
-      --primary-bg: #ebf5fb;
-      --success: #0f7b6c;
-      --success-bg: #eef6f5;
-      --warning: #d9730d;
-      --warning-bg: #fbf3db;
-      --danger: #e03e3e;
-      --danger-bg: #fbe4e4;
+      --text-muted: #787671;
+      --text-faint: #a4a097;
+      
+      --primary: #5645d4;
+      --primary-hover: #4534b3;
+      --primary-bg: #f0edfa;
+      --primary-text: #391c57;
+      
+      --success: #1aae39;
+      --success-bg: #d9f3e1;
+      --success-text: #137726;
+
+      --warning: #dd5b00;
+      --warning-bg: #ffe8d4;
+      --warning-text: #793400;
+
+      --danger: #e03131;
+      --danger-bg: #fde0ec;
+      --danger-text: #a02e6d;
+
+      --info-bg: #dcecfa;
+      --info-text: #005bab;
+
       --shadow-sm: 0 1px 2px rgba(15, 15, 15, 0.05);
-      --shadow-md: 0 4px 12px rgba(15, 15, 15, 0.08);
-      --shadow-lg: 0 12px 32px rgba(15, 15, 15, 0.12);
-      --radius-sm: 4px;
-      --radius-md: 6px;
-      --radius-lg: 10px;
+      --shadow-md: 0 4px 12px rgba(15, 15, 15, 0.07);
+      --shadow-lg: 0 16px 40px -8px rgba(15, 15, 15, 0.14);
+      --backdrop-blur: blur(0px);
     }
 
+    /* Linear / Obsidian Dark Theme (Source: linear.app/DESIGN.md) */
     [data-theme="obsidian"] {
-      --bg: #1e1e1e;
-      --bg-surface: #252526;
-      --bg-subtle: #2d2d30;
-      --bg-hover: #37373d;
-      --border: #3e3e42;
-      --border-strong: #55555c;
-      --text: #cccccc;
-      --text-muted: #858585;
-      --text-faint: #606060;
-      --primary: #6c8cff;
-      --primary-bg: rgba(108, 140, 255, 0.15);
-      --success: #4ec9b0;
-      --success-bg: rgba(78, 201, 176, 0.15);
-      --warning: #ce9178;
-      --warning-bg: rgba(206, 145, 120, 0.15);
-      --danger: #f14c4c;
-      --danger-bg: rgba(241, 76, 76, 0.15);
-      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
-      --shadow-md: 0 6px 16px rgba(0, 0, 0, 0.5);
-      --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.6);
+      --bg: #010102;
+      --bg-surface: #0f1011;
+      --bg-subtle: #141516;
+      --bg-hover: #1c1d1f;
+      --border: #23252a;
+      --border-strong: #34343a;
+      --border-focus: #5e6ad2;
+
+      --text: #f7f8f8;
+      --text-muted: #8a8f98;
+      --text-faint: #62666d;
+
+      --primary: #5e6ad2;
+      --primary-hover: #828fff;
+      --primary-bg: rgba(94, 106, 210, 0.16);
+      --primary-text: #b6beff;
+
+      --success: #27a644;
+      --success-bg: rgba(39, 166, 68, 0.16);
+      --success-text: #4ade80;
+
+      --warning: #f59e0b;
+      --warning-bg: rgba(245, 158, 11, 0.16);
+      --warning-text: #fcd34d;
+
+      --danger: #ef4444;
+      --danger-bg: rgba(239, 68, 68, 0.16);
+      --danger-text: #fca5a5;
+
+      --info-bg: rgba(56, 189, 248, 0.16);
+      --info-text: #7dd3fc;
+
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
+      --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.6);
+      --shadow-lg: 0 20px 48px -8px rgba(0, 0, 0, 0.85);
+      --backdrop-blur: blur(0px);
     }
 
+    /* Bauhaus Grid Theme (Modernist High-Contrast Industrial) */
     [data-theme="bauhaus"] {
-      --bg: #f4f4f0;
+      --bg: #f5f3ee;
       --bg-surface: #ffffff;
-      --bg-subtle: #eaeae0;
-      --bg-hover: #dfdfd0;
-      --border: #000000;
+      --bg-subtle: #eae7df;
+      --bg-hover: #dedad0;
+      --border: #111111;
       --border-strong: #000000;
-      --text: #000000;
+      --border-focus: #0033cc;
+
+      --text: #111111;
       --text-muted: #444444;
       --text-faint: #777777;
+
       --primary: #0033cc;
-      --primary-bg: #e5ebff;
+      --primary-hover: #002299;
+      --primary-bg: #e6ecff;
+      --primary-text: #002299;
+
       --success: #008844;
       --success-bg: #e6f7ee;
-      --warning: #ee7700;
+      --success-text: #006633;
+
+      --warning: #d97300;
       --warning-bg: #fff0db;
+      --warning-text: #995200;
+
       --danger: #dd1111;
       --danger-bg: #ffe5e5;
-      --shadow-sm: 2px 2px 0px #000000;
-      --shadow-md: 4px 4px 0px #000000;
-      --shadow-lg: 8px 8px 0px #000000;
+      --danger-text: #990000;
+
+      --info-bg: #e0f2fe;
+      --info-text: #0369a1;
+
+      --radius-xs: 0px;
       --radius-sm: 0px;
       --radius-md: 0px;
       --radius-lg: 0px;
+      --radius-xl: 0px;
+      --radius-full: 0px;
+
+      --shadow-sm: 2px 2px 0px #111111;
+      --shadow-md: 4px 4px 0px #111111;
+      --shadow-lg: 8px 8px 0px #111111;
+      --backdrop-blur: blur(0px);
     }
 
+    /* Bento Spatial Theme (Apple Quartz Glassmorphism) */
     [data-theme="bento"] {
       --bg: #f8fafc;
       --bg-surface: rgba(255, 255, 255, 0.85);
-      --bg-subtle: #f1f5f9;
-      --bg-hover: #e2e8f0;
-      --border: #cbd5e1;
-      --border-strong: #94a3b8;
+      --bg-subtle: rgba(241, 245, 249, 0.85);
+      --bg-hover: rgba(226, 232, 240, 0.95);
+      --border: rgba(226, 232, 240, 0.85);
+      --border-strong: rgba(148, 163, 184, 0.45);
+      --border-focus: #4f46e5;
+
       --text: #0f172a;
       --text-muted: #64748b;
       --text-faint: #94a3b8;
+
       --primary: #4f46e5;
+      --primary-hover: #4338ca;
       --primary-bg: #e0e7ff;
+      --primary-text: #3730a3;
+
       --success: #059669;
       --success-bg: #d1fae5;
+      --success-text: #065f46;
+
       --warning: #d97706;
       --warning-bg: #fef3c7;
+      --warning-text: #92400e;
+
       --danger: #dc2626;
       --danger-bg: #fee2e2;
-      --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
-      --shadow-md: 0 4px 14px rgba(0,0,0,0.06);
-      --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+      --danger-text: #991b1b;
+
+      --info-bg: #e0f2fe;
+      --info-text: #0369a1;
+
+      --radius-xs: 6px;
       --radius-sm: 8px;
-      --radius-md: 14px;
-      --radius-lg: 20px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 22px;
+      --radius-full: 9999px;
+
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+      --shadow-md: 0 8px 24px -4px rgba(0, 0, 0, 0.07);
+      --shadow-lg: 0 24px 48px -12px rgba(15, 23, 42, 0.12);
+      --backdrop-blur: blur(16px);
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    /* ==========================================================================
+       Global Resets & Anti-Slop Accessibility Controls
+       ========================================================================== */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
       font-family: var(--font-sans);
       background-color: var(--bg);
       color: var(--text);
       line-height: 1.5;
-      padding: 0;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       transition: background-color 0.2s, color 0.2s;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
-    /* Top Update Notification Banner */
+    /* Strict Focus Ring Accessibility */
+    button:focus-visible,
+    input:focus-visible,
+    select:focus-visible,
+    textarea:focus-visible,
+    a:focus-visible {
+      outline: 2px solid var(--border-focus);
+      outline-offset: 2px;
+    }
+
+    /* Tabular numbers for dates, IDs and scores */
+    .tabular-nums {
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Keyboard shortcut tags */
+    kbd {
+      display: inline-block;
+      padding: 2px 5px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      line-height: 1;
+      color: var(--text-muted);
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xs);
+      box-shadow: 0 1px 0 var(--border-strong);
+    }
+
+    /* ==========================================================================
+       Top Version Update Banner
+       ========================================================================== */
     .update-banner {
-      background: linear-gradient(90deg, #2b303a 0%, #1e222a 100%);
+      background: #111317;
       color: #ffffff;
-      padding: 10px 20px;
+      padding: 8px 20px;
       font-size: 13px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
       z-index: 100;
-    }
-    [data-theme="obsidian"] .update-banner {
-      background: #111317;
     }
     .update-banner-content {
       display: flex;
@@ -152,15 +272,15 @@
       font-size: 11px;
       font-weight: 700;
       padding: 2px 8px;
-      border-radius: 999px;
+      border-radius: var(--radius-full);
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
     .code-pill-wrapper {
       display: inline-flex;
       align-items: center;
-      background: rgba(0,0,0,0.35);
-      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.16);
       border-radius: var(--radius-sm);
       padding: 2px 4px 2px 8px;
       gap: 6px;
@@ -171,28 +291,31 @@
       font-size: 12px;
     }
     .btn-copy-code {
-      background: rgba(255,255,255,0.12);
+      background: rgba(255, 255, 255, 0.15);
       border: none;
       color: #ffffff;
       padding: 3px 8px;
-      border-radius: var(--radius-sm);
+      border-radius: var(--radius-xs);
       font-size: 11px;
       font-weight: 600;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      transition: var(--transition);
+      transition: var(--transition-fast);
     }
     .btn-copy-code:hover {
-      background: rgba(255,255,255,0.25);
+      background: rgba(255, 255, 255, 0.3);
       transform: translateY(-1px);
     }
 
-    /* Header */
+    /* ==========================================================================
+       Header & Navigation
+       ========================================================================== */
     header {
-      padding: 16px 24px;
+      padding: 14px 24px;
       background: var(--bg-surface);
+      backdrop-filter: var(--backdrop-blur);
       border-bottom: 1px solid var(--border);
       display: flex;
       justify-content: space-between;
@@ -200,24 +323,42 @@
       position: sticky;
       top: 0;
       z-index: 50;
+      box-shadow: var(--shadow-sm);
     }
     .brand-title {
-      font-size: 18px;
+      font-size: 17px;
       font-weight: 700;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
+      letter-spacing: -0.015em;
+    }
+    .brand-icon {
+      font-size: 20px;
+    }
+    .brand-version-pill {
+      font-size: 11px;
+      font-family: var(--font-mono);
+      font-weight: 600;
+      color: var(--text-muted);
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      padding: 2px 8px;
+      border-radius: var(--radius-full);
     }
     .header-actions {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
     }
+
+    /* Action Buttons */
     .btn {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 6px;
-      padding: 6px 14px;
+      padding: 7px 14px;
       font-size: 13px;
       font-weight: 500;
       border-radius: var(--radius-md);
@@ -225,11 +366,18 @@
       background: var(--bg-surface);
       color: var(--text);
       cursor: pointer;
-      transition: var(--transition);
+      transition: var(--transition-fast);
       text-decoration: none;
+      white-space: nowrap;
+      user-select: none;
     }
     .btn:hover {
       background: var(--bg-hover);
+      border-color: var(--border-strong);
+      transform: translateY(-1px);
+    }
+    .btn:active {
+      transform: translateY(0);
     }
     .btn-primary {
       background: var(--primary);
@@ -237,19 +385,45 @@
       border-color: var(--primary);
     }
     .btn-primary:hover {
-      filter: brightness(1.1);
+      background: var(--primary-hover);
+      border-color: var(--primary-hover);
+      color: #ffffff;
+      box-shadow: var(--shadow-sm);
+    }
+    .btn-icon {
+      padding: 7px 10px;
     }
 
-    /* Main Container */
+    /* Theme Selector Dropdown */
+    .select-dropdown {
+      padding: 7px 12px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-strong);
+      background: var(--bg-surface);
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition-fast);
+    }
+    .select-dropdown:hover {
+      border-color: var(--primary);
+    }
+
+    /* ==========================================================================
+       Main Content Layout
+       ========================================================================== */
     .main-container {
       max-width: 1600px;
       width: 100%;
       margin: 0 auto;
-      padding: 24px;
+      padding: 20px 24px;
       flex: 1;
     }
 
-    /* Stats & Controls Bar */
+    /* ==========================================================================
+       Metrics & Filter Control Bar
+       ========================================================================== */
     .control-bar {
       display: flex;
       justify-content: space-between;
@@ -258,76 +432,163 @@
       gap: 16px;
       margin-bottom: 20px;
       background: var(--bg-surface);
-      padding: 14px 18px;
-      border-radius: var(--radius-md);
+      backdrop-filter: var(--backdrop-blur);
+      padding: 12px 18px;
+      border-radius: var(--radius-lg);
       border: 1px solid var(--border);
       box-shadow: var(--shadow-sm);
     }
+
+    /* Stats Counter Badges */
     .stats-group {
       display: flex;
-      gap: 16px;
+      gap: 12px;
       align-items: center;
+      flex-wrap: wrap;
+    }
+    .stat-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 12px;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
       font-size: 13px;
       color: var(--text-muted);
     }
-    .stat-item strong {
-      color: var(--text);
-      font-weight: 600;
+    .stat-chip-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
     }
+    .stat-chip strong {
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    /* Filters Group */
     .filters-group {
       display: flex;
       align-items: center;
       gap: 10px;
       flex-wrap: wrap;
     }
-    .search-input {
-      padding: 6px 12px;
-      border-radius: var(--radius-md);
-      border: 1px solid var(--border-strong);
-      background: var(--bg);
-      color: var(--text);
-      font-size: 13px;
-      outline: none;
-      min-width: 220px;
+    .search-box {
+      position: relative;
+      display: flex;
+      align-items: center;
     }
-    .select-dropdown {
-      padding: 6px 10px;
+    .search-input {
+      padding: 7px 32px 7px 32px;
       border-radius: var(--radius-md);
       border: 1px solid var(--border-strong);
       background: var(--bg);
       color: var(--text);
       font-size: 13px;
-      outline: none;
+      min-width: 240px;
+      transition: var(--transition-fast);
+    }
+    .search-input:focus {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 3px var(--primary-bg);
+    }
+    .search-icon {
+      position: absolute;
+      left: 10px;
+      font-size: 13px;
+      color: var(--text-faint);
+      pointer-events: none;
+    }
+    .btn-clear-search {
+      position: absolute;
+      right: 8px;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
       cursor: pointer;
+      font-size: 12px;
+      display: none;
+      padding: 2px 4px;
+    }
+    .search-shortcut-hint {
+      position: absolute;
+      right: 8px;
+      pointer-events: none;
     }
 
-    /* Views: Table & Kanban */
+    /* View Switcher (Table / Kanban) */
     .view-toggle-btns {
       display: flex;
       border: 1px solid var(--border-strong);
       border-radius: var(--radius-md);
       overflow: hidden;
+      background: var(--bg-surface);
     }
     .btn-toggle-view {
       border: none;
-      background: var(--bg-surface);
+      background: transparent;
       color: var(--text-muted);
-      padding: 6px 12px;
-      font-size: 12px;
+      padding: 6px 14px;
+      font-size: 13px;
+      font-weight: 500;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: var(--transition-fast);
+    }
+    .btn-toggle-view:hover {
+      background: var(--bg-hover);
+      color: var(--text);
     }
     .btn-toggle-view.active {
       background: var(--primary-bg);
-      color: var(--primary);
+      color: var(--primary-text);
       font-weight: 600;
     }
 
-    /* Table View */
+    /* Quick Filter Pills */
+    .filter-chips-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .filter-chip-btn {
+      padding: 5px 12px;
+      font-size: 12px;
+      font-weight: 500;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border);
+      background: var(--bg-surface);
+      color: var(--text-muted);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: var(--transition-fast);
+    }
+    .filter-chip-btn:hover {
+      background: var(--bg-hover);
+      color: var(--text);
+    }
+    .filter-chip-btn.active {
+      background: var(--text);
+      color: var(--bg);
+      border-color: var(--text);
+      font-weight: 600;
+    }
+
+    /* ==========================================================================
+       Table View (Sortable & Sticky Header)
+       ========================================================================== */
     .table-container {
       width: 100%;
       overflow-x: auto;
       background: var(--bg-surface);
-      border-radius: var(--radius-md);
+      border-radius: var(--radius-lg);
       border: 1px solid var(--border);
       box-shadow: var(--shadow-sm);
     }
@@ -337,81 +598,290 @@
       font-size: 13px;
       text-align: left;
     }
+    thead {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
     th {
       background: var(--bg-subtle);
       color: var(--text-muted);
       font-weight: 600;
-      padding: 10px 14px;
-      border-bottom: 1px solid var(--border);
-      white-space: nowrap;
-    }
-    td {
       padding: 12px 14px;
-      border-bottom: 1px solid var(--border);
-      vertical-align: top;
+      border-bottom: 1px solid var(--border-strong);
+      white-space: nowrap;
+      user-select: none;
     }
-    tr:hover td {
+    th.sortable {
+      cursor: pointer;
+      transition: var(--transition-fast);
+    }
+    th.sortable:hover {
+      color: var(--text);
       background: var(--bg-hover);
     }
+    .sort-icon {
+      display: inline-block;
+      margin-left: 4px;
+      font-size: 11px;
+      color: var(--text-faint);
+    }
+    th.sorted-asc .sort-icon,
+    th.sorted-desc .sort-icon {
+      color: var(--primary);
+    }
+
+    td {
+      padding: 13px 14px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+      transition: background-color 0.15s;
+    }
+    tr.job-row {
+      cursor: pointer;
+    }
+    tr.job-row:hover td {
+      background: var(--bg-hover);
+    }
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* Badges & Tags */
     .score-badge {
       display: inline-flex;
       align-items: center;
-      justify-content: center;
+      gap: 4px;
       font-weight: 700;
-      padding: 2px 8px;
-      border-radius: 999px;
+      padding: 3px 8px;
+      border-radius: var(--radius-full);
       font-size: 12px;
+      font-variant-numeric: tabular-nums;
     }
-    .score-high { background: var(--success-bg); color: var(--success); }
-    .score-med { background: var(--warning-bg); color: var(--warning); }
-    .score-low { background: var(--danger-bg); color: var(--danger); }
+    .score-high {
+      background: var(--success-bg);
+      color: var(--success-text);
+      border: 1px solid rgba(26, 174, 57, 0.2);
+    }
+    .score-med {
+      background: var(--warning-bg);
+      color: var(--warning-text);
+      border: 1px solid rgba(221, 91, 0, 0.2);
+    }
+    .score-low {
+      background: var(--danger-bg);
+      color: var(--danger-text);
+      border: 1px solid rgba(224, 49, 49, 0.2);
+    }
 
-    /* Kanban View */
+    .tag-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 7px;
+      border-radius: var(--radius-xs);
+      font-size: 11px;
+      font-weight: 500;
+    }
+    .tag-remote {
+      background: var(--info-bg);
+      color: var(--info-text);
+    }
+    .tag-hybrid {
+      background: var(--primary-bg);
+      color: var(--primary-text);
+    }
+    .tag-onsite {
+      background: var(--bg-subtle);
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+    }
+
+    .freshness-pill {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: var(--radius-xs);
+    }
+    .fresh-verified {
+      background: var(--success-bg);
+      color: var(--success-text);
+    }
+    .fresh-likely {
+      background: var(--warning-bg);
+      color: var(--warning-text);
+    }
+
+    .btn-apply-link {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 8px;
+      border-radius: var(--radius-sm);
+      transition: var(--transition-fast);
+    }
+    .btn-apply-link:hover {
+      background: var(--primary-bg);
+      color: var(--primary-hover);
+    }
+
+    /* ==========================================================================
+       Kanban View (Interactive Drag & Drop + Status Lanes)
+       ========================================================================== */
     .kanban-board {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(4, 1fr);
       gap: 16px;
       margin-top: 10px;
     }
     .kanban-col {
       background: var(--bg-subtle);
       border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: 12px;
+      border-radius: var(--radius-lg);
+      padding: 14px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      min-height: 400px;
+      gap: 12px;
+      min-height: 480px;
+      transition: border-color 0.2s, background-color 0.2s;
+    }
+    .kanban-col.drag-over {
+      border-color: var(--primary);
+      background: var(--primary-bg);
     }
     .kanban-col-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-weight: 600;
+      font-weight: 700;
       font-size: 13px;
-      padding-bottom: 8px;
+      padding-bottom: 10px;
       border-bottom: 1px solid var(--border);
     }
+    .kanban-lane-title {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .kanban-count-pill {
+      padding: 2px 7px;
+      border-radius: var(--radius-full);
+      font-size: 11px;
+      font-weight: 700;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+    }
+
+    .kanban-cards-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex: 1;
+    }
+
     .kanban-card {
       background: var(--bg-surface);
       border: 1px solid var(--border);
       border-radius: var(--radius-md);
-      padding: 12px;
+      padding: 12px 14px;
       box-shadow: var(--shadow-sm);
-      transition: var(--transition);
-      cursor: pointer;
+      transition: var(--transition-fast);
+      cursor: grab;
+      user-select: none;
     }
     .kanban-card:hover {
       box-shadow: var(--shadow-md);
+      border-color: var(--border-strong);
       transform: translateY(-2px);
     }
+    .kanban-card:active {
+      cursor: grabbing;
+    }
+    .kanban-card.dragging {
+      opacity: 0.5;
+      transform: scale(0.98);
+    }
+    .kanban-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+    }
+    .kanban-company {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .kanban-title {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text);
+      line-height: 1.4;
+      margin-bottom: 8px;
+    }
+    .kanban-meta {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .kanban-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 8px;
+      border-top: 1px solid var(--border);
+      font-size: 11px;
+      color: var(--text-muted);
+    }
 
-    /* Configuration Drawer */
+    /* ==========================================================================
+       Empty State Container
+       ========================================================================== */
+    .empty-state-container {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 64px 20px;
+      background: var(--bg-surface);
+      border-radius: var(--radius-lg);
+      border: 1px dashed var(--border-strong);
+      text-align: center;
+      margin-top: 10px;
+    }
+    .empty-state-icon {
+      font-size: 48px;
+      margin-bottom: 14px;
+      opacity: 0.85;
+    }
+    .empty-state-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .empty-state-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      max-width: 420px;
+      margin-bottom: 18px;
+      line-height: 1.5;
+    }
+
+    /* ==========================================================================
+       Job Detail Drawer & Candidate Config Drawer
+       ========================================================================== */
     .drawer-overlay {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
       background: rgba(0, 0, 0, 0.45);
-      backdrop-filter: blur(2px);
+      backdrop-filter: blur(4px);
       z-index: 200;
       opacity: 0;
       visibility: hidden;
@@ -440,7 +910,7 @@
 
     /* Drawer Header */
     .drawer-header {
-      padding: 16px 20px;
+      padding: 16px 22px;
       border-bottom: 1px solid var(--border);
       display: flex;
       justify-content: space-between;
@@ -452,12 +922,12 @@
       font-weight: 700;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
     }
     .btn-close-drawer {
       background: transparent;
       border: none;
-      font-size: 20px;
+      font-size: 18px;
       cursor: pointer;
       color: var(--text-muted);
       display: flex;
@@ -465,15 +935,16 @@
       justify-content: center;
       width: 32px; height: 32px;
       border-radius: var(--radius-sm);
+      transition: var(--transition-fast);
     }
     .btn-close-drawer:hover {
       background: var(--bg-hover);
       color: var(--text);
     }
 
-    /* Workspace Connection Status Bar */
+    /* File System Status Bar */
     .fs-status-bar {
-      padding: 10px 20px;
+      padding: 10px 22px;
       background: var(--bg-hover);
       border-bottom: 1px solid var(--border);
       display: flex;
@@ -486,7 +957,7 @@
     .fs-status-indicator {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
       font-weight: 500;
     }
     .status-dot {
@@ -502,7 +973,7 @@
     /* Drawer Tabs */
     .drawer-tabs {
       display: flex;
-      padding: 0 20px;
+      padding: 0 22px;
       background: var(--bg-subtle);
       border-bottom: 1px solid var(--border);
       gap: 4px;
@@ -516,7 +987,7 @@
       background: transparent;
       cursor: pointer;
       border-bottom: 2px solid transparent;
-      transition: var(--transition);
+      transition: var(--transition-fast);
     }
     .drawer-tab:hover {
       color: var(--text);
@@ -528,12 +999,12 @@
       background: var(--bg-surface);
     }
 
-    /* Drawer Mode Toggle (Form / Markdown Source) */
+    /* Drawer Mode Bar */
     .mode-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 8px 20px;
+      padding: 8px 22px;
       border-bottom: 1px solid var(--border);
       background: var(--bg-surface);
       font-size: 12px;
@@ -552,7 +1023,8 @@
       background: transparent;
       color: var(--text-muted);
       cursor: pointer;
-      border-radius: var(--radius-sm);
+      border-radius: var(--radius-xs);
+      transition: var(--transition-fast);
     }
     .mode-btn.active {
       background: var(--bg-surface);
@@ -561,18 +1033,18 @@
       box-shadow: var(--shadow-sm);
     }
 
-    /* Drawer Body */
+    /* Drawer Body & Textarea */
     .drawer-body {
       flex: 1;
       overflow-y: auto;
-      padding: 20px;
+      padding: 22px;
       display: flex;
       flex-direction: column;
     }
     .editor-textarea {
       width: 100%;
       flex: 1;
-      min-height: 420px;
+      min-height: 440px;
       font-family: var(--font-mono);
       font-size: 13px;
       line-height: 1.6;
@@ -582,16 +1054,15 @@
       background: var(--bg);
       color: var(--text);
       resize: vertical;
-      outline: none;
       transition: border-color 0.2s;
     }
     .editor-textarea:focus {
-      border-color: var(--primary);
+      border-color: var(--border-focus);
     }
 
     /* Form Fields Styling */
     .form-section {
-      margin-bottom: 18px;
+      margin-bottom: 20px;
     }
     .form-label {
       display: block;
@@ -604,6 +1075,7 @@
       font-size: 11px;
       color: var(--text-muted);
       margin-top: 4px;
+      line-height: 1.4;
     }
     .form-input {
       width: 100%;
@@ -613,7 +1085,10 @@
       border: 1px solid var(--border-strong);
       background: var(--bg);
       color: var(--text);
-      outline: none;
+      transition: var(--transition-fast);
+    }
+    .form-input:focus {
+      border-color: var(--border-focus);
     }
     .checkbox-group {
       display: flex;
@@ -627,11 +1102,12 @@
       gap: 6px;
       font-size: 13px;
       cursor: pointer;
+      user-select: none;
     }
 
     /* Drawer Footer */
     .drawer-footer {
-      padding: 14px 20px;
+      padding: 14px 22px;
       border-top: 1px solid var(--border);
       background: var(--bg-subtle);
       display: flex;
@@ -651,12 +1127,56 @@
       font-weight: 600;
     }
 
+    /* ==========================================================================
+       Job Detail Drawer Specifics
+       ========================================================================== */
+    .job-detail-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .detail-card {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+    }
+    .detail-card-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+    }
+    .detail-card-value {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .prompt-box {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 1.5;
+      color: var(--text);
+      white-space: pre-wrap;
+      max-height: 160px;
+      overflow-y: auto;
+      margin-bottom: 12px;
+    }
+
     /* Toast Notification */
     .toast {
       position: fixed;
       bottom: 24px;
       right: 24px;
-      background: #1e293b;
+      background: #111317;
       color: #ffffff;
       padding: 10px 18px;
       border-radius: var(--radius-md);
@@ -664,26 +1184,96 @@
       box-shadow: var(--shadow-lg);
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
       z-index: 300;
       opacity: 0;
-      transform: translateY(20px);
+      transform: translateY(16px);
       transition: opacity 0.25s, transform 0.25s;
       pointer-events: none;
+      border: 1px solid rgba(255, 255, 255, 0.15);
     }
     .toast.show {
       opacity: 1;
       transform: translateY(0);
     }
 
-    /* Mobile Responsive & Smooth Touch Gestures */
+    /* Keyboard Shortcuts Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(4px);
+      z-index: 250;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-overlay.open {
+      display: flex;
+    }
+    .modal-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      max-width: 520px;
+      width: 100%;
+      padding: 24px;
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .shortcut-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 14px;
+    }
+    .shortcut-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      padding: 6px 10px;
+      background: var(--bg-subtle);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+    }
+
+    /* ==========================================================================
+       Mobile Responsive Behaviors
+       ========================================================================== */
+    @media (max-width: 1024px) {
+      .kanban-board {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
     @media (max-width: 768px) {
+      header {
+        padding: 12px 16px;
+      }
+      .main-container {
+        padding: 16px;
+      }
+      .control-bar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .filters-group {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .search-input {
+        min-width: 100%;
+      }
       .kanban-board {
         display: flex;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
-        touch-action: pan-x pan-y;
-        overscroll-behavior-x: contain;
         scroll-snap-type: x mandatory;
         padding-bottom: 12px;
         gap: 12px;
@@ -694,15 +1284,11 @@
         flex-shrink: 0;
         scroll-snap-align: start;
       }
-      .control-bar {
-        flex-direction: column;
-        align-items: stretch;
-      }
-      .filters-group {
-        flex-wrap: wrap;
-      }
       .drawer {
         width: 100vw !important;
+      }
+      .shortcut-list {
+        grid-template-columns: 1fr;
       }
     }
   </style>
@@ -712,17 +1298,17 @@
   <!-- Top Version Update Banner with One-Click Copy -->
   <div id="updateBanner" class="update-banner">
     <div class="update-banner-content">
-      <span class="update-badge">Update Available</span>
+      <span class="update-badge">Skill Update</span>
       <span>发现新版本 <strong id="remoteVerText">v__LATEST_VERSION__</strong> (当前版本: v__CURRENT_VERSION__)</span>
       <div class="code-pill-wrapper">
         <span class="code-pill">/update-skill</span>
-        <button class="btn-copy-code" onclick="copyUpdateCommand('/update-skill', this)" title="复制代码到剪贴板">
+        <button class="btn-copy-code" onclick="copyUpdateCommand('/update-skill', this)" title="复制命令">
           📋 复制
         </button>
       </div>
       <div class="code-pill-wrapper">
         <span class="code-pill">npx skills update job-search-de -g</span>
-        <button class="btn-copy-code" onclick="copyUpdateCommand('npx skills update job-search-de -g', this)" title="复制代码到剪贴板">
+        <button class="btn-copy-code" onclick="copyUpdateCommand('npx skills update job-search-de -g', this)" title="复制命令">
           📋 复制
         </button>
       </div>
@@ -730,56 +1316,95 @@
     <button style="background:transparent;border:none;color:#aaa;cursor:pointer;font-size:16px;padding:4px;" onclick="document.getElementById('updateBanner').style.display='none'">✕</button>
   </div>
 
-  <!-- Header -->
+  <!-- Main Header -->
   <header>
     <div class="brand-title">
-      <span>🇩🇪</span>
+      <span class="brand-icon">🇩🇪</span>
       <span>__TITLE__</span>
-      <span style="font-size: 12px; font-weight: normal; color: var(--text-muted);">v__CURRENT_VERSION__</span>
+      <span class="brand-version-pill">v__CURRENT_VERSION__</span>
     </div>
     <div class="header-actions">
+      <!-- Keyboard Help Button -->
+      <button class="btn btn-icon" onclick="openShortcutsModal()" title="快捷键帮助 (按 ? 打开)">
+        ⌨️
+      </button>
+
       <!-- Theme Switcher -->
       <select id="themeSelector" class="select-dropdown" onchange="switchTheme(this.value)">
-        <option value="notion">🎨 Notion Craft (Default)</option>
-        <option value="obsidian">🌑 Obsidian Dark</option>
+        <option value="notion">🎨 Notion Craft (默认)</option>
+        <option value="obsidian">🌑 Linear Obsidian</option>
         <option value="bauhaus">📐 Bauhaus Grid</option>
         <option value="bento">🍱 Spatial Bento</option>
       </select>
 
       <!-- Candidate Config Button -->
       <button class="btn btn-primary" onclick="openConfigDrawer()">
-        ⚙️ 候选人配置与偏好
+        ⚙️ 候选人配置与偏好 <kbd style="margin-left:4px;">C</kbd>
       </button>
     </div>
   </header>
 
-  <!-- Main Content -->
-  <div class="main-container">
-    <!-- Controls & Stats -->
+  <!-- Main Content Body -->
+  <main class="main-container">
+    <!-- Controls & Stats Bar -->
     <div class="control-bar">
+      <!-- Metrics Badges -->
       <div class="stats-group">
-        <div class="stat-item">全部岗位: <strong id="totalJobsCount">0</strong></div>
-        <div class="stat-item">近期新增: <strong id="recentJobsCount" style="color:var(--primary);">0</strong></div>
-        <div class="stat-item">高匹配 (≥75): <strong id="highFitCount" style="color:var(--success);">0</strong></div>
+        <div class="stat-chip">
+          <span class="stat-chip-dot" style="background:var(--primary);"></span>
+          全部岗位: <strong id="totalJobsCount" class="tabular-nums">0</strong>
+        </div>
+        <div class="stat-chip">
+          <span class="stat-chip-dot" style="background:var(--success);"></span>
+          近期极鲜: <strong id="recentJobsCount" class="tabular-nums" style="color:var(--success);">0</strong>
+        </div>
+        <div class="stat-chip">
+          <span class="stat-chip-dot" style="background:var(--warning);"></span>
+          高匹配 (≥75): <strong id="highFitCount" class="tabular-nums" style="color:var(--warning);">0</strong>
+        </div>
       </div>
       
+      <!-- Filters and View Switcher -->
       <div class="filters-group">
-        <input type="text" id="searchInput" class="search-input" placeholder="🔍 搜索公司、职位、技能..." oninput="filterJobs()">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="searchInput" class="search-input" placeholder="搜索公司、职位、地点..." oninput="onSearchInput()">
+          <span class="search-shortcut-hint" id="searchKbdHint"><kbd>/</kbd></span>
+          <button id="btnClearSearch" class="btn-clear-search" onclick="clearSearch()" title="清空搜索">✕</button>
+        </div>
+
         <select id="freshnessFilter" class="select-dropdown" onchange="filterJobs()">
-          <option value="all">全部新鲜度</option>
+          <option value="all">⚡ 全部新鲜度</option>
           <option value="VERIFIED_FRESH">✨ 官方极鲜 (VERIFIED_FRESH)</option>
           <option value="LIKELY_FRESH">⚡ 活跃近期 (LIKELY_FRESH)</option>
         </select>
+
         <select id="scoreFilter" class="select-dropdown" onchange="filterJobs()">
-          <option value="0">全部匹配度</option>
+          <option value="0">🎯 全部匹配度</option>
           <option value="75">≥ 75 分 (深度分析)</option>
-          <option value="80">≥ 80 分 (高度匹配)</option>
+          <option value="80">≥ 80 分 (高度契合)</option>
+          <option value="85">≥ 85 分 (极高优先级)</option>
         </select>
+
         <div class="view-toggle-btns">
-          <button id="viewBtnTable" class="btn-toggle-view active" onclick="switchView('table')">📋 表格</button>
-          <button id="viewBtnKanban" class="btn-toggle-view" onclick="switchView('kanban')">📊 看板</button>
+          <button id="viewBtnTable" class="btn-toggle-view active" onclick="switchView('table')">
+            📋 表格 <kbd>T</kbd>
+          </button>
+          <button id="viewBtnKanban" class="btn-toggle-view" onclick="switchView('kanban')">
+            📊 看板 <kbd>K</kbd>
+          </button>
         </div>
       </div>
+    </div>
+
+    <!-- Quick Filter Chips -->
+    <div class="filter-chips-bar">
+      <span style="font-size:12px;color:var(--text-muted);font-weight:600;">快速筛选:</span>
+      <button class="filter-chip-btn active" onclick="setQuickFilter('all', this)">全部</button>
+      <button class="filter-chip-btn" onclick="setQuickFilter('high-fit', this)">⭐️ 高契合 (≥75)</button>
+      <button class="filter-chip-btn" onclick="setQuickFilter('remote-only', this)">🌐 远程 (Remote)</button>
+      <button class="filter-chip-btn" onclick="setQuickFilter('fresh-only', this)">⚡️ 极鲜 (Fresh)</button>
+      <button class="filter-chip-btn" onclick="setQuickFilter('in-progress', this)">🚀 申请中 / 面试中</button>
     </div>
 
     <!-- Table View -->
@@ -787,16 +1412,16 @@
       <table>
         <thead>
           <tr>
-            <th>ID</th>
-            <th>匹配度</th>
-            <th>公司</th>
-            <th>职位</th>
-            <th>类型</th>
-            <th>地点</th>
+            <th class="sortable" onclick="sortTable('id')">ID <span class="sort-icon" id="sortIcon-id">↕</span></th>
+            <th class="sortable" onclick="sortTable('score')">契合分 <span class="sort-icon" id="sortIcon-score">↕</span></th>
+            <th class="sortable" onclick="sortTable('company')">公司 <span class="sort-icon" id="sortIcon-company">↕</span></th>
+            <th class="sortable" onclick="sortTable('title')">招聘职位 <span class="sort-icon" id="sortIcon-title">↕</span></th>
+            <th>职能分类</th>
+            <th>工作地点</th>
             <th>工作模式</th>
-            <th>发布日期</th>
-            <th>新鲜度</th>
-            <th>官方链接</th>
+            <th class="sortable" onclick="sortTable('datePosted')">发布日期 <span class="sort-icon" id="sortIcon-datePosted">↕</span></th>
+            <th>时效状态</th>
+            <th>操作与投递</th>
           </tr>
         </thead>
         <tbody id="jobsTableBody">
@@ -807,34 +1432,135 @@
 
     <!-- Kanban View -->
     <div id="kanbanView" class="kanban-board" style="display: none;">
-      <div class="kanban-col">
+      <!-- Lane 1: Todo -->
+      <div class="kanban-col" ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event, 'todo')">
         <div class="kanban-col-header">
-          <span>🎯 待评估 / 新增</span>
-          <span id="colCount-todo" class="score-badge score-med">0</span>
+          <div class="kanban-lane-title">
+            <span>🎯</span>
+            <span>待评估 / 新增</span>
+          </div>
+          <span id="colCount-todo" class="kanban-count-pill tabular-nums">0</span>
         </div>
-        <div id="kanbanCards-todo" style="display: flex; flex-direction: column; gap: 10px;"></div>
+        <div id="kanbanCards-todo" class="kanban-cards-container"></div>
       </div>
-      <div class="kanban-col">
+
+      <!-- Lane 2: Prep -->
+      <div class="kanban-col" ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event, 'prep')">
         <div class="kanban-col-header">
-          <span>📝 准备申请 / 定制CV</span>
-          <span id="colCount-prep" class="score-badge score-med">0</span>
+          <div class="kanban-lane-title">
+            <span>📝</span>
+            <span>准备申请 / 定制CV</span>
+          </div>
+          <span id="colCount-prep" class="kanban-count-pill tabular-nums">0</span>
         </div>
-        <div id="kanbanCards-prep" style="display: flex; flex-direction: column; gap: 10px;"></div>
+        <div id="kanbanCards-prep" class="kanban-cards-container"></div>
       </div>
-      <div class="kanban-col">
+
+      <!-- Lane 3: Applied -->
+      <div class="kanban-col" ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event, 'applied')">
         <div class="kanban-col-header">
-          <span>🚀 已投递 (Applied)</span>
-          <span id="colCount-applied" class="score-badge score-high">0</span>
+          <div class="kanban-lane-title">
+            <span>🚀</span>
+            <span>已投递 (Applied)</span>
+          </div>
+          <span id="colCount-applied" class="kanban-count-pill tabular-nums">0</span>
         </div>
-        <div id="kanbanCards-applied" style="display: flex; flex-direction: column; gap: 10px;"></div>
+        <div id="kanbanCards-applied" class="kanban-cards-container"></div>
       </div>
-      <div class="kanban-col">
+
+      <!-- Lane 4: Interview -->
+      <div class="kanban-col" ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event, 'interview')">
         <div class="kanban-col-header">
-          <span>💬 面试中 (Interviewing)</span>
-          <span id="colCount-interview" class="score-badge score-high">0</span>
+          <div class="kanban-lane-title">
+            <span>💬</span>
+            <span>面试中 / 沟通</span>
+          </div>
+          <span id="colCount-interview" class="kanban-count-pill tabular-nums">0</span>
         </div>
-        <div id="kanbanCards-interview" style="display: flex; flex-direction: column; gap: 10px;"></div>
+        <div id="kanbanCards-interview" class="kanban-cards-container"></div>
       </div>
+    </div>
+
+    <!-- Empty State -->
+    <div id="emptyState" class="empty-state-container">
+      <div class="empty-state-icon">🔍</div>
+      <div class="empty-state-title">未找到匹配的岗位</div>
+      <div class="empty-state-desc">当前筛选条件下暂无数据，请尝试调整关键词或降低匹配度门槛。</div>
+      <button class="btn btn-primary" onclick="resetAllFilters()">重置所有筛选条件</button>
+    </div>
+  </main>
+
+  <!-- Job Detail Drawer -->
+  <div id="jobDetailOverlay" class="drawer-overlay" onclick="closeJobDetail()"></div>
+  <div id="jobDetailDrawer" class="drawer">
+    <div class="drawer-header">
+      <div class="drawer-title">
+        <span>📄</span>
+        <span id="jobDetailHeaderCompany">岗位详情</span>
+      </div>
+      <button class="btn-close-drawer" onclick="closeJobDetail()">✕</button>
+    </div>
+    <div class="drawer-body">
+      <div style="margin-bottom:18px;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+          <h2 id="jobDetailTitle" style="font-size:18px;font-weight:700;"></h2>
+          <span id="jobDetailScoreBadge" class="score-badge"></span>
+        </div>
+        <div id="jobDetailCompanySub" style="font-size:14px;color:var(--text-muted);font-weight:600;"></div>
+      </div>
+
+      <!-- Metadata Grid -->
+      <div class="job-detail-grid">
+        <div class="detail-card">
+          <div class="detail-card-label">工作地点</div>
+          <div id="jobDetailLocation" class="detail-card-value">-</div>
+        </div>
+        <div class="detail-card">
+          <div class="detail-card-label">工作模式</div>
+          <div id="jobDetailWorkModel" class="detail-card-value">-</div>
+        </div>
+        <div class="detail-card">
+          <div class="detail-card-label">发布时间</div>
+          <div id="jobDetailDate" class="detail-card-value tabular-nums">-</div>
+        </div>
+        <div class="detail-card">
+          <div class="detail-card-label">时效状态</div>
+          <div id="jobDetailFreshness" class="detail-card-value">-</div>
+        </div>
+      </div>
+
+      <!-- Application Status Selector -->
+      <div class="form-section">
+        <label class="form-label">📌 当前投递进度状态</label>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="btn" id="statusBtn-todo" onclick="setJobStatus('todo')">🎯 待评估</button>
+          <button class="btn" id="statusBtn-prep" onclick="setJobStatus('prep')">📝 准备申请</button>
+          <button class="btn" id="statusBtn-applied" onclick="setJobStatus('applied')">🚀 已投递</button>
+          <button class="btn" id="statusBtn-interview" onclick="setJobStatus('interview')">💬 面试中</button>
+          <button class="btn" id="statusBtn-offer" onclick="setJobStatus('offer')">🎉 Offer / 意向</button>
+        </div>
+      </div>
+
+      <!-- AI Prompt Generation for Cover Letter & Resume Tuning -->
+      <div class="form-section">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+          <label class="form-label" style="margin:0;">💡 AI 定制求职信与对齐提示词</label>
+          <button class="btn" style="padding:3px 8px;font-size:11px;" onclick="copyJobPrompt()">📋 复制提示词</button>
+        </div>
+        <div id="jobPromptBox" class="prompt-box"></div>
+      </div>
+
+      <!-- Personal Remarks / Notes -->
+      <div class="form-section">
+        <label class="form-label">📝 个人求职备注与跟踪笔记 (自动保存到本地)</label>
+        <textarea id="jobNotesInput" class="form-input" style="min-height:90px;resize:vertical;" placeholder="在此记录联系人、投递日期、面试问题或后续备忘..." oninput="saveJobNotes()"></textarea>
+      </div>
+    </div>
+    <div class="drawer-footer">
+      <button class="btn" onclick="closeJobDetail()">关闭</button>
+      <a id="jobDetailApplyLink" href="#" target="_blank" class="btn btn-primary">
+        🚀 前往官方投递网站 ↗
+      </a>
     </div>
   </div>
 
@@ -912,26 +1638,26 @@
             <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
               <div>
                 <label class="form-hint">初筛保留 (Triage Keep)</label>
-                <input type="number" id="formTriageKeep" class="form-input" value="65" oninput="syncFormToSettings()">
+                <input type="number" id="formTriageKeep" class="form-input tabular-nums" value="65" oninput="syncFormToSettings()">
               </div>
               <div>
                 <label class="form-hint">深度分析 (Deep Score)</label>
-                <input type="number" id="formDeepScore" class="form-input" value="75" oninput="syncFormToSettings()">
+                <input type="number" id="formDeepScore" class="form-input tabular-nums" value="75" oninput="syncFormToSettings()">
               </div>
               <div>
                 <label class="form-hint">高契合 (High Value)</label>
-                <input type="number" id="formHighValue" class="form-input" value="80" oninput="syncFormToSettings()">
+                <input type="number" id="formHighValue" class="form-input tabular-nums" value="80" oninput="syncFormToSettings()">
               </div>
             </div>
           </div>
           <div class="form-section">
             <label class="form-label">📅 新鲜度抓取窗口 (Freshness Days)</label>
-            <input type="number" id="formFreshDays" class="form-input" value="14" oninput="syncFormToSettings()">
+            <input type="number" id="formFreshDays" class="form-input tabular-nums" value="14" oninput="syncFormToSettings()">
           </div>
         </div>
 
         <div id="formProfileNotice" style="display: none; padding: 20px; text-align: center; color: var(--text-muted); font-size: 13px;">
-          ℹ️ 候选人画像 <code>profile.md</code> 包含详尽的技能与证据链，建议使用 <strong>📝 源码模式</strong> 进行精准编辑。
+          ℹ️ 候选人画像 <code>profile.md</code> 包含详尽的技能与事实链，建议使用 <strong>📝 源码模式</strong> 进行精准编辑。
         </div>
       </div>
     </div>
@@ -945,7 +1671,30 @@
       <div style="display: flex; gap: 8px;">
         <button class="btn" onclick="copyCurrentConfig()">📋 复制内容</button>
         <button class="btn" onclick="exportCurrentConfig()">📥 导出文件</button>
-        <button class="btn btn-primary" onclick="saveCurrentConfig()">💾 保存到本地文件</button>
+        <button class="btn btn-primary" onclick="saveCurrentConfig()">💾 保存修改 <kbd style="margin-left:4px;">Ctrl+S</kbd></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Keyboard Shortcuts Cheat Sheet Modal -->
+  <div id="shortcutsModal" class="modal-overlay" onclick="closeShortcutsModal(event)">
+    <div class="modal-box" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3 style="font-size:16px;font-weight:700;">⌨️ 快捷键指南</h3>
+        <button class="btn-close-drawer" onclick="closeShortcutsModal()">✕</button>
+      </div>
+      <p style="font-size:13px;color:var(--text-muted);">本求职工作台支持完整的键盘快捷操作，提高海投筛选效率：</p>
+      <div class="shortcut-list">
+        <div class="shortcut-item"><span>聚焦搜索框</span> <kbd>/</kbd></div>
+        <div class="shortcut-item"><span>关闭弹窗/清空</span> <kbd>Esc</kbd></div>
+        <div class="shortcut-item"><span>切换表格视图</span> <kbd>T</kbd></div>
+        <div class="shortcut-item"><span>切换看板视图</span> <kbd>K</kbd></div>
+        <div class="shortcut-item"><span>打开候选人配置</span> <kbd>C</kbd></div>
+        <div class="shortcut-item"><span>保存当前配置</span> <kbd>Ctrl+S</kbd></div>
+        <div class="shortcut-item"><span>切换 Notion 主题</span> <kbd>1</kbd></div>
+        <div class="shortcut-item"><span>切换 Obsidian 主题</span> <kbd>2</kbd></div>
+        <div class="shortcut-item"><span>切换 Bauhaus 主题</span> <kbd>3</kbd></div>
+        <div class="shortcut-item"><span>切换 Bento 主题</span> <kbd>4</kbd></div>
       </div>
     </div>
   </div>
@@ -959,11 +1708,86 @@
   <script>
     // Embedded Data injected by build_workbench.py
     const EMBEDDED_CONFIG = __EMBEDDED_CONFIG_JSON__;
-    const JOBS = __JOBS_JSON__;
+    const RAW_JOBS = __JOBS_JSON__;
+
+    // Fallback Sample Jobs if RAW_JOBS is empty
+    const SAMPLE_JOBS = [
+      {
+        id: "DE-CEL-01",
+        company: "Celonis",
+        title: "Senior Platform / Infrastructure Engineer",
+        roleType: "Platform / DevOps",
+        location: "Munich, Germany",
+        workModel: "Hybrid",
+        datePosted: "2026-09-02",
+        freshness: "VERIFIED_FRESH",
+        score: 88,
+        isRecent: true,
+        url: "https://www.celonis.com/careers/"
+      },
+      {
+        id: "DE-DPL-02",
+        company: "DeepL",
+        title: "Staff Machine Learning Infrastructure Engineer",
+        roleType: "AI / ML Infrastructure",
+        location: "Cologne / Remote, Germany",
+        workModel: "Remote",
+        datePosted: "2026-09-03",
+        freshness: "VERIFIED_FRESH",
+        score: 92,
+        isRecent: true,
+        url: "https://www.deepl.com/jobs"
+      },
+      {
+        id: "DE-PER-03",
+        company: "Personio",
+        title: "Lead Backend Engineer (Go / Distributed Systems)",
+        roleType: "Backend",
+        location: "Munich, Germany",
+        workModel: "Hybrid",
+        datePosted: "2026-08-30",
+        freshness: "LIKELY_FRESH",
+        score: 82,
+        isRecent: true,
+        url: "https://www.personio.com/careers/"
+      },
+      {
+        id: "DE-TRB-04",
+        company: "Trade Republic",
+        title: "Senior Site Reliability Engineer (Fintech Core)",
+        roleType: "SRE / Cloud",
+        location: "Berlin, Germany",
+        workModel: "On-site",
+        datePosted: "2026-08-28",
+        freshness: "LIKELY_FRESH",
+        score: 78,
+        isRecent: false,
+        url: "https://traderepublic.com/careers"
+      },
+      {
+        id: "DE-DLH-05",
+        company: "Delivery Hero",
+        title: "Senior Data & Analytics Engineer",
+        roleType: "Data Engineering",
+        location: "Berlin / Remote, Germany",
+        workModel: "Hybrid",
+        datePosted: "2026-09-04",
+        freshness: "VERIFIED_FRESH",
+        score: 85,
+        isRecent: true,
+        url: "https://careers.deliveryhero.com/"
+      }
+    ];
+
+    const JOBS = (Array.isArray(RAW_JOBS) && RAW_JOBS.length > 0) ? RAW_JOBS : SAMPLE_JOBS;
 
     // State Variables
     let currentConfigTab = 'profile'; // 'profile' | 'preferences' | 'settings'
     let currentEditorMode = 'source'; // 'source' | 'form'
+    let currentQuickFilter = 'all';
+    let currentSort = { field: 'score', order: 'desc' };
+    let activeJobForDetail = null;
+
     let isDirty = { profile: false, preferences: false, settings: false };
     let configData = {
       profile: EMBEDDED_CONFIG.profile || '',
@@ -973,7 +1797,7 @@
     let dirHandle = null;
     let fileHandles = {};
 
-    // 1. One-click Copy Helper with Toast
+    // 1. Toast Notification Helper
     function showToast(msg, icon = '✅') {
       const toast = document.getElementById('toast');
       document.getElementById('toastIcon').textContent = icon;
@@ -991,9 +1815,7 @@
             btnElement.innerHTML = '✓ 已复制';
             setTimeout(() => { btnElement.innerHTML = orig; }, 2000);
           }
-        }).catch(() => {
-          fallbackCopy(cmd);
-        });
+        }).catch(() => fallbackCopy(cmd));
       } else {
         fallbackCopy(cmd);
       }
@@ -1006,21 +1828,376 @@
       ta.select();
       document.execCommand('copy');
       document.body.removeChild(ta);
-      showToast('已复制到剪贴板: ' + text);
+      showToast('已复制到剪贴板');
     }
 
-    // 2. Theme Management
+    // 2. Theme Switching
     function switchTheme(themeName) {
       document.documentElement.setAttribute('data-theme', themeName);
       localStorage.setItem('job_workbench_theme', themeName);
+      document.getElementById('themeSelector').value = themeName;
     }
-    const savedTheme = localStorage.getItem('job_workbench_theme');
-    if (savedTheme) {
-      document.documentElement.setAttribute('data-theme', savedTheme);
-      document.getElementById('themeSelector').value = savedTheme;
+    const savedTheme = localStorage.getItem('job_workbench_theme') || 'notion';
+    switchTheme(savedTheme);
+
+    // 3. View Toggle (Table / Kanban)
+    function switchView(view) {
+      document.getElementById('tableView').style.display = view === 'table' ? 'block' : 'none';
+      document.getElementById('kanbanView').style.display = view === 'kanban' ? 'grid' : 'none';
+      document.getElementById('viewBtnTable').classList.toggle('active', view === 'table');
+      document.getElementById('viewBtnKanban').classList.toggle('active', view === 'kanban');
     }
 
-    // 3. Candidate Config Drawer & File System Access API
+    // 4. Job Status & Notes Persistence
+    function getJobStatus(jobId) {
+      return localStorage.getItem('job_status_' + jobId) || 'todo';
+    }
+    function updateJobStatus(jobId, status) {
+      localStorage.setItem('job_status_' + jobId, status);
+      renderKanban();
+      filterJobs();
+      showToast('已更新状态: ' + formatStatusName(status));
+    }
+    function formatStatusName(s) {
+      const map = { todo: '待评估', prep: '准备申请', applied: '已投递', interview: '面试中', offer: '录用意向' };
+      return map[s] || s;
+    }
+
+    // 5. Rendering & Filtering
+    function renderJobs() {
+      renderTable();
+      renderKanban();
+      updateMetrics();
+      filterJobs();
+    }
+
+    function updateMetrics() {
+      let total = JOBS.length;
+      let highCount = 0;
+      let recentCount = 0;
+      JOBS.forEach(j => {
+        if ((j.score || 0) >= 75) highCount++;
+        if (j.isRecent || j.freshness === 'VERIFIED_FRESH') recentCount++;
+      });
+      document.getElementById('totalJobsCount').textContent = total;
+      document.getElementById('highFitCount').textContent = highCount;
+      document.getElementById('recentJobsCount').textContent = recentCount;
+    }
+
+    function renderTable() {
+      const tbody = document.getElementById('jobsTableBody');
+      tbody.innerHTML = '';
+
+      // Sort jobs
+      const sorted = [...JOBS].sort((a, b) => {
+        let valA = a[currentSort.field];
+        let valB = b[currentSort.field];
+        if (typeof valA === 'string') valA = valA.toLowerCase();
+        if (typeof valB === 'string') valB = valB.toLowerCase();
+        if (valA < valB) return currentSort.order === 'asc' ? -1 : 1;
+        if (valA > valB) return currentSort.order === 'asc' ? 1 : -1;
+        return 0;
+      });
+
+      sorted.forEach((job) => {
+        const score = job.score || 0;
+        const scoreClass = score >= 80 ? 'score-high' : (score >= 70 ? 'score-med' : 'score-low');
+        const workModelClass = /remote/i.test(job.workModel) ? 'tag-remote' : (/hybrid/i.test(job.workModel) ? 'tag-hybrid' : 'tag-onsite');
+        const freshClass = job.freshness === 'VERIFIED_FRESH' ? 'fresh-verified' : 'fresh-likely';
+
+        const tr = document.createElement('tr');
+        tr.className = 'job-row';
+        tr.setAttribute('data-id', job.id);
+        tr.onclick = (e) => {
+          if (!e.target.closest('a')) openJobDetail(job);
+        };
+
+        tr.innerHTML = `
+          <td><code style="font-size:11px;">${job.id || '-'}</code></td>
+          <td><span class="score-badge ${scoreClass}">★ ${score}</span></td>
+          <td><strong>${escapeHtml(job.company || '-')}</strong></td>
+          <td>
+            <div style="font-weight:600;color:var(--text);">${escapeHtml(job.title || '-')}</div>
+          </td>
+          <td><span style="font-size:12px;color:var(--text-muted);">${escapeHtml(job.roleType || '-')}</span></td>
+          <td><span style="font-size:12px;">${escapeHtml(job.location || '-')}</span></td>
+          <td><span class="tag-badge ${workModelClass}">${job.workModel || '-'}</span></td>
+          <td class="tabular-nums" style="font-size:12px;color:var(--text-muted);">${job.datePosted || '-'}</td>
+          <td><span class="freshness-pill ${freshClass}">${job.freshness === 'VERIFIED_FRESH' ? '✨ 官方极鲜' : '⚡ 活跃'}</span></td>
+          <td>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <button class="btn" style="padding:3px 8px;font-size:11px;" onclick="openJobDetailById('${job.id}');event.stopPropagation();">详情</button>
+              <a href="${job.url}" target="_blank" class="btn-apply-link" onclick="event.stopPropagation()">投递 ↗</a>
+            </div>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function renderKanban() {
+      const cols = {
+        todo: document.getElementById('kanbanCards-todo'),
+        prep: document.getElementById('kanbanCards-prep'),
+        applied: document.getElementById('kanbanCards-applied'),
+        interview: document.getElementById('kanbanCards-interview')
+      };
+      const counts = { todo: 0, prep: 0, applied: 0, interview: 0 };
+      Object.values(cols).forEach(c => c.innerHTML = '');
+
+      JOBS.forEach(job => {
+        let status = getJobStatus(job.id);
+        if (status === 'offer') status = 'interview'; // map to 4 lanes
+        if (!cols[status]) status = 'todo';
+        counts[status]++;
+
+        const card = document.createElement('div');
+        card.className = 'kanban-card';
+        card.setAttribute('draggable', 'true');
+        card.setAttribute('data-id', job.id);
+        card.ondragstart = (e) => onDragStart(e, job.id);
+        card.ondragend = (e) => onDragEnd(e);
+        card.onclick = (e) => {
+          if (!e.target.closest('a') && !e.target.closest('select')) openJobDetail(job);
+        };
+
+        const scoreClass = job.score >= 80 ? 'score-high' : (job.score >= 70 ? 'score-med' : 'score-low');
+        const workModelClass = /remote/i.test(job.workModel) ? 'tag-remote' : (/hybrid/i.test(job.workModel) ? 'tag-hybrid' : 'tag-onsite');
+
+        card.innerHTML = `
+          <div class="kanban-card-top">
+            <span class="kanban-company">${escapeHtml(job.company)}</span>
+            <span class="score-badge ${scoreClass}">${job.score}</span>
+          </div>
+          <div class="kanban-title">${escapeHtml(job.title)}</div>
+          <div class="kanban-meta">
+            <span class="tag-badge ${workModelClass}">${job.workModel || 'On-site'}</span>
+            <span style="font-size:11px;color:var(--text-muted);">${escapeHtml(job.location)}</span>
+          </div>
+          <div class="kanban-footer">
+            <span class="tabular-nums">${job.datePosted || ''}</span>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <select class="select-dropdown" style="padding:2px 6px;font-size:10px;" onchange="updateJobStatus('${job.id}', this.value);event.stopPropagation();">
+                <option value="todo" ${status==='todo'?'selected':''}>🎯 待评估</option>
+                <option value="prep" ${status==='prep'?'selected':''}>📝 准备</option>
+                <option value="applied" ${status==='applied'?'selected':''}>🚀 已投递</option>
+                <option value="interview" ${status==='interview'?'selected':''}>💬 面试中</option>
+              </select>
+              <a href="${job.url}" target="_blank" class="btn-apply-link" style="padding:2px 4px;font-size:11px;" onclick="event.stopPropagation()">↗</a>
+            </div>
+          </div>
+        `;
+        cols[status].appendChild(card);
+      });
+
+      document.getElementById('colCount-todo').textContent = counts.todo;
+      document.getElementById('colCount-prep').textContent = counts.prep;
+      document.getElementById('colCount-applied').textContent = counts.applied;
+      document.getElementById('colCount-interview').textContent = counts.interview;
+    }
+
+    // 6. Drag and Drop for Kanban Lanes
+    let draggedJobId = null;
+    function onDragStart(e, jobId) {
+      draggedJobId = jobId;
+      e.target.classList.add('dragging');
+      e.dataTransfer.setData('text/plain', jobId);
+    }
+    function onDragEnd(e) {
+      e.target.classList.remove('dragging');
+      document.querySelectorAll('.kanban-col').forEach(c => c.classList.remove('drag-over'));
+    }
+    function onDragOver(e) {
+      e.preventDefault();
+      e.currentTarget.classList.add('drag-over');
+    }
+    function onDragLeave(e) {
+      e.currentTarget.classList.remove('drag-over');
+    }
+    function onDrop(e, targetLane) {
+      e.preventDefault();
+      e.currentTarget.classList.remove('drag-over');
+      if (draggedJobId) {
+        updateJobStatus(draggedJobId, targetLane);
+        draggedJobId = null;
+      }
+    }
+
+    // 7. Filtering & Search
+    function filterJobs() {
+      const q = document.getElementById('searchInput').value.trim().toLowerCase();
+      const minScore = parseInt(document.getElementById('scoreFilter').value, 10) || 0;
+      const freshness = document.getElementById('freshnessFilter').value;
+
+      let visibleCount = 0;
+      const rows = document.querySelectorAll('#jobsTableBody tr');
+      const cards = document.querySelectorAll('.kanban-card');
+
+      JOBS.forEach((job) => {
+        const text = `${job.company} ${job.title} ${job.location} ${job.roleType} ${job.id}`.toLowerCase();
+        const matchesQ = !q || text.includes(q);
+        const matchesScore = (job.score || 0) >= minScore;
+        const matchesFresh = freshness === 'all' || job.freshness === freshness;
+
+        // Quick filter checks
+        let matchesQuick = true;
+        const status = getJobStatus(job.id);
+        if (currentQuickFilter === 'high-fit') matchesQuick = (job.score || 0) >= 75;
+        if (currentQuickFilter === 'remote-only') matchesQuick = /remote/i.test(job.workModel);
+        if (currentQuickFilter === 'fresh-only') matchesQuick = job.freshness === 'VERIFIED_FRESH' || job.isRecent;
+        if (currentQuickFilter === 'in-progress') matchesQuick = status === 'applied' || status === 'interview';
+
+        const isVisible = matchesQ && matchesScore && matchesFresh && matchesQuick;
+        if (isVisible) visibleCount++;
+
+        // Table row visibility
+        const row = document.querySelector(`#jobsTableBody tr[data-id="${job.id}"]`);
+        if (row) row.style.display = isVisible ? '' : 'none';
+
+        // Kanban card visibility
+        const card = document.querySelector(`.kanban-card[data-id="${job.id}"]`);
+        if (card) card.style.display = isVisible ? '' : 'none';
+      });
+
+      // Toggle Empty State
+      const emptyState = document.getElementById('emptyState');
+      if (visibleCount === 0) {
+        emptyState.style.display = 'flex';
+      } else {
+        emptyState.style.display = 'none';
+      }
+    }
+
+    function onSearchInput() {
+      const val = document.getElementById('searchInput').value;
+      document.getElementById('btnClearSearch').style.display = val ? 'block' : 'none';
+      document.getElementById('searchKbdHint').style.display = val ? 'none' : 'block';
+      filterJobs();
+    }
+
+    function clearSearch() {
+      document.getElementById('searchInput').value = '';
+      onSearchInput();
+      document.getElementById('searchInput').focus();
+    }
+
+    function setQuickFilter(type, btn) {
+      currentQuickFilter = type;
+      document.querySelectorAll('.filter-chip-btn').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      filterJobs();
+    }
+
+    function resetAllFilters() {
+      document.getElementById('searchInput').value = '';
+      document.getElementById('freshnessFilter').value = 'all';
+      document.getElementById('scoreFilter').value = '0';
+      setQuickFilter('all', document.querySelector('.filter-chip-btn'));
+      onSearchInput();
+    }
+
+    // 8. Sorting
+    function sortTable(field) {
+      if (currentSort.field === field) {
+        currentSort.order = currentSort.order === 'asc' ? 'desc' : 'asc';
+      } else {
+        currentSort.field = field;
+        currentSort.order = (field === 'score' || field === 'datePosted') ? 'desc' : 'asc';
+      }
+
+      // Update indicators
+      ['id', 'score', 'company', 'title', 'datePosted'].forEach(f => {
+        const el = document.getElementById('sortIcon-' + f);
+        if (!el) return;
+        const th = el.closest('th');
+        th.classList.remove('sorted-asc', 'sorted-desc');
+        if (f === currentSort.field) {
+          el.textContent = currentSort.order === 'asc' ? '▲' : '▼';
+          th.classList.add(currentSort.order === 'asc' ? 'sorted-asc' : 'sorted-desc');
+        } else {
+          el.textContent = '↕';
+        }
+      });
+
+      renderTable();
+      filterJobs();
+    }
+
+    // 9. Job Detail Drawer
+    function openJobDetail(job) {
+      activeJobForDetail = job;
+      document.getElementById('jobDetailHeaderCompany').textContent = job.company;
+      document.getElementById('jobDetailTitle').textContent = job.title;
+      document.getElementById('jobDetailCompanySub').textContent = `${job.company} · ${job.roleType || ''}`;
+      
+      const scoreBadge = document.getElementById('jobDetailScoreBadge');
+      scoreBadge.className = 'score-badge ' + (job.score >= 80 ? 'score-high' : (job.score >= 70 ? 'score-med' : 'score-low'));
+      scoreBadge.textContent = '契合分: ' + (job.score || 0);
+
+      document.getElementById('jobDetailLocation').textContent = job.location || '-';
+      document.getElementById('jobDetailWorkModel').textContent = job.workModel || '-';
+      document.getElementById('jobDetailDate').textContent = job.datePosted || '-';
+      document.getElementById('jobDetailFreshness').textContent = job.freshness || '-';
+      document.getElementById('jobDetailApplyLink').href = job.url || '#';
+
+      // Status buttons highlight
+      const currentStatus = getJobStatus(job.id);
+      ['todo', 'prep', 'applied', 'interview', 'offer'].forEach(st => {
+        const btn = document.getElementById('statusBtn-' + st);
+        if (btn) btn.className = (st === currentStatus) ? 'btn btn-primary' : 'btn';
+      });
+
+      // Notes
+      const notes = localStorage.getItem('job_note_' + job.id) || '';
+      document.getElementById('jobNotesInput').value = notes;
+
+      // AI Prompt Preview
+      const prompt = `请帮我分析德国职位【${job.company} - ${job.title}】（地点: ${job.location}，工作模式: ${job.workModel}）。
+我正在准备投递，请结合我的候选人画像（profile.md）完成：
+1. 提炼本岗位的 3 个核心技能抓手与德企文化偏好；
+2. 为我量身定制一段英文/德文的求职动机信开头（Cover Letter hook）；
+3. 指出我履历中最契合该职位的 2 个经验证据链与量化指标。`;
+      document.getElementById('jobPromptBox').textContent = prompt;
+
+      document.getElementById('jobDetailOverlay').classList.add('open');
+      document.getElementById('jobDetailDrawer').classList.add('open');
+    }
+
+    function openJobDetailById(id) {
+      const job = JOBS.find(j => j.id === id);
+      if (job) openJobDetail(job);
+    }
+
+    function closeJobDetail() {
+      document.getElementById('jobDetailOverlay').classList.remove('open');
+      document.getElementById('jobDetailDrawer').classList.remove('open');
+      activeJobForDetail = null;
+    }
+
+    function setJobStatus(status) {
+      if (activeJobForDetail) {
+        updateJobStatus(activeJobForDetail.id, status);
+        ['todo', 'prep', 'applied', 'interview', 'offer'].forEach(st => {
+          const btn = document.getElementById('statusBtn-' + st);
+          if (btn) btn.className = (st === status) ? 'btn btn-primary' : 'btn';
+        });
+      }
+    }
+
+    function saveJobNotes() {
+      if (activeJobForDetail) {
+        const val = document.getElementById('jobNotesInput').value;
+        localStorage.setItem('job_note_' + activeJobForDetail.id, val);
+      }
+    }
+
+    function copyJobPrompt() {
+      const text = document.getElementById('jobPromptBox').textContent;
+      fallbackCopy(text);
+      showToast('已复制 AI 推荐信定制提示词！');
+    }
+
+    // 10. Candidate Config Drawer & File System Access API
     function openConfigDrawer() {
       document.getElementById('drawerOverlay').classList.add('open');
       document.getElementById('configDrawer').classList.add('open');
@@ -1079,7 +2256,6 @@
       text.textContent = dirty ? '● 有未保存的修改' : '已就绪 (无未保存更改)';
     }
 
-    // Connect Local .job-search Directory via File System Access API
     async function connectLocalWorkspace() {
       if (!window.showDirectoryPicker) {
         alert('当前浏览器不支持直接访问本地文件系统，建议使用 Chrome, Edge 或 Arc 浏览器。\n您仍可在此编辑并通过“导出文件”覆盖。');
@@ -1091,7 +2267,6 @@
         document.getElementById('fsStatusText').textContent = '🟢 已关联本地目录: ' + dirHandle.name;
         document.getElementById('btnConnectDir').textContent = '🔄 重新选择目录';
 
-        // Read files if present
         for (const filename of ['profile.md', 'preferences.md', 'settings.ini']) {
           try {
             const handle = await dirHandle.getFileHandle(filename, { create: false });
@@ -1115,7 +2290,6 @@
       }
     }
 
-    // Save File Back to Disk
     async function saveCurrentConfig() {
       saveDraftInMemory();
       const filename = currentConfigTab === 'profile' ? 'profile.md' : (currentConfigTab === 'preferences' ? 'preferences.md' : 'settings.ini');
@@ -1137,7 +2311,6 @@
         }
       }
 
-      // Fallback: Export Download
       exportCurrentConfig();
       isDirty[currentConfigTab] = false;
       updateDirtyDisplay();
@@ -1157,11 +2330,10 @@
 
     function copyCurrentConfig() {
       saveDraftInMemory();
-      copyUpdateCommand(configData[currentConfigTab], null);
+      fallbackCopy(configData[currentConfigTab]);
       showToast(`已复制 ${currentConfigTab} 配置内容`);
     }
 
-    // Form vs Source Mode
     function setEditorMode(mode) {
       currentEditorMode = mode;
       document.getElementById('modeBtnForm').classList.toggle('active', mode === 'form');
@@ -1213,7 +2385,8 @@
         if (/locations?[:：]/i.test(text)) {
           text = text.replace(/locations?[:：].+/i, `locations: ${locs}`);
         } else {
-          text = `locations: ${locs}\n` + text;
+          text = `locations: ${locs}
+` + text;
         }
       }
       configData.preferences = text;
@@ -1238,107 +2411,81 @@
       markConfigDirty();
     }
 
-    // 4. Job Rendering & Filtering
-    function renderJobs() {
-      const tbody = document.getElementById('jobsTableBody');
-      tbody.innerHTML = '';
-      
-      let total = JOBS.length;
-      let highCount = 0;
-      let recentCount = 0;
-
-      JOBS.forEach((job) => {
-        if (job.score >= 75) highCount++;
-        if (job.isRecent) recentCount++;
-
-        const tr = document.createElement('tr');
-        const scoreClass = job.score >= 80 ? 'score-high' : (job.score >= 70 ? 'score-med' : 'score-low');
-        tr.innerHTML = `
-          <td><code>${job.id || '-'}</code></td>
-          <td><span class="score-badge ${scoreClass}">${job.score || 0}</span></td>
-          <td><strong>${job.company || '-'}</strong></td>
-          <td>${job.title || '-'}</td>
-          <td><span style="font-size:11px;color:var(--text-muted);">${job.roleType || '-'}</span></td>
-          <td>${job.location || '-'}</td>
-          <td>${job.workModel || '-'}</td>
-          <td>${job.datePosted || '-'}</td>
-          <td><span class="score-badge score-med">${job.freshness || '-'}</span></td>
-          <td><a href="${job.url}" target="_blank" style="color:var(--primary);text-decoration:none;font-weight:600;">官方投递 ↗</a></td>
-        `;
-        tbody.appendChild(tr);
-      });
-
-      document.getElementById('totalJobsCount').textContent = total;
-      document.getElementById('highFitCount').textContent = highCount;
-      document.getElementById('recentJobsCount').textContent = recentCount;
-      renderKanban();
+    // 11. Keyboard Shortcuts Modal & Event Handlers
+    function openShortcutsModal() {
+      document.getElementById('shortcutsModal').classList.add('open');
+    }
+    function closeShortcutsModal() {
+      document.getElementById('shortcutsModal').classList.remove('open');
     }
 
-    function renderKanban() {
-      const cols = {
-        todo: document.getElementById('kanbanCards-todo'),
-        prep: document.getElementById('kanbanCards-prep'),
-        applied: document.getElementById('kanbanCards-applied'),
-        interview: document.getElementById('kanbanCards-interview')
-      };
-      Object.values(cols).forEach(c => c.innerHTML = '');
-
-      JOBS.forEach(job => {
-        const card = document.createElement('div');
-        card.className = 'kanban-card';
-        const scoreClass = job.score >= 80 ? 'score-high' : (job.score >= 70 ? 'score-med' : 'score-low');
-        card.innerHTML = `
-          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;">
-            <strong style="font-size:13px;">${job.company}</strong>
-            <span class="score-badge ${scoreClass}">${job.score}</span>
-          </div>
-          <div style="font-size:12px;color:var(--text);margin-bottom:6px;">${job.title}</div>
-          <div style="font-size:11px;color:var(--text-muted);">${job.location} · ${job.workModel || ''}</div>
-          <div style="margin-top:8px;display:flex;justify-content:flex-end;">
-            <a href="${job.url}" target="_blank" style="font-size:11px;color:var(--primary);text-decoration:none;font-weight:600;">查看岗位 ↗</a>
-          </div>
-        `;
-        cols.todo.appendChild(card);
-      });
-      document.getElementById('colCount-todo').textContent = JOBS.length;
-    }
-
-    function filterJobs() {
-      const q = document.getElementById('searchInput').value.toLowerCase();
-      const minScore = parseInt(document.getElementById('scoreFilter').value, 10);
-      const freshness = document.getElementById('freshnessFilter').value;
-
-      const rows = document.querySelectorAll('#jobsTableBody tr');
-      rows.forEach((row, idx) => {
-        const job = JOBS[idx];
-        if (!job) return;
-        const text = `${job.company} ${job.title} ${job.location} ${job.roleType}`.toLowerCase();
-        const matchesQ = !q || text.includes(q);
-        const matchesScore = job.score >= minScore;
-        const matchesFresh = freshness === 'all' || job.freshness === freshness;
-
-        row.style.display = (matchesQ && matchesScore && matchesFresh) ? '' : 'none';
-      });
-    }
-
-    function switchView(view) {
-      document.getElementById('tableView').style.display = view === 'table' ? 'block' : 'none';
-      document.getElementById('kanbanView').style.display = view === 'kanban' ? 'grid' : 'none';
-      document.getElementById('viewBtnTable').classList.toggle('active', view === 'table');
-      document.getElementById('viewBtnKanban').classList.toggle('active', view === 'kanban');
-    }
-
-    // Keyboard Shortcut (Ctrl+S / Cmd+S to save)
     window.addEventListener('keydown', (e) => {
+      // Don't trigger shortcuts if user is typing in an input/textarea
+      const isInput = ['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName);
+      
       if ((e.ctrlKey || e.metaKey) && e.key === 's') {
         if (document.getElementById('configDrawer').classList.contains('open')) {
           e.preventDefault();
           saveCurrentConfig();
+          return;
         }
+      }
+
+      if (e.key === 'Escape') {
+        if (document.getElementById('shortcutsModal').classList.contains('open')) {
+          closeShortcutsModal();
+          return;
+        }
+        if (document.getElementById('jobDetailDrawer').classList.contains('open')) {
+          closeJobDetail();
+          return;
+        }
+        if (document.getElementById('configDrawer').classList.contains('open')) {
+          closeConfigDrawer();
+          return;
+        }
+        if (document.getElementById('searchInput').value) {
+          clearSearch();
+          return;
+        }
+      }
+
+      if (isInput) return;
+
+      if (e.key === '/') {
+        e.preventDefault();
+        document.getElementById('searchInput').focus();
+      } else if (e.key === '?' || (e.shiftKey && e.key === '/')) {
+        e.preventDefault();
+        openShortcutsModal();
+      } else if (e.key === 't' || e.key === 'T') {
+        switchView('table');
+      } else if (e.key === 'k' || e.key === 'K') {
+        switchView('kanban');
+      } else if (e.key === 'c' || e.key === 'C') {
+        openConfigDrawer();
+      } else if (e.key === '1') {
+        switchTheme('notion');
+      } else if (e.key === '2') {
+        switchTheme('obsidian');
+      } else if (e.key === '3') {
+        switchTheme('bauhaus');
+      } else if (e.key === '4') {
+        switchTheme('bento');
       }
     });
 
-    // Initialize
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    // Initialize UI
     renderJobs();
   </script>
 </body>
