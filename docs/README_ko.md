@@ -83,7 +83,7 @@
 
 ---
 
-## 파이프라인 워크플로우
+### 파이프라인 워크플로우
 
 ```text
                지원자 제출 자료 (이력서, 포트폴리오, 경력 기술서)
@@ -105,8 +105,24 @@
                                       │
                                       ▼
                       [5. 최종 분석 리포트 및 워크벤치 제공]
-             시장 분석 리포트 + 인터랙티브 HTML 워크벤치 + Notion
+              시장 분석 리포트 + 인터랙티브 HTML 워크벤치 + Notion
 ```
+
+---
+
+## 시스템 아키텍처
+
+> 🌐 **인터랙티브 아키텍처 다이어그램**: [**`architecture.html`**](architecture.html) ([Archify](https://github.com/tt-a1i/archify) 쇼케이스 표준 적용. 다크/라이트 테마 전환, 데이터 경로 추적, 가이드 챕터, 전체 화면 프레젠테이션, 벡터 파일 내보내기 지원).
+
+![job-search-de 시스템 아키텍처](images/architecture.png)
+
+`job-search-de`는 **완전 격리형·프라이버시 우선의 5단계 파이프라인 아키텍처**를 채택합니다:
+
+1. **로컬 기밀 샌드박스 (`.job-search/`)**: 후보자 중립 설계. 모든 이력서와 포트폴리오는 로컬의 `.job-search/profile.md`, `preferences.md`, `settings.ini`에만 저장되며 외부 클라우드로 전송되지 않습니다.
+2. **공식 ATS 다채널 수집 엔진**: Greenhouse, Ashby, Lever, SmartRecruiters, Personio, Workable 등의 공식 ATS 엔드포인트에 직접 연결하여 만료 공고 및 중개 플랫폼 노이즈를 완벽 차단.
+3. **구조화 검증 및 정규화 파이프라인**: HTTP 상태 코드 및 Schema.org JSON-LD 메타데이터(`datePosted`, `validThrough`, 채용 상태)를 실시간 분석하여 공고 신선도를 엄격히 분류.
+4. **2단계 정밀 근거 스코어링 코어**: 신뢰할 수 없는 외부 JD로부터의 프롬프트 주입 공격을 차단하고, `profile.md`의 검증된 팩트만을 인용하여 AI 환각(Hallucination) 점수를 원천 방지.
+5. **다양한 테마 워크벤치 및 리포트 전달**: 지역별 종합 리포트, Notion 양방향 동기화, 4가지 전용 테마를 갖춘 독립형 클라이언트 워크벤치(File System Access API를 통한 직접 저장 지원)를 제공.
 
 ---
 
@@ -138,7 +154,10 @@ job-search-de/
 │   ├── update_skill.sh       # 원클릭 스킬 업데이트 스크립트
 │   ├── download.sh           # ATS API 배치 다운로더
 │   ├── parse_ats.py          # ATS 데이터 파서 및 정규화
+│   ├── verify_urls.py        # Schema.org JSON-LD 메타데이터 추출
 │   ├── verify.sh             # 채용 URL 및 메타데이터 유효성 검증
+│   ├── build_workbench.py    # 워크벤치 HTML 빌더
+│   ├── test_ats_universal.py # ATS 파서 회귀 테스트 슈트
 │   ├── init_config.py        # 로컬 설정 템플릿 초기화
 │   ├── build_html.sh         # 워크벤치 패키징 빌드 스크립트
 │   └── fix_html.py           # HTML 리포트 데이터 인젝터
@@ -151,7 +170,9 @@ job-search-de/
     ├── README_de.md          # 독일어 문서 (Deutsch)
     ├── README_ja.md          # 일본어 문서 (日本語)
     ├── README_ko.md          # 한국어 문서 (현재 파일)
-    └── images/               # 데모 스크린샷 및 애니메이션 GIF
+    ├── architecture.html     # 인터랙티브 시스템 아키텍처 다이어그램 (Archify)
+    ├── architecture.json     # 아키텍처 정의 사양서
+    └── images/               # 데모 스크린샷, 아키텍처 다이어그램 및 애니메이션 GIF
 ```
 
 ---

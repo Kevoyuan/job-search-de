@@ -110,6 +110,22 @@
 
 ---
 
+## 系统架构
+
+> 🌐 **在线交互式架构全景图**：[**`architecture.html`**](architecture.html)（基于 [Archify](https://github.com/tt-a1i/archify) Showcase 标准构建，支持明暗主题秒切、数据链路高亮追踪、导览章节切换、全屏演示与高清矢量导出）。
+
+![job-search-de 系统架构](images/architecture.png)
+
+`job-search-de` 采用**严格解耦、隐私沙箱优先的五层流水线架构**：
+
+1. **本地私有沙箱层 (`.job-search/`)**：候选人中立设计。简历、领英导出的背景材料完全在本地解析为 `.job-search/profile.md`（事实库）、`preferences.md`（求职偏好与排除约束）与 `settings.ini`（阈值配置）。个人敏感信息绝不上云，保障欧洲高规格隐私合规。
+2. **多渠道官方 ATS 职位发现引擎**：通过 `download.sh` 与 `parse_ats.py` 直连主流企业部署的公开 ATS 官方 API（Greenhouse, Ashby, Lever, SmartRecruiters, Personio, Workable），彻底过滤过期、死链与中介爬虫噪音。
+3. **结构化元数据验证管道**：实时检测 HTTP 连通性，深度解析 Schema.org JSON-LD 结构化招聘元数据（`datePosted`, `validThrough`, 招聘状态），严格划分职位时效梯队（`VERIFIED_FRESH`、`LIKELY_FRESH`、`OLDER_ACTIVE`、`CLOSED`）。
+4. **两阶段严格实证评分内核**：隔离不可信外部 JD 内容，建立防提示词注入边界。执行 Stage 1 快速硬约束门槛初筛，并于 Stage 2 进行逐条事实比对——**每一项匹配要求必须援引 `profile.md` 中的客观证据**，坚决杜绝大模型臆测与虚假匹配建议。
+5. **全周期交互式交付工作台**：生成分区域多语言决策研报，支持双向同步 Notion 职位数据库，并交付纯前端交互式单页应用（[`job-hunt-workbench.html`](../job-hunt-workbench.html)）——内置 4 套纯 CSS 质感主题、看板/表格双重视图，支持通过浏览器 File System Access API 原生免上传直接编辑保存本地配置。
+
+---
+
 ## 项目目录结构
 
 ```text
@@ -154,7 +170,9 @@ job-search-de/
     ├── README_de.md          # 德语使用文档 (Deutsch)
     ├── README_ja.md          # 日语使用文档 (日本語)
     ├── README_ko.md          # 韩语使用文档 (한국어)
-    └── images/               # 演示截图与主题切换动态 GIF
+    ├── architecture.html     # 交互式系统架构全景图 (Archify)
+    ├── architecture.json     # 架构规格定义文件
+    └── images/               # 演示截图、系统架构图与主题切换动态 GIF
 ```
 
 ---

@@ -1,0 +1,226 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "job-search-de 系统架构",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "views": [
+      {
+        "id": "full-pipeline",
+        "label": "端到端核心处理链路",
+        "focus": ["candidate", "local_store", "discovery", "verifier", "scorer", "workbench"],
+        "note": "从候选人材料输入、ATS 发现、元数据验证到两阶段评分与工作台呈现的主链路。"
+      },
+      {
+        "id": "data-intelligence",
+        "label": "数据发现与实证评估",
+        "focus": ["ats_apis", "discovery", "verifier", "scorer", "local_store"],
+        "note": "解耦隐私数据，抓取一手 ATS API 数据并结合个人事实进行两阶段精准匹配。"
+      },
+      {
+        "id": "delivery-views",
+        "label": "交付与呈现层",
+        "focus": ["scorer", "workbench", "reports", "notion"],
+        "note": "支持四套纯前端主题工作台、多语言深度研报与 Notion 协作同步。"
+      }
+    ]
+  },
+  "components": [
+    {
+      "id": "candidate",
+      "type": "external",
+      "label": "候选人原始材料",
+      "sublabel": "CV / 领英 / 作品集",
+      "pos": [50, 90],
+      "size": [150, 64]
+    },
+    {
+      "id": "local_store",
+      "type": "database",
+      "label": "本地画像与配置",
+      "sublabel": ".job-search/ 本地存储",
+      "tag": "本地私有沙箱",
+      "pos": [280, 90],
+      "size": [150, 64]
+    },
+    {
+      "id": "ats_apis",
+      "type": "external",
+      "label": "官方 ATS 招聘源",
+      "sublabel": "Greenhouse / Ashby 等",
+      "pos": [50, 270],
+      "size": [150, 64]
+    },
+    {
+      "id": "discovery",
+      "type": "backend",
+      "label": "职位发现引擎",
+      "sublabel": "download & parse_ats",
+      "pos": [280, 270],
+      "size": [150, 64]
+    },
+    {
+      "id": "verifier",
+      "type": "backend",
+      "label": "有效性验证管道",
+      "sublabel": "Schema.org 元数据校验",
+      "tag": "新鲜度保障",
+      "pos": [510, 270],
+      "size": [150, 64]
+    },
+    {
+      "id": "scorer",
+      "type": "backend",
+      "label": "两阶段评分引擎",
+      "sublabel": "Stage1 初筛 + Stage2 实证",
+      "tag": "零幻觉证据链",
+      "pos": [790, 270],
+      "size": [150, 64]
+    },
+    {
+      "id": "workbench",
+      "type": "frontend",
+      "label": "交互式求职工作台",
+      "sublabel": "4套主题 / 看板 / 表格",
+      "tag": "客户端零上传",
+      "pos": [790, 90],
+      "size": [150, 64]
+    },
+    {
+      "id": "reports",
+      "type": "frontend",
+      "label": "全景智能研报",
+      "sublabel": "分区域多语言深度报告",
+      "pos": [1030, 270],
+      "size": [150, 64]
+    },
+    {
+      "id": "notion",
+      "type": "external",
+      "label": "Notion 数据库同步",
+      "sublabel": "双向状态与流程协同",
+      "pos": [1030, 90],
+      "size": [150, 64]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "security-group",
+      "label": "本地隐私沙箱 (Local Confidential Sandbox)",
+      "wraps": ["candidate", "local_store"]
+    },
+    {
+      "kind": "region",
+      "label": "自动化发现与验证管道 (Discovery & Verification Pipeline)",
+      "wraps": ["discovery", "verifier"]
+    },
+    {
+      "kind": "region",
+      "label": "交互工作台与协同 (Workbench & Ecosystem)",
+      "wraps": ["workbench", "notion"]
+    }
+  ],
+  "connections": [
+    {
+      "id": "candidate-to-store",
+      "from": "candidate",
+      "to": "local_store",
+      "label": "提取事实",
+      "variant": "emphasis"
+    },
+    {
+      "id": "store-to-discovery",
+      "from": "local_store",
+      "to": "discovery",
+      "label": "关键词与规则",
+      "labelDy": 25,
+      "variant": "dashed"
+    },
+    {
+      "id": "ats-to-discovery",
+      "from": "ats_apis",
+      "to": "discovery",
+      "label": "拉取职位",
+      "variant": "emphasis"
+    },
+    {
+      "id": "discovery-to-verifier",
+      "from": "discovery",
+      "to": "verifier",
+      "label": "解析职位"
+    },
+    {
+      "id": "verifier-to-scorer",
+      "from": "verifier",
+      "to": "scorer",
+      "label": "有效职位",
+      "variant": "emphasis"
+    },
+    {
+      "id": "store-to-scorer",
+      "from": "local_store",
+      "to": "scorer",
+      "label": "候选人事实",
+      "variant": "security"
+    },
+    {
+      "id": "scorer-to-reports",
+      "from": "scorer",
+      "to": "reports",
+      "label": "全景研报"
+    },
+    {
+      "id": "scorer-to-workbench",
+      "from": "scorer",
+      "to": "workbench",
+      "label": "实证匹配",
+      "variant": "emphasis"
+    },
+    {
+      "id": "workbench-to-notion",
+      "from": "workbench",
+      "to": "notion",
+      "label": "状态同步",
+      "variant": "dashed"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "隐私与候选人中立架构",
+      "items": [
+        "核心技能与候选人画像严格解耦",
+        "个人事实与偏好仅保存在本地 .job-search/ 目录",
+        "零上传云端，确保候选人隐私与机密性"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "真实可靠的发现与验证",
+      "items": [
+        "直连 Greenhouse / Ashby 等官方 ATS API 绕过爬虫噪音",
+        "实时 HTTP 状态与 Schema.org 结构化发布日期校验",
+        "彻底过滤过期失效、猎头刷榜与重发职位"
+      ]
+    },
+    {
+      "dot": "violet",
+      "title": "两阶段严格实证评分",
+      "items": [
+        "Stage 1 快速硬性条件与门槛过滤",
+        "Stage 2 深度逐条核验，必须引用真实履历证据",
+        "杜绝大模型幻觉评分与虚假匹配建议"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "多维交互与全周期管理",
+      "items": [
+        "4套独立纯CSS质感主题，单机本地流畅运行",
+        "支持浏览器文件系统API（File System Access）直接保存",
+        "Kanban 看板与表格双视图，一键生成量身定制求职开场白"
+      ]
+    }
+  ]
+}

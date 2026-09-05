@@ -83,30 +83,46 @@
 
 ---
 
-## パイプライン・ワークフロー
+### パイプラインワークフロー
 
 ```text
-               候補者資料 (履歴書、職務経歴書、ポートフォリオ)
-                                     │
-                                     ▼
-                     [1. オンボーディング＆プロファイル抽出]
-                                     │ (生成 .job-search/profile.md & preferences.md)
-                                     ▼
-                        [2. マルチチャネル求人探索]
-                      公式ATS直取得 + 地域特化ターゲット検索
-                                     │
-                                     ▼
-                     [3. 求人クレンジング・実在性検証]
-                   Schema.org JSON-LD + HTTPステータスチェック
-                                     │
-                                     ▼
-                     [4. 2段階エビデンスマッチング評価]
-                   必須条件除外 ➔ 履歴書エビデンス事実照合
-                                     │
-                                     ▼
-                     [5. 意思決定レポート＆UIワークベンチ]
-             市場分析レポート + インタラクティブHTMLワークベンチ
+               候補者資料 (履歴書 / LinkedIn / ポートフォリオ)
+                                      │
+                                      ▼
+                      [1. オンボーディング＆設定初期化]
+                                      │ (.job-search/profile.md と preferences.md 生成)
+                                      ▼
+                        [2. マルチチャネルATS探索]
+                     公式ATS直接取得 + 対象都市補完検索
+                                      │
+                                      ▼
+                      [3. 構造化クレンジング＆実時間検証]
+                    Schema.org JSON-LD + HTTPステータスチェック
+                                      │
+                                      ▼
+                      [4. 2段階エビデンスマッチング評価]
+                    必須条件除外 ➔ 履歴書エビデンス事実照合
+                                      │
+                                      ▼
+                      [5. 意思決定レポート＆UIワークベンチ]
+              市場分析レポート + インタラクティブHTMLワークベンチ
 ```
+
+---
+
+## システムアーキテクチャ
+
+> 🌐 **インタラクティブ・アーキテクチャ図**: [**`architecture.html`**](architecture.html)（[Archify](https://github.com/tt-a1i/archify) Showcase仕様準拠。ライト/ダークテーマ切替、接続経路ハイライト追跡、章立てガイド、全画面プレゼン、ベクター書き出しに対応）。
+
+![job-search-de システムアーキテクチャ](images/architecture.png)
+
+`job-search-de` は**完全分離型・プライバシー保護優先の5層パイプライン設計**を採用しています：
+
+1. **ローカル機密サンドボックス (`.job-search/`)**: 候補者中立設計。個人情報はすべてローカルの `.job-search/profile.md`、`preferences.md`、`settings.ini` に保存され、外部クラウドやSkillリポジトリには一切送信されません。
+2. **公式ATSマルチチャネル探索エンジン**: Greenhouse、Ashby、Lever、SmartRecruiters、Personio、Workableなどの公式ATSエンドポイントに直接アクセスし、期限切れや人材紹介会社の転載ノイズを完全排除。
+3. **構造化検証＆正規化パイプライン**: HTTP疎通確認とSchema.org JSON-LDメタデータ（`datePosted`、`validThrough`、募集ステータス）をリアルタイム解析し、鮮度を厳密に判定。
+4. **2段階厳格エビデンススコアリング核**: 未信頼な外部JDからのプロンプトインジェクションを遮断。第1段階の必須条件フィルタと、第2段階の事実照合（`profile.md` の検証済みエビデンス引用必須、AIのハルシネーションを完全排除）を実行。
+5. **マルチ視覚ワークベンチ＆レポート交付**: 分割地域別の詳細レポート、Notionデータベース双向同期、および4つの独自CSSテーマ（Notion、Linear、Bauhaus、Bento）を備えた単一HTMLワークベンチ（File System Access APIによる直接保存対応）を提供。
 
 ---
 
@@ -138,7 +154,10 @@ job-search-de/
 │   ├── update_skill.sh       # ワンクリックSkill更新スクリプト
 │   ├── download.sh           # ATS API一括ダウンロード
 │   ├── parse_ats.py          # ATSデータパーサー＆正規化
+│   ├── verify_urls.py        # Schema.org JSON-LD メタデータ抽出
 │   ├── verify.sh             # 求人URL＆メタデータ検証
+│   ├── build_workbench.py    # ワークベンチHTMLビルダー
+│   ├── test_ats_universal.py # ATSパーサー回帰テストスイート
 │   ├── init_config.py        # ローカル設定初期化
 │   ├── build_html.sh         # ワークベンチビルドスクリプト
 │   └── fix_html.py           # HTMLレポートデータ注入
@@ -151,7 +170,9 @@ job-search-de/
     ├── README_de.md          # ドイツ語ドキュメント (Deutsch)
     ├── README_ja.md          # 日本語ドキュメント (このファイル)
     ├── README_ko.md          # 韓国語ドキュメント (한국어)
-    └── images/               # デモ画像・アニメーションGIF
+    ├── architecture.html     # インタラクティブシステムアーキテクチャ図 (Archify)
+    ├── architecture.json     # アーキテクチャ定義仕様
+    └── images/               # デモ画像・アーキテクチャ図・アニメーションGIF
 ```
 
 ---

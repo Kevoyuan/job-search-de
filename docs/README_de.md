@@ -110,6 +110,22 @@
 
 ---
 
+## Systemarchitektur
+
+> 🌐 **Interaktives Architekturdiagramm**: [**`architecture.html`**](architecture.html) (Erstellt mit [Archify](https://github.com/tt-a1i/archify) Showcase-Standard; unterstützt Hell-/Dunkelmodus, Routen-Tracing, geführte Kapitel und Vektorexport).
+
+![job-search-de Systemarchitektur](images/architecture.png)
+
+`job-search-de` setzt auf eine **strikt entkoppelte, datenschutzorientierte 5-Stufen-Architektur**:
+
+1. **Lokale Confidential-Sandbox (`.job-search/`)**: Vollständige Kandidatenneutralität. Alle persönlichen Unterlagen werden lokal in `.job-search/profile.md`, `preferences.md` und `settings.ini` verwaltet. Keine Datenübertragung in die Cloud.
+2. **Direkte Multi-Kanal-ATS-Erkennung**: Fragt offizielle ATS-Schnittstellen (Greenhouse, Ashby, Lever, SmartRecruiters, Personio, Workable) über `download.sh` und `parse_ats.py` direkt ab – ohne veraltete Aggregator-Zwischenstationen.
+3. **Strukturierte Verifikations-Pipeline**: Prüft HTTP-Verfügbarkeit und Schema.org JSON-LD Metadaten (`datePosted`, `validThrough`, Aktivstatus) in Echtzeit für präzise Frischekategorien.
+4. **Zweistufiger Evidenz-Scoring-Kern**: Isoliert ungesicherte externe Stellenbeschreibungen hinter einer Sicherheitsgrenze. Jede Bewertung im Stufe-2-Deep-Match muss belegte Fakten aus `profile.md` zitieren (keine KI-Halluzinationen).
+5. **Universelle Bereitstellung & Interaktive Workbench**: Liefert mehrsprachige Managementberichte, optionale Notion-Synchronisation und eine eigenständige HTML-Workbench mit 4 umschaltbaren Design-Themes.
+
+---
+
 ## Projektstruktur
 
 ```text
@@ -133,12 +149,15 @@ job-search-de/
 │   ├── scoring.md            # Evidenzbasiertes Scoring-Modell
 │   └── workbench.md          # Workbench-Integrationsvertrag & Theme-System
 ├── scripts/
-│   ├── bump_version.py       # Versions-Bumper
-│   ├── check_update.py       # Versionsprüfer gegen GitHub
-│   ├── update_skill.sh       # Ein-Befehl-Skill-Aktualisierer
-│   ├── download.sh           # Batch-Downloader für ATS-APIs
+│   ├── bump_version.py       # Automatische Versionserhöhung
+│   ├── check_update.py       # Online/Offline Upstream-Versionsprüfer
+│   ├── update_skill.sh       # Ein-Befehl-Update-Skript
+│   ├── download.sh           # ATS-Batch-Downloader
 │   ├── parse_ats.py          # ATS-Daten-Parser und Normalisierer
+│   ├── verify_urls.py        # Schema.org JSON-LD Metadaten-Extraktor
 │   ├── verify.sh             # Job-URL- und Metadaten-Validator
+│   ├── build_workbench.py    # Workbench-HTML-Builder
+│   ├── test_ats_universal.py # Testsuite für ATS-Parser
 │   ├── init_config.py        # Lokale Vorlageninitialisierung
 │   ├── build_html.sh         # Workbench-Build-Skript
 │   └── fix_html.py           # HTML-Report-Daten-Injektor
@@ -151,7 +170,9 @@ job-search-de/
     ├── README_de.md          # Deutsche Dokumentation (Diese Datei)
     ├── README_ja.md          # Japanische Dokumentation (日本語)
     ├── README_ko.md          # Koreanische Dokumentation (한국어)
-    └── images/               # Demo-Screenshots und animiertes Theme-GIF
+    ├── architecture.html     # Interaktives Systemarchitekturdiagramm (Archify)
+    ├── architecture.json     # Architekturspezifikation
+    └── images/               # Demo-Screenshots, Architekturdiagramme und Theme-GIF
 ```
 
 ---

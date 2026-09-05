@@ -110,6 +110,22 @@ A universal, candidate-neutral AI Agent skill and pipeline designed to automate 
 
 ---
 
+## System Architecture
+
+> 🌐 **Explore the interactive standalone architecture diagram**: [**`docs/architecture.html`**](docs/architecture.html) (Built with [Archify](https://github.com/tt-a1i/archify) showcase profile; supports dark/light themes, relationship tracing, guided chapters, presentation mode, and vector export).
+
+![job-search-de System Architecture](docs/images/architecture.png)
+
+The `job-search-de` system follows a strictly decoupled, privacy-first, five-tier pipeline architecture:
+
+1. **Local Confidential Sandbox (`.job-search/`)**: Complete candidate neutrality. Personal materials (CV, LinkedIn, portfolio) are parsed locally into `.job-search/profile.md`, `preferences.md`, and `settings.ini`. Zero personal data is transmitted to external clouds or stored within the skill repository.
+2. **Direct Multi-Channel ATS Discovery Engine**: Directly queries official, public ATS endpoints (Greenhouse, Ashby, Lever, SmartRecruiters, Personio, Workable) via `download.sh` and `parse_ats.py`—eliminating expired, duplicate, or ghost listings common on commercial aggregators.
+3. **Structured Verification & Normalization Pipeline**: Validates HTTP live status and extracts Schema.org JSON-LD structured hiring metadata (`datePosted`, `validThrough`, hiring status) to classify jobs into strict freshness tiers (`VERIFIED_FRESH`, `LIKELY_FRESH`, `OLDER_ACTIVE`, `CLOSED`).
+4. **Two-Stage Evidence Scoring Core**: Isolates untrusted job descriptions behind a security prompt injection boundary. Runs Stage 1 fast triage (hard exclusions, language constraints, seniority thresholds) followed by Stage 2 deep evidence matching (each criterion must explicitly cite verified facts from `profile.md`, eliminating LLM hallucinated scores).
+5. **Universal Delivery & Interactive Workbench**: Delivers multi-regional executive intelligence reports, provides bi-directional Notion database synchronization, and generates a standalone client-side HTML workbench (`job-hunt-workbench.html`) featuring 4 switchable design themes (Notion Craft, Linear Obsidian, Bauhaus Grid, Bento Quartz) and direct File System Access API drawer editing.
+
+---
+
 ## Project Structure
 
 ```text
@@ -154,7 +170,9 @@ job-search-de/
     ├── README_de.md          # German documentation (Deutsch)
     ├── README_ja.md          # Japanese documentation (日本語)
     ├── README_ko.md          # Korean documentation (한국어)
-    └── images/               # Demo screenshots & animated theme GIF
+    ├── architecture.html     # Interactive system architecture diagram (Archify)
+    ├── architecture.json     # Architecture specification definition
+    └── images/               # Demo screenshots, architecture diagrams & theme GIFs
 ```
 
 ---
