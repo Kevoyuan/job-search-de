@@ -32,7 +32,7 @@
 ## Benutzeroberfläche & Demo
 
 ### 4 Design-Themes in Echtzeit (0 Token Reines CSS)
-> Nahtloser Wechsel zwischen **Notion Craft (Warm Editorial)**, **Linear Obsidian (Dark Mode)**, **Bauhaus Grid (Industriell Minimal)** und **Bento Quartz (Spatial Glass)** ohne Token-Kosten. Drücken Sie <kbd>1</kbd> / <kbd>2</kbd> / <kbd>3</kbd> / <kbd>4</kbd> zum sofortigen Umschalten.
+> Nahtloser Wechsel zwischen **Editorial Craft (Warmes Dokumenten-Layout)**, **Dark Velocity (Dunkler Modus)**, **Industrielle Präzision (Funktionaler Minimalismus)** und **Spatial Quartz (Transluzentes Quarzglas)** ohne Token-Kosten. Drücken Sie <kbd>1</kbd> / <kbd>2</kbd> / <kbd>3</kbd> / <kbd>4</kbd> zum sofortigen Umschalten.
 
 ![Workbench Theme-Wechsler](images/theme-switcher.gif)
 
@@ -69,7 +69,7 @@
 ## Hauptfunktionen
 
 - **Datenschutz an erster Stelle**: Skill-Logik und Kandidatendaten sind strikt entkoppelt. Persönliche Daten und Präferenzen verbleiben ausschließlich lokal in `<workdir>/.job-search/`.
-- **4 Design-Themes in Echtzeit**: Nahtloser Wechsel zwischen **Notion Craft (Warm Editorial)**, **Linear Obsidian (Dark Mode)**, **Bauhaus Grid (Industriell Minimal)** und **Bento Quartz (Spatial Glass)** ohne Token-Kosten.
+- **4 Design-Themes in Echtzeit**: Nahtloser Wechsel zwischen **Editorial Craft (Warmes Dokumenten-Layout)**, **Dark Velocity (Dunkler Modus)**, **Industrielle Präzision (Funktionaler Minimalismus)** und **Spatial Quartz (Transluzentes Quarzglas)** ohne Token-Kosten.
 - **Tastatur-Power-Navigation**: Schnelle Navigation mit <kbd>J</kbd>/<kbd>K</kbd>, Aufklappen mit <kbd>Enter</kbd>, Karrierelink öffnen mit <kbd>O</kbd>, Suche mit <kbd>/</kbd> und Themes mit <kbd>1</kbd>/<kbd>2</kbd>/<kbd>3</kbd>/<kbd>4</kbd>.
 - **1-Klick-Bewerbungs-Pitch**: Generiert ein maßgeschneidertes Anschreiben-Intro basierend auf den verifizierten Match-Kriterien.
 - **Schnellfilter-Chips**: 1-Klick-Filter für `Fit ≥ 85`, `Raum Frankfurt`, `100% Remote`, `Nur Englisch` und `Zu bewerben`.

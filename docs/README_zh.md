@@ -32,7 +32,7 @@
 ## 界面演示
 
 ### 4 套设计主题即时切换（0 Token 纯 CSS 驱动）
-> 支持在 **Notion Craft（温润文档）**、**Linear Obsidian（极客暗黑）**、**Bauhaus Grid（包豪斯工业）** 与 **Bento Quartz（流体空间）** 之间无缝切换。支持按数字键 <kbd>1</kbd> / <kbd>2</kbd> / <kbd>3</kbd> / <kbd>4</kbd> 秒切，偏好自动持久化，零 Token 消耗。
+> 支持在 **Editorial Craft（纸境文稿）**、**Dark Velocity（暗夜极客）**、**Industrial Precision（精密工业）** 与 **Spatial Quartz（空灵石英）** 之间无缝切换。支持按数字键 <kbd>1</kbd> / <kbd>2</kbd> / <kbd>3</kbd> / <kbd>4</kbd> 秒切，偏好自动持久化，零 Token 消耗。
 
 ![Workbench 4套主题切换演示](images/theme-switcher.gif)
 
@@ -69,7 +69,7 @@
 ## 核心特性
 
 - **隐私优先架构**：Skill 核心逻辑与候选人数据严格分离。个人背景事实、求职偏好与搜索设置仅保存在本地工作目录的 `<workdir>/.job-search/` 中，绝不上云。
-- **4 套内置设计主题**：支持在 **Notion Craft（温润文档）**、**Linear Obsidian（极客暗黑）**、**Bauhaus Grid（包豪斯工业）** 与 **Bento Quartz（流体空间）** 之间即时切换，零 Token 消耗且自动持久化。
+- **4 套内置设计主题**：支持在 **Editorial Craft（纸境文稿）**、**Dark Velocity（暗夜极客）**、**Industrial Precision（精密工业）** 与 **Spatial Quartz（空灵石英）** 之间即时切换，零 Token 消耗且自动持久化。
 - **全键盘高能导航**：提供快捷键帮助中心（<kbd>?</kbd>），支持快速浏览（<kbd>J</kbd>/<kbd>K</kbd>）、展开详情（<kbd>Enter</kbd>）、直达官网（<kbd>O</kbd>）、聚焦搜索（<kbd>/</kbd>）及数字键秒切主题（<kbd>1</kbd>/<kbd>2</kbd>/<kbd>3</kbd>/<kbd>4</kbd>）。
 - **一键定制投递 Pitch 话术**：基于匹配的事实证据链，一键生成地道精准的求职信开场白并自动复制到剪贴板。
 - **快捷筛选预设胶囊**：提供 `Fit ≥ 85`、`法兰克福/莱美`、`纯远程`、`纯英语`、`待投递岗位` 等高频一键筛选。

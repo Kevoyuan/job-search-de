@@ -32,7 +32,7 @@
 ## 데모 및 인터페이스
 
 ### 4가지 디자인 테마 실시간 전환 (0 토큰 순수 CSS)
-> **Notion Craft (감성 문서)**, **Linear Obsidian (다크 모드)**, **Bauhaus Grid (바우하우스 미니멀)**, **Bento Quartz (모던 글래스)** 4가지 테마를 0 토큰으로 실시간 전환. 숫자 키 <kbd>1</kbd> / <kbd>2</kbd> / <kbd>3</kbd> / <kbd>4</kbd> 로 즉시 전환.
+> **Editorial Craft (감성 문서)**, **Dark Velocity (다크 모드)**, **Industrial Precision (정밀 미니멀)**, **Spatial Quartz (공간 쿼츠 글래스)** 4가지 테마를 0 토큰으로 실시간 전환. 숫자 키 <kbd>1</kbd> / <kbd>2</kbd> / <kbd>3</kbd> / <kbd>4</kbd> 로 즉시 전환.
 
 ![Workbench 테마 전환 데모](images/theme-switcher.gif)
 
@@ -69,7 +69,7 @@
 ## 주요 기능 및 특징
 
 - **개인정보 보호 및 데이터 분리**：Skill 로직과 지원자 데이터의 엄격한 분리. 개인 이력 및 조건 설정은 로컬 `<workdir>/.job-search/` 에만 보관.
-- **4가지 고품격 비주얼 테마**：**Notion Craft**, **Linear Obsidian (다크 모드)**, **Bauhaus Grid**, **Bento Quartz** 를 0 토큰으로 실시간 전환.
+- **4가지 고품격 비주얼 테마**：**Editorial Craft**, **Dark Velocity (다크 모드)**, **Industrial Precision**, **Spatial Quartz** 를 0 토큰으로 실시간 전환.
 - **강력한 키보드 단축키 내비게이션**：<kbd>J</kbd>/<kbd>K</kbd> 이동, <kbd>Enter</kbd> 상세 펼치기, <kbd>O</kbd> 공식 채용공고 이동, <kbd>/</kbd> 빠른 검색, <kbd>1</kbd>/<kbd>2</kbd>/<kbd>3</kbd>/<kbd>4</kbd> 테마 전환.
 - **원클릭 지원 맞춤형 피치(Pitch) 복사**：검증된 JD 매칭 근거를 기반으로 완성도 높은 커버레터 도입부를 즉시 생성하여 클립보드에 복사.
 - **빠른 프리셋 필터 칩**：`Fit ≥ 85`, `프랑크푸르트 지역`, `100% 원격`, `영어 전용`, `지원 대기 공고` 1초 원클릭 필터링.

@@ -32,7 +32,7 @@ A universal, candidate-neutral AI Agent skill and pipeline designed to automate 
 ## Demo
 
 ### Multi-Theme Switcher (0-Token Pure CSS)
-> Seamlessly switch between **Notion Craft (Warm Editorial)**, **Linear Obsidian (Dark Mode)**, **Braun / Dieter Rams (Functional Industrial Minimal)**, and **Apple Spatial Bento (Quartz Glass)** with zero token consumption and instant local persistence. Press <kbd>1</kbd> / <kbd>2</kbd> / <kbd>3</kbd> / <kbd>4</kbd> to switch instantly.
+> Seamlessly switch between **Editorial Craft (Warm Paper)**, **Dark Velocity (Cybernetic Dark)**, **Industrial Precision (Functional Minimal)**, and **Spatial Quartz (Frosted Glass)** with zero token consumption and instant local persistence. Press <kbd>1</kbd> / <kbd>2</kbd> / <kbd>3</kbd> / <kbd>4</kbd> to switch instantly.
 
 ![Workbench Multi-Theme Switcher](docs/images/theme-switcher.gif)
 
@@ -69,7 +69,7 @@ A universal, candidate-neutral AI Agent skill and pipeline designed to automate 
 ## Features
 
 - **Privacy-First Architecture**: Skill logic is strictly decoupled from candidate data. Personal background, constraints, and preferences are stored exclusively in local `<workdir>/.job-search/`.
-- **4 Built-in Design Themes**: Instant switching between **Notion Craft**, **Linear Obsidian (Dark Mode)**, **Braun / Dieter Rams**, and **Apple Spatial Bento** with zero token overhead and local persistence.
+- **4 Built-in Design Themes**: Instant switching between **Editorial Craft**, **Dark Velocity**, **Industrial Precision**, and **Spatial Quartz** with zero token overhead and local persistence.
 - **Power Keyboard Navigation**: Fast keyboard workflow with shortcuts cheat sheet (<kbd>?</kbd>), row navigation (<kbd>J</kbd>/<kbd>K</kbd>), details expansion (<kbd>Enter</kbd>), portal opening (<kbd>O</kbd>), search focus (<kbd>/</kbd>), and numeric theme switching (<kbd>1</kbd>/<kbd>2</kbd>/<kbd>3</kbd>/<kbd>4</kbd>).
 - **1-Click Tailored Pitch Generator**: Produces a customized, professional cover letter opening grounded in verified JD evidence matching and copies it directly to your clipboard.
 - **Quick Preset Filter Chips**: 1-click preset chips for `Fit ≥ 85`, `Frankfurt Area`, `Full Remote`, `English Only`, and `To Apply`.
@@ -122,7 +122,7 @@ The `job-search-de` system follows a strictly decoupled, privacy-first, five-tie
 2. **Direct Multi-Channel ATS Discovery Engine**: Directly queries official, public ATS endpoints (Greenhouse, Ashby, Lever, SmartRecruiters, Personio, Workable) via `download.sh` and `parse_ats.py`—eliminating expired, duplicate, or ghost listings common on commercial aggregators.
 3. **Structured Verification & Normalization Pipeline**: Validates HTTP live status and extracts Schema.org JSON-LD structured hiring metadata (`datePosted`, `validThrough`, hiring status) to classify jobs into strict freshness tiers (`VERIFIED_FRESH`, `LIKELY_FRESH`, `OLDER_ACTIVE`, `CLOSED`).
 4. **Two-Stage Evidence Scoring Core**: Isolates untrusted job descriptions behind a security prompt injection boundary. Runs Stage 1 fast triage (hard exclusions, language constraints, seniority thresholds) followed by Stage 2 deep evidence matching (each criterion must explicitly cite verified facts from `profile.md`, eliminating LLM hallucinated scores).
-5. **Universal Delivery & Interactive Workbench**: Delivers multi-regional executive intelligence reports, provides bi-directional Notion database synchronization, and generates a standalone client-side HTML workbench (`job-hunt-workbench.html`) featuring 4 switchable design themes (Notion Craft, Linear Obsidian, Braun / Dieter Rams, Apple Spatial Bento) and direct File System Access API drawer editing.
+5. **Universal Delivery & Interactive Workbench**: Delivers multi-regional executive intelligence reports, provides bi-directional Notion database synchronization, and generates a standalone client-side HTML workbench (`job-hunt-workbench.html`) featuring 4 switchable design themes (Editorial Craft, Dark Velocity, Industrial Precision, Spatial Quartz) and direct File System Access API drawer editing.
 
 ---
 

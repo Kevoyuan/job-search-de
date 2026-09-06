@@ -32,7 +32,7 @@
 ## デモとUIインターフェース
 
 ### 4つのデザインテーマ切り替え（0トークン・純CSS）
-> **Notion Craft（温かみのあるドキュメント風）**、**Linear Obsidian（ダークモード）**、**Bauhaus Grid（バウハウス工業風）**、**Bento Quartz（空間ガラス風）** の4テーマを瞬時に切り替え可能。キーボードの <kbd>1</kbd> / <kbd>2</kbd> / <kbd>3</kbd> / <kbd>4</kbd> で即時切り替え。
+> **Editorial Craft（紙面ドキュメント風）**、**Dark Velocity（ダークモード）**、**Industrial Precision（精密工業ミニマル）**、**Spatial Quartz（空間クォーツガラス風）** の4テーマを瞬時に切り替え可能。キーボードの <kbd>1</kbd> / <kbd>2</kbd> / <kbd>3</kbd> / <kbd>4</kbd> で即時切り替え。
 
 ![Workbench テーマ切り替えデモ](images/theme-switcher.gif)
 
@@ -69,7 +69,7 @@
 ## 主な機能と特徴
 
 - **プライバシー優先＆候補者データ分離**：Skillのロジックと候補者データを完全分離。個人情報や条件設定はローカルの `<workdir>/.job-search/` にのみ保存。
-- **4つの洗練されたテーマ切り替え**：**Notion Craft**、**Linear Obsidian (ダークモード)**、**Bauhaus Grid**、**Bento Quartz** を0トークンで瞬時に切り替え可能。
+- **4つの洗練されたテーマ切り替え**：**Editorial Craft**、**Dark Velocity (ダークモード)**、**Industrial Precision**、**Spatial Quartz** を0トークンで瞬時に切り替え可能。
 - **キーボード・パワーナビゲーション**：<kbd>J</kbd>/<kbd>K</kbd> で移動、<kbd>Enter</kbd> で展開、<kbd>O</kbd> で求人ページ直行、<kbd>/</kbd> で検索、<kbd>1</kbd>/<kbd>2</kbd>/<kbd>3</kbd>/<kbd>4</kbd> でテーマ変更。
 - **ワンクリック求人マッチングPitch生成**：検証済みのJDエビデンスに基づき、洗練されたカバーレターの冒頭文を即時クリップボードにコピー。
 - **クイックプリセット検索チップ**：`Fit ≥ 85`、`フランクフルト地域`、`フルリモート`、`英語必須`、`応募待ち求人` を1タップで抽出。

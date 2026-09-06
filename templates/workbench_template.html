@@ -25,7 +25,7 @@
       --radius-xl: 16px;
       --radius-full: 9999px;
 
-      /* Notion Craft Theme (Default - Source: notion/DESIGN.md) */
+      /* Editorial Craft Theme (Default - Warm Paper & Ink Workspace) */
       --bg: #ffffff;
       --bg-surface: #ffffff;
       --bg-subtle: #f7f6f5;
@@ -64,7 +64,7 @@
       --backdrop-blur: blur(0px);
     }
 
-    /* Linear / Obsidian Dark Theme (Source: linear.app/DESIGN.md) */
+    /* Dark Velocity Theme (High-Contrast Cybernetic Dark Mode) */
     [data-theme="obsidian"] {
       --bg: #010102;
       --bg-surface: #0f1011;
@@ -104,7 +104,7 @@
       --backdrop-blur: blur(0px);
     }
 
-    /* Linear / Obsidian Scoped Refinements (Source: linear.app/DESIGN.md) */
+    /* Dark Velocity Scoped Refinements */
     [data-theme="obsidian"] .btn-primary {
       background: var(--primary);
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.22);
@@ -126,7 +126,7 @@
       background: rgba(255, 255, 255, 0.035);
     }
 
-    /* Dieter Rams / Braun Industrial Functionalism Theme (Weniger, aber besser) */
+    /* Industrial Precision Theme (Functional Industrial Minimalism) */
     [data-theme="bauhaus"] {
       /* Substrates: Warm matte composite resin & anodized aluminum faceplate */
       --bg: #ece9e2;
@@ -181,7 +181,7 @@
       --backdrop-blur: blur(0px);
     }
 
-    /* Dieter Rams / Braun Scoped Hardware Styling */
+    /* Industrial Precision Scoped Hardware Styling */
     [data-theme="bauhaus"] .btn {
       box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.85);
       border-color: var(--border-strong);
@@ -272,7 +272,7 @@
     }
 
 
-    /* Apple Spatial Bento Theme (VisionOS & macOS Quartz Glassmorphism) */
+    /* Spatial Quartz Theme (Translucent Quartz Glassmorphism) */
     [data-theme="bento"] {
       --bg: #eef2f7;
       --bg-surface: rgba(255, 255, 255, 0.72);
@@ -282,18 +282,18 @@
       --border-strong: rgba(203, 213, 225, 0.65);
       --border-focus: #0071e3;
 
-      /* Apple High-Contrast Ink (SF Pro Standard) */
+      /* High-Contrast Charcoal Ink */
       --text: #1d1d1f;
       --text-muted: #6e6e73;
       --text-faint: #86868b;
 
-      /* Apple Action Blue (SF Pro System Accent) */
+      /* Electric Action Blue Accent */
       --primary: #0071e3;
       --primary-hover: #0077ed;
       --primary-bg: rgba(0, 113, 227, 0.08);
       --primary-text: #0051a2;
 
-      /* Apple Semantics */
+      /* Semantics */
       --success: #34c759;
       --success-bg: rgba(52, 199, 89, 0.12);
       --success-text: #1b7a34;
@@ -309,7 +309,7 @@
       --info-bg: rgba(0, 113, 227, 0.10);
       --info-text: #0071e3;
 
-      /* Soft Apple Bento Radii */
+      /* Soft Spatial Bento Radii */
       --radius-xs: 6px;
       --radius-sm: 10px;
       --radius-md: 14px;
@@ -317,14 +317,14 @@
       --radius-xl: 24px;
       --radius-full: 9999px;
 
-      /* Apple Spatial Glass Diffusion & Specular Inset */
+      /* Spatial Glass Diffusion & Specular Inset */
       --shadow-sm: 0 2px 8px rgba(0, 20, 60, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.95);
       --shadow-md: 0 8px 24px -4px rgba(0, 20, 60, 0.07), inset 0 1px 0 rgba(255, 255, 255, 0.95);
       --shadow-lg: 0 20px 48px -10px rgba(0, 20, 60, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.95);
       --backdrop-blur: blur(24px) saturate(180%);
     }
 
-    /* Apple Spatial Bento Scoped Component Glass Styling */
+    /* Spatial Quartz Scoped Component Glass Styling */
     html[data-theme="bento"] body {
       background-color: #eef2f7;
       background-image: 
@@ -1690,10 +1690,10 @@
 
       <!-- Theme Switcher -->
       <select id="themeSelector" class="select-dropdown" onchange="switchTheme(this.value)" aria-label="Theme">
-        <option value="notion">Notion Craft</option>
-        <option value="obsidian">Linear Obsidian</option>
-        <option value="bauhaus">Braun / Dieter Rams</option>
-        <option value="bento">Apple Spatial Bento</option>
+        <option value="notion">Editorial Craft</option>
+        <option value="obsidian">Dark Velocity</option>
+        <option value="bauhaus">Industrial Precision</option>
+        <option value="bento">Spatial Quartz</option>
       </select>
 
       <!-- Candidate Config Button -->
@@ -2088,10 +2088,10 @@
         <div class="shortcut-item"><span data-i18n="scKanban">Toggle Kanban view</span> <kbd>K</kbd></div>
         <div class="shortcut-item"><span data-i18n="scConfig">Open candidate configs</span> <kbd>C</kbd></div>
         <div class="shortcut-item"><span data-i18n="scSave">Save current config</span> <kbd>Ctrl+S</kbd></div>
-        <div class="shortcut-item"><span data-i18n="scNotion">Switch to Notion theme</span> <kbd>1</kbd></div>
-        <div class="shortcut-item"><span data-i18n="scObsidian">Switch to Obsidian theme</span> <kbd>2</kbd></div>
-        <div class="shortcut-item"><span data-i18n="scBauhaus">Switch to Braun / Dieter Rams theme</span> <kbd>3</kbd></div>
-        <div class="shortcut-item"><span data-i18n="scBento">Switch to Apple Spatial Bento theme</span> <kbd>4</kbd></div>
+        <div class="shortcut-item"><span data-i18n="scNotion">Switch to Editorial Craft theme</span> <kbd>1</kbd></div>
+        <div class="shortcut-item"><span data-i18n="scObsidian">Switch to Dark Velocity theme</span> <kbd>2</kbd></div>
+        <div class="shortcut-item"><span data-i18n="scBauhaus">Switch to Industrial Precision theme</span> <kbd>3</kbd></div>
+        <div class="shortcut-item"><span data-i18n="scBento">Switch to Spatial Quartz theme</span> <kbd>4</kbd></div>
       </div>
     </div>
   </div>
@@ -2279,10 +2279,10 @@
         scKanban: "Toggle Kanban view",
         scConfig: "Open candidate configs",
         scSave: "Save current config",
-        scNotion: "Switch to Notion Craft theme",
-        scObsidian: "Switch to Linear Obsidian theme",
-        scBauhaus: "Switch to Braun / Dieter Rams theme",
-        scBento: "Switch to Apple Spatial Bento theme",
+        scNotion: "Switch to Editorial Craft theme",
+        scObsidian: "Switch to Dark Velocity theme",
+        scBauhaus: "Switch to Industrial Precision theme",
+        scBento: "Switch to Spatial Quartz theme",
         toastSuccess: "Operation successful",
         toastCopied: "Copied to clipboard",
         toastStatusUpdated: "Status updated: ",
@@ -2403,10 +2403,10 @@ I am preparing to apply. Based on my candidate profile (profile.md), please prov
         scKanban: "切换看板视图",
         scConfig: "打开候选人配置",
         scSave: "保存当前配置",
-        scNotion: "切换 Notion Craft 主题",
-        scObsidian: "切换 Linear Obsidian 主题",
-        scBauhaus: "切换 Braun / Dieter Rams 主题",
-        scBento: "切换 Apple Spatial Bento 主题",
+        scNotion: "切换 Editorial Craft (纸境文稿) 主题",
+        scObsidian: "切换 Dark Velocity (暗夜极客) 主题",
+        scBauhaus: "切换 Industrial Precision (精密工业) 主题",
+        scBento: "切换 Spatial Quartz (空灵石英) 主题",
         toastSuccess: "操作成功",
         toastCopied: "已复制到剪贴板",
         toastStatusUpdated: "已更新状态: ",
@@ -2527,10 +2527,10 @@ I am preparing to apply. Based on my candidate profile (profile.md), please prov
         scKanban: "Kanbanansicht",
         scConfig: "Kandidatenprofil öffnen",
         scSave: "Konfiguration speichern",
-        scNotion: "Notion Craft Theme",
-        scObsidian: "Linear Obsidian Theme",
-        scBauhaus: "Braun / Dieter Rams Theme",
-        scBento: "Apple Spatial Bento Theme",
+        scNotion: "Editorial Craft Theme",
+        scObsidian: "Dark Velocity Theme",
+        scBauhaus: "Industrielle Präzision Theme",
+        scBento: "Spatial Quartz Theme",
         toastSuccess: "Erfolgreich",
         toastCopied: "In Zwischenablage kopiert",
         toastStatusUpdated: "Status aktualisiert: ",

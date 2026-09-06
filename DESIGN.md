@@ -19,41 +19,44 @@
 
 The workbench supports 4 curated palettes. Every palette enforces a single primary chromatic accent with saturation strictly controlled below 80%, absolute neutral bases, zero neon glow artifacts, and strict WCAG AA contrast compliance. Pure black (`#000000`) is strictly banned across all themes.
 
-### 2.1 Notion Craft (Default — Warm Editorial Canvas)
+### 2.1 Editorial Craft (Default — Warm Paper & Ink Workspace)
 - **Canvas White** (`#ffffff`) — Primary card and table container surface
 - **Warm Paper Canvas** (`#f7f6f5`) — Page backdrop and drawer body background
-- **Charcoal Ink** (`#37352f`) — Primary text; warm Notion signature charcoal (Zinc-950 depth)
+- **Charcoal Ink** (`#37352f`) — Primary text; warm signature charcoal (Zinc-950 depth)
 - **Muted Slate** (`#787671`) — Secondary labels, timestamps, and table headers
 - **Whisper Border** (`#e5e3df`) — 1px hairline dividers and structural borders
 - **Strong Hairline** (`#c8c4be`) — Focused card edges and interactive borders
-- **Notion Purple Accent** (`#5645d4`) — Primary chromatic accent for CTAs, active indicators, and focus rings (Saturation: 62%)
-- **Verified Fresh Green** (`#2ea043`, tint `rgba(46, 160, 67, 0.12)`) — High-freshness semantic indicator
-- **Active Warning Amber** (`#d97706`, tint `rgba(217, 119, 6, 0.12)`) — Medium-fit and recent active semantic indicator
+- **Editorial Purple Accent** (`#5645d4`) — Primary chromatic accent for CTAs, active indicators, and focus rings (Saturation: 62%)
+- **Verified Fresh Green** (`#1aae39`, tint `#d9f3e1`) — High-freshness semantic indicator
+- **Active Warning Amber** (`#dd5b00`, tint `#ffe8d4`) — Medium-fit and recent active semantic indicator
 
-### 2.2 Linear Obsidian (Dark — Deep Product Canvas)
-- **Void Canvas** (`#090a0c`) — Deepest dark backdrop with subtle blue undertone (never pure `#000000`)
+### 2.2 Dark Velocity (Dark — High-Contrast Cybernetic Engine)
+- **Void Canvas** (`#010102`) — Deepest dark backdrop (never pure `#000000`)
 - **Surface Elevation** (`#0f1011`) — Card bodies, table rows, and control bars
-- **Surface Lift** (`#161719`) — Hover state and modal surface
-- **Linear Ink** (`#f7f8f8`) — Primary high-contrast light text
+- **Surface Lift** (`#141516`) — Hover state and modal surface
+- **High-Contrast Ink** (`#f7f8f8`) — Primary high-contrast light text
 - **Muted Steel** (`#8a8f98`) — Secondary text, metadata, and column headers
 - **Subtle Charcoal** (`#62666d`) — Faint shortcuts and placeholder text
 - **Hairline Rule** (`#23252a`) — 1px card and divider borders; strong variant `#34343a`
-- **Linear Lavender-Blue Accent** (`#5e6ad2`) — Primary chromatic accent for active pills and focus rings (Saturation: 55%)
+- **Lavender-Blue Accent** (`#5e6ad2`) — Primary chromatic accent for active pills and focus rings (Saturation: 55%)
 - **Semantic Green** (`#27a644`, bg `rgba(39, 166, 68, 0.16)`) — Verified job status indicator
 - **Semantic Amber** (`#f59e0b`, bg `rgba(245, 158, 11, 0.16)`) — Active job status indicator
 
-### 2.3 Bauhaus Grid (Modernist Industrial Grid)
-- **Architectural Paper** (`#f5f3ee`) — Warm creamy newsprint canvas
-- **Monochrome Ink** (`#111111`) — High-contrast pure structural dark ink
-- **Structural Rule** (`#111111`) — 1.5px solid mechanical lines with hard 0px corners
-- **Ultramarine Accent** (`#0033cc`) — Bauhaus international primary blue (Saturation: 78%)
-- **Architectural Block Shadow** (`3px 3px 0px #111111`) — Mechanical tactile depth without soft blur
+### 2.3 Industrial Precision (Functional Industrial Minimalism)
+- **Technical Composite Resin** (`#ece9e2`) — Warm matte composite resin canvas
+- **Anodized Aluminum Surface** (`#f7f6f3`) — Matte faceplate and container surface
+- **Recessed Bay** (`#e2ded6`) — Sunken channel and drawer backdrop
+- **Deep Carbon Ink** (`#191a1b`) — High-contrast precision dark ink
+- **Hairline Seam** (`#c8c4bc`) — Crisp CNC precision dividers
+- **Signal Amber Accent** (`#e8590c`) — Tuning dial and action key accent (Saturation: 75%)
+- **Tactile Keycap Shadow** (`0 1px 2px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.85)`) — Mechanical tactile convex key relief
 
-### 2.4 Spatial Bento (Frosted Glassmorphism)
-- **Translucent Canvas** (`rgba(255, 255, 255, 0.85)`) — Multi-layer frosted glass with `backdrop-filter: blur(16px)`
-- **Deep Slate Text** (`#0f172a`) — High-legibility modern slate ink
-- **Indigo Accent** (`#4f46e5`) — Dynamic spatial accent with soft diffused ambient shadows (Saturation: 74%)
-- **Frosted Border** (`rgba(226, 232, 240, 0.8)`) — 1px glass containment border
+### 2.4 Spatial Quartz (Translucent Quartz Glassmorphism)
+- **Ambient Quartz Canvas** (`#eef2f7`) — Fixed radial ambient light canvas
+- **Frosted Quartz Surface** (`rgba(255, 255, 255, 0.72)`) — Multi-layer frosted glass with `backdrop-filter: blur(24px) saturate(180%)`
+- **High-Contrast Charcoal** (`#1d1d1f`) — Ultra-crisp modern ink
+- **Electric Action Blue** (`#0071e3`) — System accent with soft diffuse lighting
+- **Quartz Specular Border** (`rgba(255, 255, 255, 0.85)`) — Crystal inner reflection (`inset 0 1px 0 rgba(255, 255, 255, 0.95)`)
 
 ---
 
