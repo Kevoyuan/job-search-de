@@ -104,6 +104,28 @@
       --backdrop-blur: blur(0px);
     }
 
+    /* Linear / Obsidian Scoped Refinements (Source: linear.app/DESIGN.md) */
+    [data-theme="obsidian"] .btn-primary {
+      background: var(--primary);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+    }
+    [data-theme="obsidian"] .btn-primary:hover {
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.32);
+    }
+    [data-theme="obsidian"] .kanban-card:hover {
+      border-color: rgba(255, 255, 255, 0.16);
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05), 0 8px 24px rgba(0, 0, 0, 0.65);
+    }
+    [data-theme="obsidian"] kbd {
+      background: #141518;
+      border: 1px solid #2b2d34;
+      box-shadow: 0 1px 0 #0a0b0d;
+      color: #9ea3ae;
+    }
+    [data-theme="obsidian"] tr.job-row:hover td {
+      background: rgba(255, 255, 255, 0.035);
+    }
+
     /* Dieter Rams / Braun Industrial Functionalism Theme (Weniger, aber besser) */
     [data-theme="bauhaus"] {
       /* Substrates: Warm matte composite resin & anodized aluminum faceplate */
@@ -250,52 +272,150 @@
     }
 
 
-    /* Bento Spatial Theme (Apple Quartz Glassmorphism) */
+    /* Apple Spatial Bento Theme (VisionOS & macOS Quartz Glassmorphism) */
     [data-theme="bento"] {
-      --bg: #f8fafc;
-      --bg-surface: rgba(255, 255, 255, 0.85);
-      --bg-subtle: rgba(241, 245, 249, 0.85);
-      --bg-hover: rgba(226, 232, 240, 0.95);
-      --border: rgba(226, 232, 240, 0.85);
-      --border-strong: rgba(148, 163, 184, 0.45);
-      --border-focus: #4f46e5;
+      --bg: #eef2f7;
+      --bg-surface: rgba(255, 255, 255, 0.72);
+      --bg-subtle: rgba(238, 243, 250, 0.65);
+      --bg-hover: rgba(255, 255, 255, 0.92);
+      --border: rgba(255, 255, 255, 0.85);
+      --border-strong: rgba(203, 213, 225, 0.65);
+      --border-focus: #0071e3;
 
-      --text: #0f172a;
-      --text-muted: #64748b;
-      --text-faint: #94a3b8;
+      /* Apple High-Contrast Ink (SF Pro Standard) */
+      --text: #1d1d1f;
+      --text-muted: #6e6e73;
+      --text-faint: #86868b;
 
-      --primary: #4f46e5;
-      --primary-hover: #4338ca;
-      --primary-bg: #e0e7ff;
-      --primary-text: #3730a3;
+      /* Apple Action Blue (SF Pro System Accent) */
+      --primary: #0071e3;
+      --primary-hover: #0077ed;
+      --primary-bg: rgba(0, 113, 227, 0.08);
+      --primary-text: #0051a2;
 
-      --success: #059669;
-      --success-bg: #d1fae5;
-      --success-text: #065f46;
+      /* Apple Semantics */
+      --success: #34c759;
+      --success-bg: rgba(52, 199, 89, 0.12);
+      --success-text: #1b7a34;
 
-      --warning: #d97706;
-      --warning-bg: #fef3c7;
-      --warning-text: #92400e;
+      --warning: #ff9500;
+      --warning-bg: rgba(255, 149, 0, 0.12);
+      --warning-text: #995a00;
 
-      --danger: #dc2626;
-      --danger-bg: #fee2e2;
-      --danger-text: #991b1b;
+      --danger: #ff3b30;
+      --danger-bg: rgba(255, 59, 48, 0.12);
+      --danger-text: #b31d15;
 
-      --info-bg: #e0f2fe;
-      --info-text: #0369a1;
+      --info-bg: rgba(0, 113, 227, 0.10);
+      --info-text: #0071e3;
 
+      /* Soft Apple Bento Radii */
       --radius-xs: 6px;
-      --radius-sm: 8px;
-      --radius-md: 12px;
-      --radius-lg: 16px;
-      --radius-xl: 22px;
+      --radius-sm: 10px;
+      --radius-md: 14px;
+      --radius-lg: 18px;
+      --radius-xl: 24px;
       --radius-full: 9999px;
 
-      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
-      --shadow-md: 0 8px 24px -4px rgba(0, 0, 0, 0.07);
-      --shadow-lg: 0 24px 48px -12px rgba(15, 23, 42, 0.12);
-      --backdrop-blur: blur(16px);
+      /* Apple Spatial Glass Diffusion & Specular Inset */
+      --shadow-sm: 0 2px 8px rgba(0, 20, 60, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+      --shadow-md: 0 8px 24px -4px rgba(0, 20, 60, 0.07), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+      --shadow-lg: 0 20px 48px -10px rgba(0, 20, 60, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+      --backdrop-blur: blur(24px) saturate(180%);
     }
+
+    /* Apple Spatial Bento Scoped Component Glass Styling */
+    html[data-theme="bento"] body {
+      background-color: #eef2f7;
+      background-image: 
+        radial-gradient(circle at 12% 15%, rgba(0, 113, 227, 0.07) 0%, transparent 45%),
+        radial-gradient(circle at 88% 75%, rgba(147, 197, 253, 0.12) 0%, transparent 50%);
+      background-attachment: fixed;
+    }
+    [data-theme="bento"] header {
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.85);
+      box-shadow: 0 4px 20px -4px rgba(0, 20, 60, 0.04);
+    }
+    [data-theme="bento"] .control-bar,
+    [data-theme="bento"] .table-container,
+    [data-theme="bento"] .kanban-col,
+    [data-theme="bento"] .drawer {
+      background: rgba(255, 255, 255, 0.72);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.85);
+      box-shadow: 0 10px 32px 0 rgba(0, 20, 60, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+    }
+    [data-theme="bento"] .kanban-card {
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      box-shadow: 0 4px 14px rgba(0, 20, 60, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+    }
+    [data-theme="bento"] .kanban-card:hover {
+      background: rgba(255, 255, 255, 0.98);
+      border-color: rgba(0, 113, 227, 0.35);
+      box-shadow: 0 10px 28px -4px rgba(0, 113, 227, 0.12), inset 0 1px 0 rgba(255, 255, 255, 1);
+      transform: translateY(-2px);
+    }
+    [data-theme="bento"] .btn-primary {
+      background: var(--primary);
+      border-color: #0062c4;
+      color: #ffffff;
+      box-shadow: 0 2px 8px rgba(0, 113, 227, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+    }
+    [data-theme="bento"] .btn-primary:hover {
+      background: var(--primary-hover);
+      box-shadow: 0 4px 14px rgba(0, 113, 227, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.45);
+    }
+    [data-theme="bento"] .btn-toggle-view {
+      border-radius: var(--radius-sm);
+    }
+    [data-theme="bento"] .btn-toggle-view.active {
+      background: rgba(0, 113, 227, 0.12);
+      color: var(--primary);
+    }
+    [data-theme="bento"] .filter-chip-btn {
+      border-color: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    [data-theme="bento"] .filter-chip-btn.active {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+      box-shadow: 0 2px 8px rgba(0, 113, 227, 0.3);
+    }
+    [data-theme="bento"] .search-input,
+    [data-theme="bento"] .select-dropdown {
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(203, 213, 225, 0.65);
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.02);
+    }
+    [data-theme="bento"] .search-input:focus,
+    [data-theme="bento"] .select-dropdown:focus {
+      background: rgba(255, 255, 255, 0.95);
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.15);
+    }
+    [data-theme="bento"] th {
+      background: rgba(240, 244, 250, 0.7);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+    [data-theme="bento"] kbd {
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(203, 213, 225, 0.8);
+      box-shadow: 0 1px 0 rgba(148, 163, 184, 0.5);
+    }
+
 
     /* ==========================================================================
        Global Resets & Anti-Slop Accessibility Controls
@@ -1573,7 +1693,7 @@
         <option value="notion">Notion Craft</option>
         <option value="obsidian">Linear Obsidian</option>
         <option value="bauhaus">Braun / Dieter Rams</option>
-        <option value="bento">Spatial Bento</option>
+        <option value="bento">Apple Spatial Bento</option>
       </select>
 
       <!-- Candidate Config Button -->
@@ -1971,7 +2091,7 @@
         <div class="shortcut-item"><span data-i18n="scNotion">Switch to Notion theme</span> <kbd>1</kbd></div>
         <div class="shortcut-item"><span data-i18n="scObsidian">Switch to Obsidian theme</span> <kbd>2</kbd></div>
         <div class="shortcut-item"><span data-i18n="scBauhaus">Switch to Braun / Dieter Rams theme</span> <kbd>3</kbd></div>
-        <div class="shortcut-item"><span data-i18n="scBento">Switch to Bento theme</span> <kbd>4</kbd></div>
+        <div class="shortcut-item"><span data-i18n="scBento">Switch to Apple Spatial Bento theme</span> <kbd>4</kbd></div>
       </div>
     </div>
   </div>
@@ -2159,10 +2279,10 @@
         scKanban: "Toggle Kanban view",
         scConfig: "Open candidate configs",
         scSave: "Save current config",
-        scNotion: "Switch to Notion theme",
-        scObsidian: "Switch to Obsidian theme",
+        scNotion: "Switch to Notion Craft theme",
+        scObsidian: "Switch to Linear Obsidian theme",
         scBauhaus: "Switch to Braun / Dieter Rams theme",
-        scBento: "Switch to Bento theme",
+        scBento: "Switch to Apple Spatial Bento theme",
         toastSuccess: "Operation successful",
         toastCopied: "Copied to clipboard",
         toastStatusUpdated: "Status updated: ",
@@ -2283,10 +2403,10 @@ I am preparing to apply. Based on my candidate profile (profile.md), please prov
         scKanban: "切换看板视图",
         scConfig: "打开候选人配置",
         scSave: "保存当前配置",
-        scNotion: "切换 Notion 主题",
-        scObsidian: "切换 Obsidian 主题",
+        scNotion: "切换 Notion Craft 主题",
+        scObsidian: "切换 Linear Obsidian 主题",
         scBauhaus: "切换 Braun / Dieter Rams 主题",
-        scBento: "切换 Bento 主题",
+        scBento: "切换 Apple Spatial Bento 主题",
         toastSuccess: "操作成功",
         toastCopied: "已复制到剪贴板",
         toastStatusUpdated: "已更新状态: ",
@@ -2407,10 +2527,10 @@ I am preparing to apply. Based on my candidate profile (profile.md), please prov
         scKanban: "Kanbanansicht",
         scConfig: "Kandidatenprofil öffnen",
         scSave: "Konfiguration speichern",
-        scNotion: "Notion Theme",
-        scObsidian: "Obsidian Theme",
+        scNotion: "Notion Craft Theme",
+        scObsidian: "Linear Obsidian Theme",
         scBauhaus: "Braun / Dieter Rams Theme",
-        scBento: "Bento Theme",
+        scBento: "Apple Spatial Bento Theme",
         toastSuccess: "Erfolgreich",
         toastCopied: "In Zwischenablage kopiert",
         toastStatusUpdated: "Status aktualisiert: ",
