@@ -44,7 +44,7 @@ When localized job display text is available, keep the existing base field for b
 Workbench UI supports instant client-side theme switching across 4 curated design systems:
 - `notion`: Warm Editorial Notion Craft Workspace (Default)
 - `obsidian`: High-Velocity Linear / Obsidian Dark Mode
-- `bauhaus`: Swiss Bauhaus Industrial Brutalism (High-contrast Sharp Grid)
+- `bauhaus`: Braun / Dieter Rams Functional Industrial Minimalism (Warm matte resin, hairline precision dividers, signature Braun amber accent `#e8590c`, tactile convex hardware keys)
 - `bento`: Modern Spatial Bento Box with Frosted Quartz Glass
 
 Theme selection is pure CSS-driven (zero LLM token consumption) and persists across page reloads in browser `localStorage`.

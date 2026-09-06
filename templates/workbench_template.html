@@ -104,52 +104,151 @@
       --backdrop-blur: blur(0px);
     }
 
-    /* Bauhaus Grid Theme (Modernist High-Contrast Industrial) */
+    /* Dieter Rams / Braun Industrial Functionalism Theme (Weniger, aber besser) */
     [data-theme="bauhaus"] {
-      --bg: #f5f3ee;
-      --bg-surface: #ffffff;
-      --bg-subtle: #eae7df;
-      --bg-hover: #dedad0;
-      --border: #111111;
-      --border-strong: #000000;
-      --border-focus: #0033cc;
+      /* Substrates: Warm matte composite resin & anodized aluminum faceplate */
+      --bg: #ece9e2;
+      --bg-surface: #f7f6f3;
+      --bg-subtle: #e2ded6;
+      --bg-hover: #dad6cc;
+      --border: #c8c4bc;
+      --border-strong: #a8a49c;
+      --border-focus: #e8590c;
 
-      --text: #111111;
-      --text-muted: #444444;
-      --text-faint: #777777;
+      /* High-contrast precision carbon typography */
+      --text: #191a1b;
+      --text-muted: #5f6063;
+      --text-faint: #8f8d87;
 
-      --primary: #0033cc;
-      --primary-hover: #002299;
-      --primary-bg: #e6ecff;
-      --primary-text: #002299;
+      /* Signature Braun Amber / Signal Orange (ET66 key & equipment dial) */
+      --primary: #e8590c;
+      --primary-hover: #d04e06;
+      --primary-bg: #faece3;
+      --primary-text: #9a3412;
 
-      --success: #008844;
-      --success-bg: #e6f7ee;
-      --success-text: #006633;
+      /* Braun Hardware Indicator Green */
+      --success: #2b7d4f;
+      --success-bg: #e5f4ea;
+      --success-text: #1b5233;
 
-      --warning: #d97300;
-      --warning-bg: #fff0db;
-      --warning-text: #995200;
+      /* Amber Indicator */
+      --warning: #c97712;
+      --warning-bg: #fef3c7;
+      --warning-text: #854d0e;
 
-      --danger: #dd1111;
-      --danger-bg: #ffe5e5;
-      --danger-text: #990000;
+      /* Signal Red */
+      --danger: #c53030;
+      --danger-bg: #fee2e2;
+      --danger-text: #991b1b;
 
-      --info-bg: #e0f2fe;
-      --info-text: #0369a1;
+      --info-bg: #e2edf8;
+      --info-text: #1e5a8a;
 
-      --radius-xs: 0px;
-      --radius-sm: 0px;
-      --radius-md: 0px;
-      --radius-lg: 0px;
-      --radius-xl: 0px;
-      --radius-full: 0px;
+      /* Precision Machined Radii: 2px-6px (Strictly disciplined) */
+      --radius-xs: 2px;
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 8px;
+      --radius-xl: 12px;
+      --radius-full: 9999px;
 
-      --shadow-sm: 2px 2px 0px #111111;
-      --shadow-md: 4px 4px 0px #111111;
-      --shadow-lg: 8px 8px 0px #111111;
+      /* Tactile Hardware Bevels: Convex keycaps & mechanical micro-relief */
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+      --shadow-md: 0 2px 6px rgba(0, 0, 0, 0.07), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+      --shadow-lg: 0 12px 28px -6px rgba(25, 26, 27, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.9);
       --backdrop-blur: blur(0px);
     }
+
+    /* Dieter Rams / Braun Scoped Hardware Styling */
+    [data-theme="bauhaus"] .btn {
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+      border-color: var(--border-strong);
+    }
+    [data-theme="bauhaus"] .btn:hover {
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+      border-color: #8c8880;
+    }
+    [data-theme="bauhaus"] .btn:active {
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.16);
+      transform: translateY(1px);
+    }
+    [data-theme="bauhaus"] .btn-primary {
+      background: var(--primary);
+      border-color: #cb4c07;
+      color: #ffffff;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+      text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
+    }
+    [data-theme="bauhaus"] .btn-primary:hover {
+      background: var(--primary-hover);
+      border-color: #b84204;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    }
+    [data-theme="bauhaus"] .btn-primary:active {
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.25);
+    }
+    [data-theme="bauhaus"] .search-input,
+    [data-theme="bauhaus"] .select-dropdown {
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.06);
+      border-color: var(--border-strong);
+    }
+    [data-theme="bauhaus"] .search-input:focus,
+    [data-theme="bauhaus"] .select-dropdown:focus {
+      border-color: var(--primary);
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.04), 0 0 0 2px rgba(232, 89, 12, 0.25);
+    }
+    [data-theme="bauhaus"] th {
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 0.05em;
+      font-weight: 700;
+      color: var(--text-muted);
+      border-bottom: 2px solid var(--border);
+    }
+    [data-theme="bauhaus"] .kanban-col-header {
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 0.05em;
+      border-bottom: 2px solid var(--border);
+    }
+    [data-theme="bauhaus"] .kanban-card {
+      border-color: var(--border);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    }
+    [data-theme="bauhaus"] .kanban-card:hover {
+      border-color: var(--border-strong);
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+    }
+    [data-theme="bauhaus"] .brand-mark {
+      background: var(--bg-surface);
+      border-color: var(--border-strong);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    }
+    [data-theme="bauhaus"] .brand-version-pill {
+      border-color: var(--border-strong);
+      box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.04);
+    }
+    [data-theme="bauhaus"] kbd {
+      background: #dfdbd3;
+      border-color: #b5b0a6;
+      color: #383735;
+      box-shadow: 0 1px 0 #9f9b92, inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    }
+    [data-theme="bauhaus"] .filter-chip-btn {
+      border-color: var(--border-strong);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+    }
+    [data-theme="bauhaus"] .filter-chip-btn.active {
+      background: #191a1b;
+      color: #f7f6f3;
+      border-color: #191a1b;
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+    }
+    [data-theme="bauhaus"] .btn-toggle-view.active {
+      background: #191a1b;
+      color: #f7f6f3;
+    }
+
 
     /* Bento Spatial Theme (Apple Quartz Glassmorphism) */
     [data-theme="bento"] {
@@ -1473,7 +1572,7 @@
       <select id="themeSelector" class="select-dropdown" onchange="switchTheme(this.value)" aria-label="Theme">
         <option value="notion">Notion Craft</option>
         <option value="obsidian">Linear Obsidian</option>
-        <option value="bauhaus">Bauhaus Grid</option>
+        <option value="bauhaus">Braun / Dieter Rams</option>
         <option value="bento">Spatial Bento</option>
       </select>
 
@@ -1871,7 +1970,7 @@
         <div class="shortcut-item"><span data-i18n="scSave">Save current config</span> <kbd>Ctrl+S</kbd></div>
         <div class="shortcut-item"><span data-i18n="scNotion">Switch to Notion theme</span> <kbd>1</kbd></div>
         <div class="shortcut-item"><span data-i18n="scObsidian">Switch to Obsidian theme</span> <kbd>2</kbd></div>
-        <div class="shortcut-item"><span data-i18n="scBauhaus">Switch to Bauhaus theme</span> <kbd>3</kbd></div>
+        <div class="shortcut-item"><span data-i18n="scBauhaus">Switch to Braun / Dieter Rams theme</span> <kbd>3</kbd></div>
         <div class="shortcut-item"><span data-i18n="scBento">Switch to Bento theme</span> <kbd>4</kbd></div>
       </div>
     </div>
@@ -2062,7 +2161,7 @@
         scSave: "Save current config",
         scNotion: "Switch to Notion theme",
         scObsidian: "Switch to Obsidian theme",
-        scBauhaus: "Switch to Bauhaus theme",
+        scBauhaus: "Switch to Braun / Dieter Rams theme",
         scBento: "Switch to Bento theme",
         toastSuccess: "Operation successful",
         toastCopied: "Copied to clipboard",
@@ -2186,7 +2285,7 @@ I am preparing to apply. Based on my candidate profile (profile.md), please prov
         scSave: "保存当前配置",
         scNotion: "切换 Notion 主题",
         scObsidian: "切换 Obsidian 主题",
-        scBauhaus: "切换 Bauhaus 主题",
+        scBauhaus: "切换 Braun / Dieter Rams 主题",
         scBento: "切换 Bento 主题",
         toastSuccess: "操作成功",
         toastCopied: "已复制到剪贴板",
@@ -2310,7 +2409,7 @@ I am preparing to apply. Based on my candidate profile (profile.md), please prov
         scSave: "Konfiguration speichern",
         scNotion: "Notion Theme",
         scObsidian: "Obsidian Theme",
-        scBauhaus: "Bauhaus Theme",
+        scBauhaus: "Braun / Dieter Rams Theme",
         scBento: "Bento Theme",
         toastSuccess: "Erfolgreich",
         toastCopied: "In Zwischenablage kopiert",
