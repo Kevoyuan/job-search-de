@@ -1,4 +1,4 @@
-# 🇩🇪 job-search-de — Universal Job Discovery & Evaluation Pipeline for Germany
+# 🇩🇪 job-search-de: Universal Job Discovery & Evaluation Skill for Germany
 
 <p align="center">
   <a href="README.md"><b>English</b></a> •
@@ -9,36 +9,65 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Agent%20Skill-Ready-blue.svg?style=flat-square" alt="Agent Skill" />
+  <img src="https://img.shields.io/badge/Agent%20Skill-Ready-1e5e3a.svg?style=flat-square" alt="Agent Skill" />
+  <img src="https://img.shields.io/badge/Zero%20API%20Key-Agent--Native-emerald.svg?style=flat-square" alt="Zero API Key" />
+  <img src="https://img.shields.io/badge/Compatible-Antigravity%20%7C%20Claude%20Code%20%7C%20Cursor%20%7C%20Codex%20%7C%20OpenClaw-black.svg?style=flat-square" alt="Compatible Agents" />
   <img src="https://img.shields.io/badge/License-MIT-green.svg?style=flat-square" alt="License" />
 </p>
 
-A universal, candidate-neutral AI Agent skill and pipeline designed to automate the discovery, verification, two-stage evidence scoring, reporting, and workbench management for **ANY profession across Germany** — including Software Engineering, Data, Cloud/DevOps, AI/ML, Product, Marketing, Sales, Finance, HR, Operations, and Consulting.
+`job-search-de` is an open, candidate-neutral **AI Agent Skill** engineered to run directly inside any modern Coding Agent environment (such as Google Antigravity, Claude Code, Cursor, Codex, OpenClaw, Gemini CLI, or Windsurf).
+
+> **Important: Agent-Native Skill, Not an API-Key Tool**  
+> Unlike traditional job tools or Python scripts that ask you to provide an `OPENAI_API_KEY` or pay for third-party LLM cloud endpoints, `job-search-de` is a pure **Agent Skill**:
+> - **Zero external API keys required**: Your host Coding Agent supplies the reasoning, context management, and command execution natively.
+> - **Zero cloud telemetry**: All candidate resumes, constraints, and scoring matrices remain strictly in your local `<workdir>/.job-search/` directory.
+> - **Works across any profession**: Supports Software Engineering, Data, Cloud/DevOps, AI/ML, Product, Marketing, Sales, Finance, HR, Operations, Design, and Consulting across Germany.
 
 ---
 
 ## Why job-search-de
 
-| Dimension | Traditional Boards (LinkedIn / StepStone / Indeed) | `job-search-de` Pipeline |
-|---|---|---|
-| **Listing Freshness** | 30%–50% are expired, ghost listings, or headhunter reposts | **100% Live & Verified** (Direct ATS API queries + real-time Schema.org validation) |
-| **Privacy & Security** | Resumes stored on external cloud databases | **100% Local & Confidential** (Data resides strictly in local `<workdir>/.job-search/`) |
-| **Match Quality** | Opaque keyword matching with false positives | **Two-Stage Evidence Scoring** (Cites exact profile facts, zero hallucinated matches) |
-| **Search Management** | Manual spreadsheets and fragmented bookmarking | **Interactive 4-Theme Workbench** (Kanban, table filters, hotkeys, 1-click pitch hooks) |
-| **Agent Ecosystem** | Isolated from modern AI workflows | **Native Agent Skill** (Antigravity, Claude Code, Cursor, OpenClaw ready) |
+| Dimension | Traditional Boards (LinkedIn / StepStone) | Typical API Scraper Scripts | `job-search-de` Agent Skill |
+|---|---|---|---|
+| **Setup & Credentials** | Manual accounts, captchas, ad tracking | Requires user to supply paid API keys (`OPENAI_API_KEY`) | **Zero API keys needed**; mounts as a native skill in your existing Coding Agent |
+| **Listing Freshness** | 30%-50% expired, ghost listings, reposts | Scrapers break on layout changes | **100% Live & Verified** via direct ATS APIs + Schema.org date validation |
+| **Data Privacy** | Resumes stored on external commercial clouds | Resumes sent to external third-party endpoints | **100% Local Confidential Sandbox** (`<workdir>/.job-search/`) |
+| **Match Reliability** | Opaque keyword matching with false positives | Uncalibrated single-prompt hallucinations | **Two-Stage Evidence Scoring** citing exact facts from your profile |
+| **Deliverable UI** | Web portals cluttered with ads | Terminal text dumps or static CSVs | **Interactive 4-Theme Workbench** (Kanban, table, 0-token offline CSS) |
+| **Agent Integration** | Isolated from developer workflows | Standalone CLI, disconnected from agent memory | **Native Agent Protocol** (`SKILL.md`, `references/`, `templates/`) |
 
 ---
 
-## Demo
+## How the Agent Executes
+
+When loaded into your Coding Agent, you simply ask in natural language. The Agent activates `job-search-de` and executes the pipeline autonomously:
+
+```text
+User: "Find active Machine Learning Engineer jobs in Frankfurt or Germany Remote matching my CV."
+                                    │
+                                    ▼
+Agent (Activated via job-search-de skill):
+ ├── [1/5] Parse Resume & Build Facts ──► Extracts verified skills into .job-search/profile.md
+ ├── [2/5] Direct ATS API Discovery ────► Queries Greenhouse, Lever, Ashby, Personio (0 aggregators)
+ ├── [3/5] Live Verification ───────────► Checks HTTP status & Schema.org JSON-LD dates (filters ghost jobs)
+ ├── [4/5] Two-Stage Evidence Scoring ──► Cites exact profile facts per requirement (zero hallucinated fit)
+ └── [5/5] Deliver Offline Artifact ────► Compiles 4-theme interactive job-hunt-workbench.html & report
+```
+
+---
+
+## Demo: Interactive Workbench (Agent Deliverable)
+
+The Agent compiles and delivers a standalone, zero-token client-side HTML cockpit (`job-hunt-workbench.html`) with 4 anti-slop design themes:
 
 ### Multi-Theme Switcher (0-Token Pure CSS)
-> Seamlessly switch between **Editorial Craft (Warm Paper)**, **Dark Velocity (Cybernetic Dark)**, **Industrial Precision (Functional Minimal)**, and **Spatial Quartz (Frosted Glass)** with zero token consumption and instant local persistence. Press <kbd>1</kbd> / <kbd>2</kbd> / <kbd>3</kbd> / <kbd>4</kbd> to switch instantly.
+> Seamlessly switch between **Editorial Craft** (Warm Paper), **Dark Velocity** (Cybernetic Dark), **Industrial Precision** (Braun Functional Minimal), and **Spatial Quartz** (Frosted Glassmorphism). Supports numeric hotkeys (<kbd>1</kbd> / <kbd>2</kbd> / <kbd>3</kbd> / <kbd>4</kbd>), system `color-scheme` synchronization, and full accessibility overrides (`prefers-reduced-motion` and `prefers-reduced-transparency`).
 
 ![Workbench Multi-Theme Switcher](docs/images/theme-switcher.gif)
 
 ---
 
-### 1. Interactive Notion-Style Job Workbench (Table View)
+### 1. Interactive Job Workbench (Table View)
 > Live status tracking, multi-dimensional filters, freshness indicators, and calibrated fit scores.
 
 ![Workbench Table View](docs/images/workbench-table.png)
@@ -46,14 +75,14 @@ A universal, candidate-neutral AI Agent skill and pipeline designed to automate 
 ---
 
 ### 2. Application Pipeline Kanban
-> Drag-and-drop or status-driven application lifecycle management (To Apply, Applied, Interview, Offer, Archived).
+> Drag-and-drop and status-driven application lifecycle management (To Apply, Applied, Interview, Offer, Archived).
 
 ![Workbench Kanban View](docs/images/workbench-kanban.png)
 
 ---
 
 ### 3. Local Candidate Profile & Rule Drawer
-> Candidate-neutral architecture: Personal facts, constraints, target cities, and delivery configs stay strictly in your local `.job-search/` directory.
+> Complete candidate neutrality: Personal facts, constraints, target cities, and delivery configs stay strictly in your local `.job-search/` directory.
 
 ![Workbench Config Drawer](docs/images/workbench-config-drawer.png)
 
@@ -68,45 +97,18 @@ A universal, candidate-neutral AI Agent skill and pipeline designed to automate 
 
 ## Features
 
-- **Privacy-First Architecture**: Skill logic is strictly decoupled from candidate data. Personal background, constraints, and preferences are stored exclusively in local `<workdir>/.job-search/`.
-- **4 Built-in Design Themes**: Instant switching between **Editorial Craft**, **Dark Velocity**, **Industrial Precision**, and **Spatial Quartz** with zero token overhead and local persistence.
-- **Power Keyboard Navigation**: Fast keyboard workflow with shortcuts cheat sheet (<kbd>?</kbd>), row navigation (<kbd>J</kbd>/<kbd>K</kbd>), details expansion (<kbd>Enter</kbd>), portal opening (<kbd>O</kbd>), search focus (<kbd>/</kbd>), and numeric theme switching (<kbd>1</kbd>/<kbd>2</kbd>/<kbd>3</kbd>/<kbd>4</kbd>).
-- **1-Click Tailored Pitch Generator**: Produces a customized, professional cover letter opening grounded in verified JD evidence matching and copies it directly to your clipboard.
-- **Quick Preset Filter Chips**: 1-click preset chips for `Fit ≥ 85`, `Frankfurt Area`, `Full Remote`, `English Only`, and `To Apply`.
-- **Direct ATS Discovery**: Queries active listings directly from official ATS APIs (Greenhouse, Lever, Ashby, SmartRecruiters, Personio, Workable) — bypassing outdated job aggregator scrapers.
+- **Agent-Native Architecture**: Mounts directly into your existing Coding Agent (Antigravity, Claude Code, Cursor, Codex, OpenClaw). Zero third-party API key setup.
+- **Privacy-First Sandbox**: Personal background, constraints, and preferences are stored exclusively in local `<workdir>/.job-search/`.
+- **4 Anti-Slop Design Themes**: Calibrated WCAG AA contrast standards across all themes (Editorial Craft, Dark Velocity, Industrial Precision, Spatial Quartz) with zero token overhead and local persistence.
+- **Full Accessibility Guardrails**: Built-in `@media (prefers-reduced-motion: reduce)` to suppress looping pulses and `@media (prefers-reduced-transparency: reduce)` for solid contrast fallbacks.
+- **Power Keyboard Navigation**: Full keyboard control with shortcuts cheat sheet (<kbd>?</kbd>), list traversal (<kbd>J</kbd>/<kbd>K</kbd>), details expansion (<kbd>Enter</kbd>), application link opening (<kbd>O</kbd>), search focus (<kbd>/</kbd>), and numeric theme switching (<kbd>1</kbd>/<kbd>2</kbd>/<kbd>3</kbd>/<kbd>4</kbd>).
+- **1-Click Tailored Pitch Generator**: Produces a customized cover letter opening grounded in verified JD evidence matching and copies it directly to clipboard.
+- **Direct ATS Discovery**: Queries active listings directly from official ATS APIs (Greenhouse, Lever, Ashby, SmartRecruiters, Personio, Workable), completely bypassing outdated aggregator scrapers.
 - **Automated Verification Pipeline**: Real-time URL health check, HTTP status validation, and Schema.org JSON-LD extraction (`datePosted`, `validThrough`, active hiring status).
 - **Two-Stage Evidence Scoring**:
   - **Stage 1 (Triage)**: Hard exclusions, seniority matching, and threshold pruning.
-  - **Stage 2 (Deep Matching)**: Required vs Preferred criteria separation, requiring explicit citation of verified candidate evidence (no hallucinated scores).
-- **Client-Side Interactive Workbench**: Pure client-side HTML/JS interface featuring Kanban board, Table view, and optional Notion bi-directional sync.
-- **Runtime Version Check & Auto-Update**: Checks GitHub upstream updates silently and presents a live version badge with one-command upgrade instructions.
-
----
-
-## Workflow
-
-```text
-       Candidate Documents (CV, LinkedIn, Portfolio)
-                          │
-                          ▼
-            [1. Onboarding & Extraction]
-                          │ (Generates .job-search/profile.md & preferences.md)
-                          ▼
-             [2. Multi-Channel Discovery]
-           ATS Direct Pulls + Targeted Gap-Fill
-                          │
-                          ▼
-             [3. Normalization & Verification]
-           Schema.org JSON-LD + HTTP Date Check
-                          │
-                          ▼
-           [4. Two-Stage Evidence Scoring]
-       Triage Filter ➔ JD-to-Profile Fact Matching
-                          │
-                          ▼
-            [5. Reporting & Sync Delivery]
-     Executive Report + Interactive HTML Workbench + Notion
-```
+  - **Stage 2 (Deep Matching)**: Separation of Required vs Preferred criteria, requiring explicit citation of verified candidate evidence (no hallucinated scores).
+- **Runtime Version Check & Update**: Checks GitHub upstream silently and presents a live version badge with one-command upgrade instructions.
 
 ---
 
@@ -116,79 +118,25 @@ A universal, candidate-neutral AI Agent skill and pipeline designed to automate 
 
 ![job-search-de System Architecture](docs/images/architecture.png)
 
-The `job-search-de` system follows a strictly decoupled, privacy-first, five-tier pipeline architecture:
-
-1. **Local Confidential Sandbox (`.job-search/`)**: Complete candidate neutrality. Personal materials (CV, LinkedIn, portfolio) are parsed locally into `.job-search/profile.md`, `preferences.md`, and `settings.ini`. Zero personal data is transmitted to external clouds or stored within the skill repository.
-2. **Direct Multi-Channel ATS Discovery Engine**: Directly queries official, public ATS endpoints (Greenhouse, Ashby, Lever, SmartRecruiters, Personio, Workable) via `download.sh` and `parse_ats.py`—eliminating expired, duplicate, or ghost listings common on commercial aggregators.
-3. **Structured Verification & Normalization Pipeline**: Validates HTTP live status and extracts Schema.org JSON-LD structured hiring metadata (`datePosted`, `validThrough`, hiring status) to classify jobs into strict freshness tiers (`VERIFIED_FRESH`, `LIKELY_FRESH`, `OLDER_ACTIVE`, `CLOSED`).
-4. **Two-Stage Evidence Scoring Core**: Isolates untrusted job descriptions behind a security prompt injection boundary. Runs Stage 1 fast triage (hard exclusions, language constraints, seniority thresholds) followed by Stage 2 deep evidence matching (each criterion must explicitly cite verified facts from `profile.md`, eliminating LLM hallucinated scores).
-5. **Universal Delivery & Interactive Workbench**: Delivers multi-regional executive intelligence reports, provides bi-directional Notion database synchronization, and generates a standalone client-side HTML workbench (`job-hunt-workbench.html`) featuring 4 switchable design themes (Editorial Craft, Dark Velocity, Industrial Precision, Spatial Quartz) and direct File System Access API drawer editing.
-
----
-
-## Project Structure
-
-```text
-job-search-de/
-├── SKILL.md                  # Agent skill entrypoint and operational rules
-├── README.md                 # Primary project documentation (English)
-├── VERSION                   # Semantic version definition (e.g. 1.1.0)
-├── assets/
-│   └── config-template/      # Configuration templates
-│       ├── profile.md        # Verified candidate background template
-│       ├── preferences.md    # Job search constraints & targets
-│       └── settings.ini      # Scoring thresholds & date windows
-├── configs/
-│   ├── boards.txt            # Default ATS companies & endpoints
-│   ├── keywords.txt          # Target search keywords & queries
-│   └── profile.md            # Reference profile specification
-├── references/
-│   ├── configuration.md      # Configuration contracts & specifications
-│   ├── onboarding.md         # Candidate onboarding guidelines
-│   ├── resume-parser.md      # Resume evidence extraction rules
-│   ├── scoring.md            # Calibrated evidence scoring rubric
-│   └── workbench.md          # Workbench integration & multi-theme contract
-├── scripts/
-│   ├── bump_version.py       # Auto semantic version bumper (decoupled paths)
-│   ├── check_update.py       # Online/offline upstream update checker
-│   ├── update_skill.sh       # One-command skill updater
-│   ├── download.sh           # Batch ATS API downloader (concurrency pool)
-│   ├── parse_ats.py          # Universal ATS data parser & normalizer
-│   ├── verify_urls.py        # Schema.org JSON-LD structured extractor
-│   ├── verify.sh             # Job URL & metadata validator CLI
-│   ├── build_workbench.py    # Workbench HTML builder & data injector
-│   ├── test_ats_universal.py # Comprehensive regression test suite
-│   ├── init_config.py        # Initialize .job-search/ templates
-│   ├── build_html.sh         # Workbench packaging script
-│   └── fix_html.py           # HTML report table & typography post-processor
-├── templates/
-│   ├── agent_prompt_common.md# Standardized agent prompt blocks
-│   ├── report_skeleton.md    # Executive report template
-│   └── search_queries.md     # Query composition matrices
-└── docs/
-    ├── README_zh.md          # Chinese documentation (中文)
-    ├── README_de.md          # German documentation (Deutsch)
-    ├── README_ja.md          # Japanese documentation (日本語)
-    ├── README_ko.md          # Korean documentation (한국어)
-    ├── architecture.html     # Interactive system architecture diagram (Archify)
-    ├── architecture.json     # Architecture specification definition
-    └── images/               # Demo screenshots, architecture diagrams & theme GIFs
-```
-
 ---
 
 ## Quick Start
 
-### 1. Install the Skill
+### 1. Install as a Skill in Your Agent
+Run the standard skills CLI:
 ```bash
 npx skills add Kevoyuan/job-search-de -g
 ```
+Or clone directly into your agent's skills path:
+```bash
+git clone https://github.com/Kevoyuan/job-search-de.git ~/.agents/skills/job-search-de
+```
 
-### 2. Drop Your CV in Your Workspace
-Place your resume or profile (e.g. `resume.pdf`, `CV.md`, or LinkedIn export) in your working folder.
+### 2. Drop Your Resume in Your Workspace
+Place your resume or background document (e.g. `resume.pdf`, `CV.md`, or LinkedIn export) in your project workspace.
 
-### 3. Run with Your AI Agent
-Simply prompt your agent (Antigravity, Claude Code, Cursor, Codex, OpenClaw):
+### 3. Prompt Your Coding Agent
+In your Coding Agent (Antigravity, Claude Code, Cursor, Codex, OpenClaw), speak naturally:
 
 > **"Find active AI/ML Engineer jobs in Frankfurt, Munich, or Remote Germany that match my CV."**
 
@@ -197,68 +145,44 @@ Simply prompt your agent (Antigravity, Claude Code, Cursor, Codex, OpenClaw):
 
 Agent:
 [1/4] Parsed resume into local .job-search/profile.md (6 verified skills, 4 project facts)
-[2/4] Queried direct ATS APIs (Greenhouse, Lever, Ashby, Personio...) → Discovered 42 active roles
+[2/4] Queried direct ATS APIs (Greenhouse, Lever, Ashby, Personio...) -> Discovered 42 active roles
 [3/4] Verified live URLs and Schema.org posting dates (0 expired listings)
 [4/4] Scored JD requirements against verified profile facts:
-      • 8 High-Fit Roles (Fit ≥ 85)
-      • 14 Moderate-Fit Roles (70 ≤ Fit < 85)
-Generated executive intelligence report & updated `job-hunt-workbench.html`!
+      • 8 High-Fit Roles (Fit >= 85)
+      • 14 Moderate-Fit Roles (70 <= Fit < 85)
+Generated executive intelligence report & updated job-hunt-workbench.html!
 ```
 
-<details>
-<summary><b>Advanced: Manual CLI Pipeline</b></summary>
+---
 
-If you prefer running the raw scripts manually without an agent:
+## Supported Coding Agents
 
-```bash
-# Initialize local configs
-python3 ~/.agents/skills/job-search-de/scripts/init_config.py --workdir .
+This project follows open agent skill protocols and is verified to work out-of-the-box with:
 
-# Download ATS listings & parse
-bash ~/.agents/skills/job-search-de/scripts/download.sh --workdir .
-python3 ~/.agents/skills/job-search-de/scripts/parse_ats.py --today $(date +%Y-%m-%d) --workdir .
-
-# Verify URLs
-bash ~/.agents/skills/job-search-de/scripts/verify.sh urls.txt
-```
-</details>
+- **Google Antigravity**: Place in `~/.agents/skills/` or `~/.gemini/antigravity/skills/`.
+- **Anthropic Claude Code**: Install via `npx skills add Kevoyuan/job-search-de -g` or configure in `CLAUDE.md`.
+- **Cursor**: Reference skill directory in project `.cursorrules` or Agent context.
+- **Codex / Gemini CLI**: Standard skill folder mount.
+- **OpenClaw**: Global skill discovery path.
 
 ---
 
 ## Available Commands
 
-You can trigger the following commands directly in your AI Agent conversation:
+When interacting with your Coding Agent, you can trigger specific workflows:
 
 | Command | Action Description |
 |---|---|
-| `/refresh` | **Run Fresh Discovery**: Executes full ATS pull, live verification, two-stage evidence scoring, and updates the Workbench & Report. |
+| `/refresh` | **Run Fresh Discovery**: Executes full ATS pull, live verification, two-stage evidence scoring, and updates Workbench & Report. |
 | `/update-skill` | **Auto-Update Skill**: Checks and pulls the latest upstream updates from GitHub via `npx skills update job-search-de -g`. |
 | `/match <url / jd>` | **Instant JD Match**: Evaluates an ad-hoc job URL or pasted JD against verified facts in your profile. |
 | `/tailor <id / url>` | **CV & Anschreiben Generator**: Produces tailored CV bullet points and German cover letter grounded in verified facts. |
 | `/sync` | **Notion Sync**: Bi-directionally synchronizes application pipeline statuses with Notion Job Tracker database. |
-| `/digest` | **60-Second Daily Digest**: Summarizes the top 5 high-fit fresh roles discovered in the last 24–48 hours. |
+| `/digest` | **60-Second Daily Digest**: Summarizes the top 5 high-fit fresh roles discovered in the last 24-48 hours. |
 
 ---
 
-## Agent Skill Integration
-
-This skill complies with the standard Agent Skill protocol (Antigravity, Claude Code, OpenClaw, Gemini CLI, Cursor, etc.).
-
-Add it to your skill configurations:
-
-```json
-{
-  "skills": [
-    "~/.agents/skills/job-search-de"
-  ]
-}
-```
-
-When prompt-triggered (e.g., *"Find German Machine Learning Engineer jobs matching my profile in Frankfurt or Remote"*), the Agent automatically executes the full discovery-to-evaluation pipeline following `SKILL.md`.
-
----
-
-## Configuration & Privacy
+## Configuration & Local Privacy
 
 All candidate-specific data lives exclusively in your project root's `.job-search/` directory:
 
@@ -291,19 +215,25 @@ auto_open_browser = true
 ## FAQ
 
 <details>
-<summary><b>1. Do I need paid LinkedIn or scraping API keys?</b></summary>
+<summary><b>1. Do I need an OpenAI, Anthropic, or other LLM API key?</b></summary>
 
-**No.** The pipeline connects directly to official, public ATS career endpoints (Greenhouse, Lever, Ashby, SmartRecruiters, Personio, Workable) used by hiring companies, completely bypassing proprietary scrapers and paid API limits.
+**No.** This is an Agent Skill, not an API client script. Your existing Coding Agent (Antigravity, Claude Code, Cursor, etc.) provides all LLM reasoning, parsing, and execution. You do not need to register for any API keys or pay per token.
 </details>
 
 <details>
-<summary><b>2. Is my resume or personal information uploaded to any server?</b></summary>
+<summary><b>2. Do I need paid LinkedIn or scraping API keys?</b></summary>
+
+**No.** The skill connects directly to official, public ATS career endpoints (Greenhouse, Lever, Ashby, SmartRecruiters, Personio, Workable) used by hiring companies, completely bypassing proprietary scrapers and paid API limits.
+</details>
+
+<details>
+<summary><b>3. Is my resume or personal information uploaded to any server?</b></summary>
 
 **No.** All parsing, evidence matching, and workbench rendering happen entirely locally within your workspace and your AI Agent session. Zero external telemetry or cloud storage is involved.
 </details>
 
 <details>
-<summary><b>3. Can I customize the target cities, keywords, or language criteria?</b></summary>
+<summary><b>4. Can I customize target cities, keywords, or language criteria?</b></summary>
 
 **Yes.** Simply modify `.job-search/preferences.md` or `.job-search/settings.ini`. You can define custom location priorities (e.g., Munich, Berlin, Hamburg), salary expectations, or German language exemptions without touching any code.
 </details>

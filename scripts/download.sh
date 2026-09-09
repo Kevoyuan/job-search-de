@@ -78,8 +78,9 @@ fetch(){ curl -sS -m 18 -A "$UA" -o "$1" -w "%{http_code} $1\n" "$2" 2>/dev/null
 
 fetch_wd() {
   local tenant="$1" site="$2" q="$3" out="$4"
+  local safe_q="${q//\"/\\\"}"
   curl -sS -m 20 -A "$UA" -X POST -H 'Content-Type: application/json' -H 'Accept: application/json' \
-    -d "{\"appliedFacets\":{},\"limit\":20,\"offset\":0,\"searchText\":\"$q\"}" \
+    -d "{\"appliedFacets\":{},\"limit\":20,\"offset\":0,\"searchText\":\"$safe_q\"}" \
     -o "$out" -w "%{http_code} $(basename "$out")\n" \
     "https://$tenant.wd3.myworkdayjobs.com/wday/cxs/$tenant/$site/jobs" 2>/dev/null || echo "FAIL $(basename "$out")"
 }
@@ -88,7 +89,9 @@ rm -f "$RAW"/*.json "$RAW"/*.xml
 while read -r line; do
   [ -z "$line" ] && continue
   case "$line" in \#*) continue ;; esac
+  set -f
   set -- $line
+  set +f
   case "$1" in
     gh) run_parallel fetch "$RAW/gh_$2.json" "https://boards-api.greenhouse.io/v1/boards/$2/jobs?content=true&per_page=500" ;;
     ab) run_parallel fetch "$RAW/ab_$2.json" "https://api.ashbyhq.com/posting-api/job-board/$2?includeCompensation=true" ;;
@@ -109,8 +112,9 @@ done
 
 for keyword in "${SEARCH_KEYWORDS[@]}"; do
   keyword_file=$(echo "$keyword" | tr ' ' '_')
-  run_parallel fetch "$RAW/an_kw_${keyword_file}_1.json" "https://www.arbeitnow.com/api/job-board-api?location=$COUNTRY_QUERY&search=$keyword&page=1"
-  run_parallel fetch "$RAW/an_kw_${keyword_file}_2.json" "https://www.arbeitnow.com/api/job-board-api?location=$COUNTRY_QUERY&search=$keyword&page=2"
+  encoded_kw=$(echo "$keyword" | sed 's/ /%20/g')
+  run_parallel fetch "$RAW/an_kw_${keyword_file}_1.json" "https://www.arbeitnow.com/api/job-board-api?location=$COUNTRY_QUERY&search=$encoded_kw&page=1"
+  run_parallel fetch "$RAW/an_kw_${keyword_file}_2.json" "https://www.arbeitnow.com/api/job-board-api?location=$COUNTRY_QUERY&search=$encoded_kw&page=2"
 done
 
 run_parallel fetch "$RAW/ro.json" "https://remoteok.com/api"

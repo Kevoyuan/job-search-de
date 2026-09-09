@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" id="metaThemeColor" content="#ffffff">
   <title>__TITLE__ - Job Hunt Workbench</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,6 +13,7 @@
        Design Systems & CSS Tokens (Calibrated from Stitch Design Taste & GStack)
        ========================================================================== */
     :root {
+      color-scheme: light;
       --font-sans: Geist, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       --font-mono: "Geist Mono", "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Monaco, Consolas, monospace;
       --transition-fast: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
@@ -32,16 +34,16 @@
       --bg-hover: #f1f0ec;
       --border: #e5e3df;
       --border-strong: #c8c4be;
-      --border-focus: #5645d4;
+      --border-focus: #1e5e3a;
       
       --text: #37352f;
       --text-muted: #787671;
-      --text-faint: #a4a097;
+      --text-faint: #8c877d;
       
-      --primary: #5645d4;
-      --primary-hover: #4534b3;
-      --primary-bg: #f0edfa;
-      --primary-text: #391c57;
+      --primary: #1e5e3a;
+      --primary-hover: #14462a;
+      --primary-bg: #ebf5ee;
+      --primary-text: #0f3b23;
       
       --success: #1aae39;
       --success-bg: #d9f3e1;
@@ -52,11 +54,11 @@
       --warning-text: #793400;
 
       --danger: #e03131;
-      --danger-bg: #fde0ec;
-      --danger-text: #a02e6d;
+      --danger-bg: #fee2e2;
+      --danger-text: #991b1b;
 
-      --info-bg: #dcecfa;
-      --info-text: #005bab;
+      --info-bg: #e6f0ed;
+      --info-text: #1d5446;
 
       --shadow-sm: 0 1px 2px rgba(15, 15, 15, 0.05);
       --shadow-md: 0 4px 12px rgba(15, 15, 15, 0.07);
@@ -66,22 +68,23 @@
 
     /* Dark Velocity Theme (High-Contrast Cybernetic Dark Mode) */
     [data-theme="obsidian"] {
+      color-scheme: dark;
       --bg: #010102;
       --bg-surface: #0f1011;
       --bg-subtle: #141516;
       --bg-hover: #1c1d1f;
       --border: #23252a;
       --border-strong: #34343a;
-      --border-focus: #5e6ad2;
+      --border-focus: #d4d4d8;
 
       --text: #f7f8f8;
       --text-muted: #8a8f98;
       --text-faint: #62666d;
 
-      --primary: #5e6ad2;
-      --primary-hover: #828fff;
-      --primary-bg: rgba(94, 106, 210, 0.16);
-      --primary-text: #b6beff;
+      --primary: #f4f4f5;
+      --primary-hover: #ffffff;
+      --primary-bg: rgba(255, 255, 255, 0.08);
+      --primary-text: #f4f4f5;
 
       --success: #27a644;
       --success-bg: rgba(39, 166, 68, 0.16);
@@ -95,8 +98,8 @@
       --danger-bg: rgba(239, 68, 68, 0.16);
       --danger-text: #fca5a5;
 
-      --info-bg: rgba(56, 189, 248, 0.16);
-      --info-text: #7dd3fc;
+      --info-bg: rgba(255, 255, 255, 0.08);
+      --info-text: #e4e4e7;
 
       --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
       --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.6);
@@ -106,11 +109,15 @@
 
     /* Dark Velocity Scoped Refinements */
     [data-theme="obsidian"] .btn-primary {
-      background: var(--primary);
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+      background: #f4f4f5;
+      color: #09090b;
+      font-weight: 600;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.4);
     }
     [data-theme="obsidian"] .btn-primary:hover {
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.32);
+      background: #ffffff;
+      color: #000000;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.6);
     }
     [data-theme="obsidian"] .kanban-card:hover {
       border-color: rgba(255, 255, 255, 0.16);
@@ -128,6 +135,7 @@
 
     /* Industrial Precision Theme (Functional Industrial Minimalism) */
     [data-theme="bauhaus"] {
+      color-scheme: light;
       /* Substrates: Warm matte composite resin & anodized aluminum faceplate */
       --bg: #ece9e2;
       --bg-surface: #f7f6f3;
@@ -140,7 +148,7 @@
       /* High-contrast precision carbon typography */
       --text: #191a1b;
       --text-muted: #5f6063;
-      --text-faint: #8f8d87;
+      --text-faint: #77746d;
 
       /* Signature Braun Amber / Signal Orange (ET66 key & equipment dial) */
       --primary: #e8590c;
@@ -163,8 +171,8 @@
       --danger-bg: #fee2e2;
       --danger-text: #991b1b;
 
-      --info-bg: #e2edf8;
-      --info-text: #1e5a8a;
+      --info-bg: #eae7df;
+      --info-text: #44403c;
 
       /* Precision Machined Radii: 2px-6px (Strictly disciplined) */
       --radius-xs: 2px;
@@ -195,15 +203,15 @@
       transform: translateY(1px);
     }
     [data-theme="bauhaus"] .btn-primary {
-      background: var(--primary);
-      border-color: #cb4c07;
+      background: #c2410c;
+      border-color: #9a3412;
       color: #ffffff;
       box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.35);
       text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
     }
     [data-theme="bauhaus"] .btn-primary:hover {
-      background: var(--primary-hover);
-      border-color: #b84204;
+      background: #b43a08;
+      border-color: #8c2e0f;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.4);
     }
     [data-theme="bauhaus"] .btn-primary:active {
@@ -274,40 +282,41 @@
 
     /* Spatial Quartz Theme (Translucent Quartz Glassmorphism) */
     [data-theme="bento"] {
-      --bg: #eef2f7;
+      color-scheme: light;
+      --bg: #f6f4f0;
       --bg-surface: rgba(255, 255, 255, 0.72);
-      --bg-subtle: rgba(238, 243, 250, 0.65);
+      --bg-subtle: rgba(246, 243, 238, 0.65);
       --bg-hover: rgba(255, 255, 255, 0.92);
       --border: rgba(255, 255, 255, 0.85);
-      --border-strong: rgba(203, 213, 225, 0.65);
-      --border-focus: #0071e3;
+      --border-strong: rgba(215, 205, 195, 0.65);
+      --border-focus: #b45309;
 
       /* High-Contrast Charcoal Ink */
       --text: #1d1d1f;
       --text-muted: #6e6e73;
       --text-faint: #86868b;
 
-      /* Electric Action Blue Accent */
-      --primary: #0071e3;
-      --primary-hover: #0077ed;
-      --primary-bg: rgba(0, 113, 227, 0.08);
-      --primary-text: #0051a2;
+      /* Warm Amber Topaz Quartz Accent */
+      --primary: #b45309;
+      --primary-hover: #92400e;
+      --primary-bg: rgba(180, 83, 9, 0.08);
+      --primary-text: #78350f;
 
       /* Semantics */
-      --success: #34c759;
-      --success-bg: rgba(52, 199, 89, 0.12);
-      --success-text: #1b7a34;
+      --success: #16a34a;
+      --success-bg: rgba(22, 163, 74, 0.12);
+      --success-text: #15803d;
 
-      --warning: #ff9500;
-      --warning-bg: rgba(255, 149, 0, 0.12);
-      --warning-text: #995a00;
+      --warning: #ea580c;
+      --warning-bg: rgba(234, 88, 12, 0.12);
+      --warning-text: #9a3412;
 
-      --danger: #ff3b30;
-      --danger-bg: rgba(255, 59, 48, 0.12);
-      --danger-text: #b31d15;
+      --danger: #dc2626;
+      --danger-bg: rgba(220, 38, 38, 0.12);
+      --danger-text: #991b1b;
 
-      --info-bg: rgba(0, 113, 227, 0.10);
-      --info-text: #0071e3;
+      --info-bg: rgba(180, 83, 9, 0.08);
+      --info-text: #92400e;
 
       /* Soft Spatial Bento Radii */
       --radius-xs: 6px;
@@ -318,18 +327,18 @@
       --radius-full: 9999px;
 
       /* Spatial Glass Diffusion & Specular Inset */
-      --shadow-sm: 0 2px 8px rgba(0, 20, 60, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.95);
-      --shadow-md: 0 8px 24px -4px rgba(0, 20, 60, 0.07), inset 0 1px 0 rgba(255, 255, 255, 0.95);
-      --shadow-lg: 0 20px 48px -10px rgba(0, 20, 60, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+      --shadow-sm: 0 2px 8px rgba(35, 25, 15, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+      --shadow-md: 0 8px 24px -4px rgba(35, 25, 15, 0.07), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+      --shadow-lg: 0 20px 48px -10px rgba(35, 25, 15, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.95);
       --backdrop-blur: blur(24px) saturate(180%);
     }
 
     /* Spatial Quartz Scoped Component Glass Styling */
     html[data-theme="bento"] body {
-      background-color: #eef2f7;
+      background-color: #f6f4f0;
       background-image: 
-        radial-gradient(circle at 12% 15%, rgba(0, 113, 227, 0.07) 0%, transparent 45%),
-        radial-gradient(circle at 88% 75%, rgba(147, 197, 253, 0.12) 0%, transparent 50%);
+        radial-gradient(circle at 12% 15%, rgba(180, 83, 9, 0.05) 0%, transparent 45%),
+        radial-gradient(circle at 88% 75%, rgba(160, 140, 110, 0.08) 0%, transparent 50%);
       background-attachment: fixed;
     }
     [data-theme="bento"] header {
@@ -337,7 +346,7 @@
       backdrop-filter: blur(24px) saturate(180%);
       -webkit-backdrop-filter: blur(24px) saturate(180%);
       border-bottom: 1px solid rgba(255, 255, 255, 0.85);
-      box-shadow: 0 4px 20px -4px rgba(0, 20, 60, 0.04);
+      box-shadow: 0 4px 20px -4px rgba(35, 25, 15, 0.04);
     }
     [data-theme="bento"] .control-bar,
     [data-theme="bento"] .table-container,
@@ -347,36 +356,36 @@
       backdrop-filter: blur(24px) saturate(180%);
       -webkit-backdrop-filter: blur(24px) saturate(180%);
       border: 1px solid rgba(255, 255, 255, 0.85);
-      box-shadow: 0 10px 32px 0 rgba(0, 20, 60, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+      box-shadow: 0 10px 32px 0 rgba(35, 25, 15, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.95);
     }
     [data-theme="bento"] .kanban-card {
       background: rgba(255, 255, 255, 0.88);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       border: 1px solid rgba(255, 255, 255, 0.9);
-      box-shadow: 0 4px 14px rgba(0, 20, 60, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+      box-shadow: 0 4px 14px rgba(35, 25, 15, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.95);
     }
     [data-theme="bento"] .kanban-card:hover {
       background: rgba(255, 255, 255, 0.98);
-      border-color: rgba(0, 113, 227, 0.35);
-      box-shadow: 0 10px 28px -4px rgba(0, 113, 227, 0.12), inset 0 1px 0 rgba(255, 255, 255, 1);
+      border-color: rgba(180, 83, 9, 0.35);
+      box-shadow: 0 10px 28px -4px rgba(180, 83, 9, 0.12), inset 0 1px 0 rgba(255, 255, 255, 1);
       transform: translateY(-2px);
     }
     [data-theme="bento"] .btn-primary {
       background: var(--primary);
-      border-color: #0062c4;
+      border-color: #92400e;
       color: #ffffff;
-      box-shadow: 0 2px 8px rgba(0, 113, 227, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+      box-shadow: 0 2px 8px rgba(180, 83, 9, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.35);
     }
     [data-theme="bento"] .btn-primary:hover {
       background: var(--primary-hover);
-      box-shadow: 0 4px 14px rgba(0, 113, 227, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.45);
+      box-shadow: 0 4px 14px rgba(180, 83, 9, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.45);
     }
     [data-theme="bento"] .btn-toggle-view {
       border-radius: var(--radius-sm);
     }
     [data-theme="bento"] .btn-toggle-view.active {
-      background: rgba(0, 113, 227, 0.12);
+      background: rgba(180, 83, 9, 0.12);
       color: var(--primary);
     }
     [data-theme="bento"] .filter-chip-btn {
@@ -389,31 +398,31 @@
       background: var(--primary);
       color: #ffffff;
       border-color: var(--primary);
-      box-shadow: 0 2px 8px rgba(0, 113, 227, 0.3);
+      box-shadow: 0 2px 8px rgba(180, 83, 9, 0.3);
     }
     [data-theme="bento"] .search-input,
     [data-theme="bento"] .select-dropdown {
       background: rgba(255, 255, 255, 0.75);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(203, 213, 225, 0.65);
+      border: 1px solid rgba(215, 205, 195, 0.65);
       box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.02);
     }
     [data-theme="bento"] .search-input:focus,
     [data-theme="bento"] .select-dropdown:focus {
       background: rgba(255, 255, 255, 0.95);
       border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.15);
+      box-shadow: 0 0 0 3px rgba(180, 83, 9, 0.15);
     }
     [data-theme="bento"] th {
-      background: rgba(240, 244, 250, 0.7);
+      background: rgba(246, 243, 238, 0.7);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
     }
     [data-theme="bento"] kbd {
       background: rgba(255, 255, 255, 0.8);
-      border: 1px solid rgba(203, 213, 225, 0.8);
-      box-shadow: 0 1px 0 rgba(148, 163, 184, 0.5);
+      border: 1px solid rgba(215, 205, 195, 0.8);
+      box-shadow: 0 1px 0 rgba(180, 170, 160, 0.5);
     }
 
 
@@ -451,6 +460,46 @@
     a:focus-visible {
       outline: 2px solid var(--border-focus);
       outline-offset: 2px;
+    }
+
+    /* Anti-Slop Accessibility Controls: Reduced Motion */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+      .status-dot-pulse {
+        animation: none !important;
+      }
+    }
+
+    /* Anti-Slop Accessibility Controls: Reduced Transparency */
+    @media (prefers-reduced-transparency: reduce) {
+      [data-theme="bento"] header,
+      [data-theme="bento"] .control-bar,
+      [data-theme="bento"] .table-container,
+      [data-theme="bento"] .kanban-col,
+      [data-theme="bento"] .drawer,
+      [data-theme="bento"] .kanban-card,
+      [data-theme="bento"] .filter-chip-btn,
+      [data-theme="bento"] .search-input,
+      [data-theme="bento"] .select-dropdown,
+      [data-theme="bento"] th,
+      .drawer-overlay,
+      .modal-overlay {
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+      }
+      [data-theme="bento"] header,
+      [data-theme="bento"] .control-bar,
+      [data-theme="bento"] .table-container,
+      [data-theme="bento"] .kanban-col,
+      [data-theme="bento"] .drawer,
+      [data-theme="bento"] .kanban-card {
+        background: #ffffff !important;
+      }
     }
 
     /* Tabular numbers for dates, IDs and scores */
@@ -545,7 +594,7 @@
       flex-wrap: wrap;
     }
     .update-badge {
-      background: #3b82f6;
+      background: #047857;
       color: #ffffff;
       font-size: 11px;
       font-weight: 700;
@@ -565,7 +614,7 @@
     }
     .code-pill {
       font-family: var(--font-mono);
-      color: #93c5fd;
+      color: #34d399;
       font-size: 12px;
     }
     .btn-copy-code {
@@ -585,6 +634,21 @@
     .btn-copy-code:hover {
       background: rgba(255, 255, 255, 0.3);
       transform: translateY(-1px);
+    }
+    .btn-banner-close {
+      background: transparent;
+      border: none;
+      color: rgba(255, 255, 255, 0.7);
+      cursor: pointer;
+      padding: 4px;
+      display: inline-flex;
+      align-items: center;
+      border-radius: var(--radius-xs);
+      transition: var(--transition-fast);
+    }
+    .btn-banner-close:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.15);
     }
 
     /* ==========================================================================
@@ -1661,7 +1725,7 @@
         </button>
       </div>
     </div>
-    <button style="background:transparent;border:none;color:#aaa;cursor:pointer;padding:4px;display:inline-flex;align-items:center;" onclick="document.getElementById('updateBanner').style.display='none'" title="Close" aria-label="Close" data-i18n-title="btnClose" data-i18n-aria="btnClose">
+    <button class="btn-banner-close" onclick="document.getElementById('updateBanner').style.display='none'" title="Close" aria-label="Close" data-i18n-title="btnClose" data-i18n-aria="btnClose">
       <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
     </button>
   </div>
@@ -1939,7 +2003,7 @@
     </div>
     <div class="drawer-footer">
       <button class="btn" onclick="closeJobDetail()" data-i18n="btnClose">Close</button>
-      <a id="jobDetailApplyLink" href="#" target="_blank" class="btn btn-primary">
+      <a id="jobDetailApplyLink" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
         <span data-i18n="btnOfficialApply">Apply on Official Site</span>
         <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
       </a>
@@ -2660,6 +2724,17 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
       localStorage.setItem('job_workbench_theme', themeName);
       const sel = document.getElementById('themeSelector');
       if (sel) sel.value = themeName;
+
+      const themeColors = {
+        notion: '#ffffff',
+        obsidian: '#010102',
+        bauhaus: '#ece9e2',
+        bento: '#f6f4f0'
+      };
+      const metaColor = document.getElementById('metaThemeColor');
+      if (metaColor && themeColors[themeName]) {
+        metaColor.setAttribute('content', themeColors[themeName]);
+      }
     }
     const savedTheme = localStorage.getItem('job_workbench_theme') || 'notion';
     switchTheme(savedTheme);
@@ -2740,7 +2815,7 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
         };
 
         tr.innerHTML = `
-          <td><code style="font-size:11px;">${job.id || '-'}</code></td>
+          <td><code style="font-size:11px;">${escapeHtml(job.id || '-')}</code></td>
           <td><span class="score-badge ${scoreClass}">${score}</span></td>
           <td><strong>${escapeHtml(job.company || '-')}</strong></td>
           <td>
@@ -2748,16 +2823,23 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
           </td>
           <td><span style="font-size:12px;color:var(--text-muted);">${escapeHtml(job.roleType || '-')}</span></td>
           <td><span style="font-size:12px;">${escapeHtml(job.location || '-')}</span></td>
-          <td><span class="tag-badge ${workModelClass}">${job.workModel || '-'}</span></td>
-          <td class="tabular-nums" style="font-size:12px;color:var(--text-muted);">${job.datePosted || '-'}</td>
+          <td><span class="tag-badge ${workModelClass}">${escapeHtml(job.workModel || '-')}</span></td>
+          <td class="tabular-nums" style="font-size:12px;color:var(--text-muted);">${escapeHtml(job.datePosted || '-')}</td>
           <td><span class="freshness-pill ${freshClass}"><span class="${job.freshness === 'VERIFIED_FRESH' ? 'status-dot-pulse' : 'status-dot'}"></span>${freshText}</span></td>
           <td>
             <div style="display:flex;align-items:center;gap:6px;">
-              <button class="btn" style="padding:3px 8px;font-size:11px;" onclick="openJobDetailById('${job.id}');event.stopPropagation();">${dict.btnDetails}</button>
-              <a href="${job.url}" target="_blank" class="btn-apply-link" onclick="event.stopPropagation()">${dict.btnApply}</a>
+              <button class="btn btn-detail-trigger" style="padding:3px 8px;font-size:11px;">${dict.btnDetails}</button>
+              <a href="${safeUrl(job.url)}" target="_blank" rel="noopener noreferrer" class="btn-apply-link" onclick="event.stopPropagation()">${dict.btnApply}</a>
             </div>
           </td>
         `;
+        const detailBtn = tr.querySelector('.btn-detail-trigger');
+        if (detailBtn) {
+          detailBtn.onclick = (e) => {
+            e.stopPropagation();
+            openJobDetail(job);
+          };
+        }
         tbody.appendChild(tr);
       });
     }
@@ -2799,22 +2881,29 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
           </div>
           <div class="kanban-title">${escapeHtml(job.title)}</div>
           <div class="kanban-meta">
-            <span class="tag-badge ${workModelClass}">${job.workModel || 'On-site'}</span>
+            <span class="tag-badge ${workModelClass}">${escapeHtml(job.workModel || 'On-site')}</span>
             <span style="font-size:11px;color:var(--text-muted);">${escapeHtml(job.location)}</span>
           </div>
           <div class="kanban-footer">
-            <span class="tabular-nums">${job.datePosted || ''}</span>
+            <span class="tabular-nums">${escapeHtml(job.datePosted || '')}</span>
             <div style="display:flex;align-items:center;gap:6px;">
-              <select class="select-dropdown" style="padding:2px 6px;font-size:10px;" onchange="updateJobStatus('${job.id}', this.value);event.stopPropagation();">
+              <select class="select-dropdown kanban-status-select" style="padding:2px 6px;font-size:10px;">
                 <option value="todo" ${status==='todo'?'selected':''}>${dict.optTodo}</option>
                 <option value="prep" ${status==='prep'?'selected':''}>${dict.optPrep}</option>
                 <option value="applied" ${status==='applied'?'selected':''}>${dict.optApplied}</option>
                 <option value="interview" ${status==='interview'?'selected':''}>${dict.optInterview}</option>
               </select>
-              <a href="${job.url}" target="_blank" class="btn-apply-link" style="padding:2px 4px;font-size:11px;" onclick="event.stopPropagation()">↗</a>
+              <a href="${safeUrl(job.url)}" target="_blank" rel="noopener noreferrer" class="btn-apply-link" style="padding:2px 4px;font-size:11px;" onclick="event.stopPropagation()">↗</a>
             </div>
           </div>
         `;
+        const sel = card.querySelector('.kanban-status-select');
+        if (sel) {
+          sel.onchange = (e) => {
+            e.stopPropagation();
+            updateJobStatus(job.id, sel.value);
+          };
+        }
         cols[status].appendChild(card);
       });
 
@@ -2968,7 +3057,9 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
       document.getElementById('jobDetailWorkModel').textContent = job.workModel || '-';
       document.getElementById('jobDetailDate').textContent = job.datePosted || '-';
       document.getElementById('jobDetailFreshness').textContent = job.freshness || '-';
-      document.getElementById('jobDetailApplyLink').href = job.url || '#';
+      const applyLink = document.getElementById('jobDetailApplyLink');
+      applyLink.href = safeUrl(job.url);
+      applyLink.rel = 'noopener noreferrer';
 
       // Status buttons highlight
       const currentStatus = getJobStatus(job.id);
@@ -3315,6 +3406,25 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
         .replace(/>/g, '&gt;')
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#039;');
+    }
+
+    function safeUrl(url) {
+      if (!url || typeof url !== 'string') return '#';
+      const trimmed = url.trim();
+      if (/^https?:\/\//i.test(trimmed)) {
+        return trimmed;
+      }
+      return '#';
+    }
+
+    function escapeAttr(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
     }
 
     // Initialize UI with preferred language

@@ -9,6 +9,7 @@ import json
 import re
 import sys
 import urllib.error
+import urllib.parse
 import urllib.request
 from html.parser import HTMLParser
 from typing import Dict, List, Optional
@@ -86,6 +87,10 @@ def verify_url(url: str, timeout: int = 15) -> str:
     if not url or url.startswith("#"):
         return ""
 
+    parsed = urllib.parse.urlparse(url)
+    if parsed.scheme.lower() not in ("http", "https"):
+        return f"[000] FAIL :: InvalidScheme :: {url}"
+
     headers = {
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36",
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
@@ -98,7 +103,8 @@ def verify_url(url: str, timeout: int = 15) -> str:
         with urllib.request.urlopen(req, timeout=timeout) as resp:
             http_code = resp.getcode()
             charset = resp.headers.get_content_charset() or "utf-8"
-            html_content = resp.read().decode(charset, errors="replace")
+            # Read max 2MB to prevent memory exhaustion
+            html_content = resp.read(2 * 1024 * 1024).decode(charset, errors="replace")
     except urllib.error.HTTPError as e:
         http_code = e.code
     except Exception as e:

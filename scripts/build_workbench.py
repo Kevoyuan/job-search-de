@@ -18,6 +18,12 @@ def load_file_content(path: Path) -> str:
     return ""
 
 
+def safe_json_for_script(data) -> str:
+    """Serialize JSON safely for embedding inside an HTML <script> block."""
+    raw = json.dumps(data, ensure_ascii=False)
+    return raw.replace("<", "\\u003c").replace(">", "\\u003e").replace("&", "\\u0026")
+
+
 def main():
     parser = argparse.ArgumentParser(description="Generate job-hunt-workbench.html")
     parser.add_argument("--workdir", default=".", help="Working directory containing .job-search and job files")
@@ -80,8 +86,8 @@ def main():
     rendered_html = rendered_html.replace("__LANG__", args.lang)
     rendered_html = rendered_html.replace("__CURRENT_VERSION__", current_version)
     rendered_html = rendered_html.replace("__LATEST_VERSION__", current_version)
-    rendered_html = rendered_html.replace("__EMBEDDED_CONFIG_JSON__", json.dumps(embedded_config, ensure_ascii=False))
-    rendered_html = rendered_html.replace("__JOBS_JSON__", json.dumps(jobs_data, ensure_ascii=False))
+    rendered_html = rendered_html.replace("__EMBEDDED_CONFIG_JSON__", safe_json_for_script(embedded_config))
+    rendered_html = rendered_html.replace("__JOBS_JSON__", safe_json_for_script(jobs_data))
 
     # 6. Save Output
     output_path = Path(args.output).resolve() if args.output else (workdir / "job-hunt-workbench.html")

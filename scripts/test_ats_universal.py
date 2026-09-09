@@ -9,6 +9,8 @@ import sys
 import tempfile
 
 SKILL_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if SKILL_ROOT not in sys.path:
+    sys.path.insert(0, SKILL_ROOT)
 PARSE_ATS_SCRIPT = os.path.join(SKILL_ROOT, "scripts", "parse_ats.py")
 DOWNLOAD_SCRIPT = os.path.join(SKILL_ROOT, "scripts", "download.sh")
 
@@ -291,6 +293,35 @@ def test_bump_version_decoupled():
     print("✅ test_bump_version_decoupled PASSED: Version sync runs cleanly with decoupled paths.")
 
 
+def test_security_defenses():
+    """Test XSS neutralization, SSRF scheme blocking, and safe external link attributes."""
+    from scripts.build_workbench import safe_json_for_script
+    from scripts.verify_urls import verify_url
+
+    # 1. Script tag breakout neutralization
+    payload = {"attack": "</script><script>alert('xss')</script>"}
+    escaped = safe_json_for_script(payload)
+    assert "</script>" not in escaped, "Script breakout tag found in JSON serializer!"
+    assert r"\u003c/script\u003e" in escaped, "Expected escaped \\u003c in serialized output!"
+
+    # 2. SSRF / Local file reading restriction
+    file_result = verify_url("file:///etc/passwd")
+    assert "InvalidScheme" in file_result, f"verify_url should reject file:// scheme: {file_result}"
+    ftp_result = verify_url("ftp://example.com/test")
+    assert "InvalidScheme" in ftp_result, f"verify_url should reject ftp:// scheme: {ftp_result}"
+
+    # 3. Workbench DOM XSS & Tab-nabbing defenses
+    workbench_path = os.path.join(SKILL_ROOT, "job-hunt-workbench.html")
+    assert os.path.exists(workbench_path), "job-hunt-workbench.html must exist"
+    with open(workbench_path, encoding="utf-8") as f:
+        html = f.read()
+    assert "function safeUrl(" in html, "safeUrl helper missing from workbench HTML"
+    assert "noopener noreferrer" in html, "rel='noopener noreferrer' missing from external links"
+    assert "safeUrl(job.url)" in html, "safeUrl wrapper missing from job.url href"
+
+    print("✅ test_security_defenses PASSED: XSS breakout, SSRF scheme blocking, and tab-nabbing defenses verified.")
+
+
 if __name__ == "__main__":
     print("🚀 Running job-search-de comprehensive verification tests...\n")
     test_non_ai_parsing()
@@ -298,4 +329,5 @@ if __name__ == "__main__":
     test_download_script_syntax_and_worker_pool()
     test_jsonld_verification()
     test_bump_version_decoupled()
+    test_security_defenses()
     print("\n🎉 ALL TESTS PASSED SUCCESSFULLY!")

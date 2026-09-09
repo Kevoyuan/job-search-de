@@ -9,9 +9,9 @@
 
 - **Atmosphere & Mood**: A restrained, razor-sharp career cockpit engineered for high-velocity software engineers. The aesthetic bridges the tactile precision of a modern developer IDE (Linear, Raycast) with the warmth of a curated editorial studio (Notion).
 - **Taste Spectrum Calibration**:
-  - **Density**: `Cockpit Dense` (**8/10**) — Maximum informational throughput without perceptual fatigue. Prioritizes tabular scans, sticky navigational chrome, high-density monospace badges, and dense keyboard shortcuts.
-  - **Variance**: `Offset Asymmetric` (**6/10**) — Balanced structural asymmetry. Left-weighted data hierarchy, responsive multi-lane kanban, and side-sheet drawer overlays.
-  - **Motion**: `Fluid Spring CSS` (**6/10**) — Tactile, hardware-accelerated micro-interactions. Weighty spring-physics transitions (`cubic-bezier(0.16, 1, 0.3, 1)`), physical press states (`translateY(1px)`), and perpetual micro-interaction pulse loops.
+  - **Density**: `Cockpit Dense` (**8/10**): Maximum informational throughput without perceptual fatigue. Prioritizes tabular scans, sticky navigational chrome, high-density monospace badges, and dense keyboard shortcuts.
+  - **Variance**: `Offset Asymmetric` (**6/10**): Balanced structural asymmetry. Left-weighted data hierarchy, responsive multi-lane kanban, and side-sheet drawer overlays.
+  - **Motion**: `Fluid Spring CSS` (**6/10**): Tactile, hardware-accelerated micro-interactions. Weighty spring-physics transitions (`cubic-bezier(0.16, 1, 0.3, 1)`), physical press states (`translateY(1px)`), and perpetual micro-interaction pulse loops.
 
 ---
 
@@ -19,44 +19,47 @@
 
 The workbench supports 4 curated palettes. Every palette enforces a single primary chromatic accent with saturation strictly controlled below 80%, absolute neutral bases, zero neon glow artifacts, and strict WCAG AA contrast compliance. Pure black (`#000000`) is strictly banned across all themes.
 
-### 2.1 Editorial Craft (Default — Warm Paper & Ink Workspace)
-- **Canvas White** (`#ffffff`) — Primary card and table container surface
-- **Warm Paper Canvas** (`#f7f6f5`) — Page backdrop and drawer body background
-- **Charcoal Ink** (`#37352f`) — Primary text; warm signature charcoal (Zinc-950 depth)
-- **Muted Slate** (`#787671`) — Secondary labels, timestamps, and table headers
-- **Whisper Border** (`#e5e3df`) — 1px hairline dividers and structural borders
-- **Strong Hairline** (`#c8c4be`) — Focused card edges and interactive borders
-- **Editorial Purple Accent** (`#5645d4`) — Primary chromatic accent for CTAs, active indicators, and focus rings (Saturation: 62%)
-- **Verified Fresh Green** (`#1aae39`, tint `#d9f3e1`) — High-freshness semantic indicator
-- **Active Warning Amber** (`#dd5b00`, tint `#ffe8d4`) — Medium-fit and recent active semantic indicator
+### 2.1 Editorial Craft (Default: Warm Paper & Ink Workspace)
+- **Canvas White** (`#ffffff`): Primary card and table container surface
+- **Warm Paper Canvas** (`#f7f6f5`): Page backdrop and drawer body background
+- **Charcoal Ink** (`#37352f`): Primary text; warm signature charcoal (Zinc-950 depth)
+- **Muted Slate** (`#787671`): Secondary labels, timestamps, and table headers
+- **Whisper Border** (`#e5e3df`): 1px hairline dividers and structural borders
+- **Strong Hairline** (`#c8c4be`): Focused card edges and interactive borders
+- **Forest Ink Accent** (`#1e5e3a`): Primary chromatic accent for CTAs, active indicators, and focus rings (Saturation: 51%, Contrast: 7.73:1 AAA)
+- **Verified Fresh Green** (`#1aae39`, tint `#d9f3e1`): High-freshness semantic indicator
+- **Active Warning Amber** (`#dd5b00`, tint `#ffe8d4`): Medium-fit and recent active semantic indicator
+- **Forest Slate Neutral Info** (`#1d5446`, tint `#e6f0ed`): Work model tags and informative indicators (Contrast: 7.49:1 AAA)
 
-### 2.2 Dark Velocity (Dark — High-Contrast Cybernetic Engine)
-- **Void Canvas** (`#010102`) — Deepest dark backdrop (never pure `#000000`)
-- **Surface Elevation** (`#0f1011`) — Card bodies, table rows, and control bars
-- **Surface Lift** (`#141516`) — Hover state and modal surface
-- **High-Contrast Ink** (`#f7f8f8`) — Primary high-contrast light text
-- **Muted Steel** (`#8a8f98`) — Secondary text, metadata, and column headers
-- **Subtle Charcoal** (`#62666d`) — Faint shortcuts and placeholder text
-- **Hairline Rule** (`#23252a`) — 1px card and divider borders; strong variant `#34343a`
-- **Lavender-Blue Accent** (`#5e6ad2`) — Primary chromatic accent for active pills and focus rings (Saturation: 55%)
-- **Semantic Green** (`#27a644`, bg `rgba(39, 166, 68, 0.16)`) — Verified job status indicator
-- **Semantic Amber** (`#f59e0b`, bg `rgba(245, 158, 11, 0.16)`) — Active job status indicator
+### 2.2 Dark Velocity (Dark: High-Contrast Cybernetic Engine)
+- **Void Canvas** (`#010102`): Deepest dark backdrop (never pure `#000000`)
+- **Surface Elevation** (`#0f1011`): Card bodies, table rows, and control bars
+- **Surface Lift** (`#141516`): Hover state and modal surface
+- **High-Contrast Ink** (`#f7f8f8`): Primary high-contrast light text
+- **Muted Steel** (`#8a8f98`): Secondary text, metadata, and column headers
+- **Subtle Charcoal** (`#62666d`): Faint shortcuts and placeholder text
+- **Hairline Rule** (`#23252a`): 1px card and divider borders; strong variant `#34343a`
+- **Cold Titanium Monochrome Accent** (`#f4f4f5`): Primary monochromatic accent for active pills and focus rings; primary CTA button in titanium card with obsidian carbon text (`#09090b`, Contrast: 18.10:1 AAA)
+- **Semantic Green** (`#27a644`, bg `rgba(39, 166, 68, 0.16)`): Verified job status indicator
+- **Semantic Amber** (`#f59e0b`, bg `rgba(245, 158, 11, 0.16)`): Active job status indicator
+- **Titanium Neutral Info** (`#e4e4e7`, bg `rgba(255, 255, 255, 0.08)`): Zero-chroma informative tag badges
 
 ### 2.3 Industrial Precision (Functional Industrial Minimalism)
-- **Technical Composite Resin** (`#ece9e2`) — Warm matte composite resin canvas
-- **Anodized Aluminum Surface** (`#f7f6f3`) — Matte faceplate and container surface
-- **Recessed Bay** (`#e2ded6`) — Sunken channel and drawer backdrop
-- **Deep Carbon Ink** (`#191a1b`) — High-contrast precision dark ink
-- **Hairline Seam** (`#c8c4bc`) — Crisp CNC precision dividers
-- **Signal Amber Accent** (`#e8590c`) — Tuning dial and action key accent (Saturation: 75%)
-- **Tactile Keycap Shadow** (`0 1px 2px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.85)`) — Mechanical tactile convex key relief
+- **Technical Composite Resin** (`#ece9e2`): Warm matte composite resin canvas
+- **Anodized Aluminum Surface** (`#f7f6f3`): Matte faceplate and container surface
+- **Recessed Bay** (`#e2ded6`): Sunken channel and drawer backdrop
+- **Deep Carbon Ink** (`#191a1b`): High-contrast precision dark ink
+- **Hairline Seam** (`#c8c4bc`): Crisp CNC precision dividers
+- **Braun Signal Orange Accent** (`#e8590c`, button `#c2410c`): Tuning dial and action key accent (Saturation: 75%, Contrast: 5.18:1 AA)
+- **Tactile Keycap Shadow** (`0 1px 2px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.85)`): Mechanical tactile convex key relief
+- **Warm Stone Anodized Neutral Info** (`#44403c`, tint `#eae7df`): Functional industrial neutral info badges (Contrast: 8.31:1 AAA)
 
 ### 2.4 Spatial Quartz (Translucent Quartz Glassmorphism)
-- **Ambient Quartz Canvas** (`#eef2f7`) — Fixed radial ambient light canvas
-- **Frosted Quartz Surface** (`rgba(255, 255, 255, 0.72)`) — Multi-layer frosted glass with `backdrop-filter: blur(24px) saturate(180%)`
-- **High-Contrast Charcoal** (`#1d1d1f`) — Ultra-crisp modern ink
-- **Electric Action Blue** (`#0071e3`) — System accent with soft diffuse lighting
-- **Quartz Specular Border** (`rgba(255, 255, 255, 0.85)`) — Crystal inner reflection (`inset 0 1px 0 rgba(255, 255, 255, 0.95)`)
+- **Ambient Warm Quartz Canvas** (`#f6f4f0`): Fixed radial warm ambient light canvas (zero cold blue glare)
+- **Frosted Quartz Surface** (`rgba(255, 255, 255, 0.72)`): Multi-layer frosted glass with `backdrop-filter: blur(24px) saturate(180%)`
+- **High-Contrast Charcoal** (`#1d1d1f`): Ultra-crisp modern ink
+- **Warm Amber Topaz Quartz Accent** (`#b45309`, text `#78350f`): Natural gemstone accent with soft diffuse lighting (Contrast: 5.02:1 AA)
+- **Quartz Specular Border** (`rgba(255, 255, 255, 0.85)`): Crystal inner reflection (`inset 0 1px 0 rgba(255, 255, 255, 0.95)`)
 
 ---
 
@@ -131,18 +134,18 @@ The workbench supports 4 curated palettes. Every palette enforces a single prima
 
 ## 7. Anti-Patterns (Banned AI Clichés)
 
-- 🚫 **Banned: Cartoon Emoji Decoration** — Zero consumer emojis (🎯, 🚀, 💬, 📝, ⚙️, 🇩🇪, 🎨) in interface labels, buttons, or badge elements. All icons must be clean Open Design SVG glyphs.
-- 🚫 **Banned: AI Neon Purple/Cyan Glows** — No uncalibrated gradients from `#6366f1` to `#ec4899`, no radial neon backdrops.
-- 🚫 **Banned: Pure Black (`#000000`)** — Void canvas must use off-black (`#090a0c` or `#010102`), primary text must use charcoal ink (`#37352f`).
-- 🚫 **Banned: `Inter` Font Monotony** — Use `Geist` and `Geist Mono` for distinctive, modern software character.
-- 🚫 **Banned: Generic Serifs** — No `Times New Roman`, `Georgia`, or `Garamond` in dashboard interfaces.
-- 🚫 **Banned: Unchecked Outline Stripping** — Never declare `outline: none` without providing an explicit `:focus-visible` replacement.
-- 🚫 **Banned: Uniform Bubbly Border-Radius** — No applying the same 16px+ border radius to every button, tag, input, and card.
-- 🚫 **Banned: Centered Everything** — No centering tabular data, job titles, or column layouts. Alignment must be functional.
-- 🚫 **Banned: AI Marketing Copy Slop** — No empty buzzwords like "Unlock Next-Gen Potential", "Seamless Workflow Synergy", "Elevate Your Career". Keep all copy factual and concrete.
-- 🚫 **Banned: Filler UI Text** — No "Scroll to explore", "Swipe down", scroll arrows, or bouncing chevrons.
-- 🚫 **Banned: Layout-Shifting Sprites** — All icons and spinners must have fixed structural dimensions.
-- 🚫 **Banned: Custom Mouse Cursors** — Native cursor interaction only.
-- 🚫 **Banned: Overlapping Content Stacks** — Clean spatial zones only.
-- 🚫 **Banned: Oversaturated Accents** — Color saturation strictly below 80%.
-- 🚫 **Banned: Fake Precision Numbers** — No artificial `99.99%` claims. Factual score metrics only.
+- 🚫 **Banned: Cartoon Emoji Decoration**: Zero consumer emojis (🎯, 🚀, 💬, 📝, ⚙️, 🇩🇪, 🎨) in interface labels, buttons, or badge elements. All icons must be clean Open Design SVG glyphs.
+- 🚫 **Banned: AI Neon Purple/Cyan Glows**: No uncalibrated gradients from `#6366f1` to `#ec4899`, no radial neon backdrops.
+- 🚫 **Banned: Pure Black (`#000000`)**: Void canvas must use off-black (`#090a0c` or `#010102`), primary text must use charcoal ink (`#37352f`).
+- 🚫 **Banned: `Inter` Font Monotony**: Use `Geist` and `Geist Mono` for distinctive, modern software character.
+- 🚫 **Banned: Generic Serifs**: No `Times New Roman`, `Georgia`, or `Garamond` in dashboard interfaces.
+- 🚫 **Banned: Unchecked Outline Stripping**: Never declare `outline: none` without providing an explicit `:focus-visible` replacement.
+- 🚫 **Banned: Uniform Bubbly Border-Radius**: No applying the same 16px+ border radius to every button, tag, input, and card.
+- 🚫 **Banned: Centered Everything**: No centering tabular data, job titles, or column layouts. Alignment must be functional.
+- 🚫 **Banned: AI Marketing Copy Slop**: No empty buzzwords like "Unlock Next-Gen Potential", "Seamless Workflow Synergy", "Elevate Your Career". Keep all copy factual and concrete.
+- 🚫 **Banned: Filler UI Text**: No "Scroll to explore", "Swipe down", scroll arrows, or bouncing chevrons.
+- 🚫 **Banned: Layout-Shifting Sprites**: All icons and spinners must have fixed structural dimensions.
+- 🚫 **Banned: Custom Mouse Cursors**: Native cursor interaction only.
+- 🚫 **Banned: Overlapping Content Stacks**: Clean spatial zones only.
+- 🚫 **Banned: Oversaturated Accents**: Color saturation strictly below 80%.
+- 🚫 **Banned: Fake Precision Numbers**: No artificial `99.99%` claims. Factual score metrics only.

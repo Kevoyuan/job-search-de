@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Agent%20Skill-Ready-blue.svg?style=flat-square" alt="Agent Skill" />
+  <img src="https://img.shields.io/badge/Agent%20Skill-Ready-1e5e3a.svg?style=flat-square" alt="Agent Skill" />
   <img src="https://img.shields.io/badge/License-MIT-green.svg?style=flat-square" alt="License" />
 </p>
 
