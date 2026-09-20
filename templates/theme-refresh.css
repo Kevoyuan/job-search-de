@@ -1,0 +1,82 @@
+/* ==========================================================================
+   Theme refresh pack — "索引编辑" (editorial index).
+   Applies to obsidian / bauhaus / bento only. Editorial Craft ("notion") is
+   deliberately untouched: it stays the reference look of the workbench.
+   Injected by scripts/build_workbench.py at the end of the main stylesheet.
+   ========================================================================== */
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]){ --radius-xs:2px; --radius-sm:3px; --radius-md:4px; --radius-lg:4px; --radius-xl:6px; --backdrop-blur:none; }
+
+html[data-theme="obsidian"]{ color-scheme:dark; --bg:#181d1d; --bg-surface:#212827; --bg-primary:#212827; --bg-subtle:#2b3432; --bg-hover:#313d38; --border:#3b4641; --border-strong:#58695d; --text:#edf0e6; --text-muted:#b6c0b3; --text-faint:#a6b2a5; --primary:#c8d8a9; --primary-hover:#dfebc7; --primary-bg:#354431; --primary-text:#d8e7c0; --border-focus:#c8d8a9; --shadow-sm:none; --shadow-md:0 4px 16px #0003; --success:#9dcc99; --success-bg:#304631; --success-text:#c2e0b7; --warning:#d8bb7e; --warning-bg:#4b412c; --warning-text:#ead298; --danger-bg:#503337; --danger-text:#f1bfba; --info-bg:#35413d; --info-text:#c2d2c3; --a-head:#303b35; --a-good:#243d2d; --a-good-text:#c3dfbf; --a-bad:#442d31; --a-bad-text:#edc2bd; }
+html[data-theme="bauhaus"]{ color-scheme:light; --bg:#e8e8e3; --bg-surface:#fafbf7; --bg-primary:#fafbf7; --bg-subtle:#dcded5; --bg-hover:#eceddc; --border:#b5bbae; --border-strong:#485145; --text:#222d24; --text-muted:#566050; --text-faint:#65705d; --primary:#d7de79; --primary-hover:#e4e999; --primary-bg:#e3e8a9; --primary-text:#26301e; --border-focus:#526534; --shadow-sm:none; --shadow-md:none; --success:#3c702d; --success-bg:#dce9cb; --success-text:#325322; --warning:#835815; --warning-bg:#ece3b7; --warning-text:#6b4c0e; --danger-bg:#f1dcd5; --danger-text:#793a2d; --info-bg:#e1e4d2; --info-text:#4b5631; --a-head:#30392d; --a-good:#e4edd9; --a-good-text:#365029; --a-bad:#f2e2dc; --a-bad-text:#793e31; --radius-xs:0; --radius-sm:0; --radius-md:0; --radius-lg:0; }
+html[data-theme="bento"]{ color-scheme:light; --bg:#eef3f1; --bg-surface:#ffffff; --bg-primary:#ffffff; --bg-subtle:#e6eeea; --bg-hover:#e9f0ec; --border:#d5e0d9; --border-strong:#abc0b2; --text:#293b32; --text-muted:#596c60; --text-faint:#64766b; --primary:#426e58; --primary-hover:#315743; --primary-bg:#e1eee5; --primary-text:#315a42; --border-focus:#426e58; --shadow-sm:0 2px 6px #1c482008; --shadow-md:0 8px 24px #1c48200d; --success:#3a774a; --success-bg:#e1efdf; --success-text:#365f39; --warning:#986223; --warning-bg:#f5ead5; --warning-text:#855725; --danger-bg:#f7e4e3; --danger-text:#8d4446; --info-bg:#e4ede7; --info-text:#41634d; --a-head:#e9f1ec; --a-good:#eaf4e9; --a-good-text:#345f3b; --a-bad:#f9eaea; --a-bad-text:#884a4e; --radius-sm:7px; --radius-md:9px; --radius-lg:12px; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) body{ background:var(--bg); color:var(--text); font-size:14px; background-image:none; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) header{ padding:13px 28px; border-bottom:2px solid var(--text); background:var(--bg); box-shadow:none; backdrop-filter:none; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .brand-title{ font-size:21px; font-weight:750; letter-spacing:-.045em; gap:9px; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .brand-mark{ display:none; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .brand-version-pill{ font-size:12px; border:0; background:none; padding:0; font-weight:400; letter-spacing:0; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .main-container{ max-width:1600px; margin:auto; padding:18px 28px 28px; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .btn, :is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .select-dropdown, :is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .search-input{ font-size:12px; min-height:32px; box-shadow:none; border:1px solid var(--border-strong); background:var(--bg-surface); color:var(--text); border-radius:var(--radius-sm); }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .btn{ padding:6px 10px; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .btn:hover, :is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .btn:active{ transform:none; box-shadow:none; background:var(--bg-hover); }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .btn-primary{ background:var(--primary); color:var(--bg-surface); border-color:var(--primary); box-shadow:none; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .btn-primary:hover{ background:var(--primary-hover); color:var(--bg-surface); box-shadow:none; }
+html[data-theme="obsidian"] .btn-primary, html[data-theme="bauhaus"] .btn-primary{ color:#233020; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) #recentSearchSection{ border-top:1px solid var(--border-strong); border-bottom:1px solid var(--border-strong); padding:10px 0; margin-bottom:16px!important; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) #recentSearchSection .control-bar{ gap:10px; margin-bottom:10px; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) #recentSearchSection .stats-group, :is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) #recentSearchSection .filters-group .btn{ font-size:12px; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) #recentSearchHeading{ font-size:15px; font-weight:750; margin-right:12px; padding-right:15px; border-right:1px solid var(--border-strong); }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .recent-cards{ grid-template-columns:repeat(5,minmax(0,1fr)); gap:0; border:1px solid var(--border); }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .recent-card{ border:0; border-right:1px solid var(--border); border-bottom:1px solid var(--border); border-radius:0; padding:9px 11px; background:var(--bg-surface); }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .recent-card:hover{ background:var(--bg-hover); box-shadow:inset 0 2px var(--primary); }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .recent-card-title{ font-size:14px; line-height:1.35; height:38px; margin:5px 0; font-weight:650; letter-spacing:-.015em; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .recent-card-top, :is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .recent-card-meta{ font-size:12px; line-height:1.3; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .recent-company{ color:var(--text-muted); }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .score-badge{ font-size:12px; min-width:29px; padding:2px 5px; border-radius:2px; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .recent-expand{ font-size:12px; margin-top:8px; background:transparent; border-color:transparent; padding-left:0; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .main-container > .control-bar{ padding:0 0 12px; border:0; border-bottom:1px solid var(--border); background:none; border-radius:0; box-shadow:none; margin-bottom:10px; gap:12px; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .stats-group{ gap:14px; font-size:12px; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .stat-chip{ padding:0; background:none; border:0; font-size:12px; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .stat-chip strong{ font-size:17px; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .filter-chips-bar{ gap:6px; margin-bottom:12px; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .filter-chip-btn{ border-radius:2px; font-size:12px; padding:5px 10px; background:transparent; border-color:transparent; box-shadow:none; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .filter-chip-btn.active, :is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .btn-toggle-view.active{ background:var(--primary-bg); color:var(--primary-text); border-color:var(--border-strong); box-shadow:none; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .table-container{ border:0; border-top:2px solid var(--text); border-radius:0; box-shadow:none; background:var(--bg-surface); }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) table{ font-size:14px; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) th{ font-size:12px; padding:10px 12px; letter-spacing:0; text-transform:none; color:var(--text-muted); background:var(--a-head); border-bottom:1px solid var(--border-strong); }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) td{ padding:11px 12px; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) tr.job-row:hover td{ background:var(--bg-hover); }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .analysis-panel{ font-size:14px; border-radius:var(--radius-sm); border-top:2px solid currentColor; padding:12px 14px; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .analysis-strengths{ background:var(--a-good); color:var(--a-good-text); }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .analysis-gaps{ background:var(--a-bad); color:var(--a-bad-text); }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .analysis-panel h3{ font-size:12px; letter-spacing:.04em; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .job-analysis-row > td{ padding:12px; background:var(--bg-subtle); }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .drawer, :is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .modal{ background:var(--bg-surface); color:var(--text); border-color:var(--border-strong); }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .form-input, :is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) textarea{ background:var(--bg-subtle); color:var(--text); border-color:var(--border-strong); font-size:14px; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) kbd, :is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .status-badge, :is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .freshness-badge, :is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .tag, :is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .form-hint{ font-size:12px; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .kanban-card{ border:1px solid var(--border); box-shadow:none; background:var(--bg-surface); }
+html[data-theme="bauhaus"] th{ background:var(--a-head); color:#f0f3e7; }
+html[data-theme="bauhaus"] header{ border-bottom:4px solid var(--text); }
+html[data-theme="bauhaus"] .score-badge{ border:1px solid currentColor; }
+html[data-theme="obsidian"] .recent-card{ border-top:2px solid #536548; }
+html[data-theme="obsidian"] .table-container{ border-top-color:#cad8b4; }
+html[data-theme="bento"] .recent-cards{ gap:7px; border:0; }
+html[data-theme="bento"] .recent-card{ border:1px solid var(--border); border-radius:8px; box-shadow:var(--shadow-sm); }
+html[data-theme="bento"] .table-container{ border:1px solid var(--border); border-radius:10px; box-shadow:var(--shadow-md); }
+html[data-theme="bento"] .score-badge{ border-radius:20px; }
+html[data-theme="bento"] .analysis-panel{ border-top:0; border-left:3px solid currentColor; }
+@media(max-width:1000px){:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) header{ flex-wrap:wrap; gap:10px; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .recent-cards{ grid-template-columns:repeat(3,minmax(0,1fr)); }
+ }
+@media(max-width:600px){:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) header{ padding:12px 14px; position:static; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .brand-title{ font-size:19px; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .header-actions{ width:100%; flex-wrap:wrap; gap:7px; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .main-container{ padding:14px; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .recent-cards{ grid-template-columns:repeat(2,minmax(0,1fr)); }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .recent-card{ padding:8px; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) #recentSearchHeading{ flex-basis:100%; border-right:0; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .filters-group{ flex-wrap:wrap; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .analysis-pair{ grid-template-columns:1fr; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .search-box{ width:100%; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .search-input{ width:100%; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .drawer{ width:100%; max-width:100%; }
+ }

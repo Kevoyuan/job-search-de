@@ -113,13 +113,25 @@ Read delivery choices from `.job-search/preferences.md` and `.job-search/setting
 - provides an integrated **Candidate Config & Preferences Drawer** that allows directly modifying `profile.md`, `preferences.md`, and `settings.ini` via browser File System Access API with `Ctrl+S` / `Cmd+S` direct save;
 - provides visual form editing alongside Markdown source mode with dirty state indicators and fallback copy/export options;
 - includes top update notification banners with one-click code copy buttons (`/update-skill`);
-- supports instant client-side theme switching (Notion, Obsidian, Bauhaus, Bento);
+- supports instant client-side theme switching (Notion / Editorial Craft, Obsidian, Bauhaus, Bento);
+- keeps Editorial Craft as the untouched reference look: `templates/theme-refresh.css` styles only `obsidian`, `bauhaus`, and `bento`, and `scripts/build_workbench.py` injects that pack at the end of the main stylesheet on every build; never restyle or restructure Editorial Craft when reworking the other three themes;
+- keeps the theme pack free of the literal `</style>` sequence (it would terminate the stylesheet element early and silently drop the rest of the CSS); describe the closing tag in words instead; verify theme work with a computed-style equality check against the previously shipped workbench;
+- normalizes legacy `fit/co/loc/mode/date/sal` fields to `score/company/location/workModel/datePosted/salary` when building, preserving original fields and stable IDs; canonical fields take precedence;
+- preserves valid scores, including zero; missing or invalid scores render as localized “Unrated”, never as a fabricated zero; discovery and triage alone must not be presented as evidence scoring;
 - prepends new jobs while preserving stable job IDs;
 - records `addedIn` and `addedOn: YYYY-MM-DD` for every newly accepted role;
-- calculates “recently added” from the last `recent_search_days` calendar days;
+- always shows a **Recent search results / 最近搜索结果** compact standalone card grid at the top, before the full-list controls, including an editable X-day window and matching job count; show company, title, score, location, and discovery date on each card; clicking opens full details and the apply link; use five columns on wide desktop, responsive columns below that, and two rows with expand/collapse;
+- calculates this window using `addedOn: YYYY-MM-DD`, including today and the preceding X−1 local calendar days; never substitute posting date, `freshness`, or `addedIn` for a missing discovery date;
+- defaults X to `[delivery].recent_search_days` (5 when absent or invalid), remembers valid user overrides (1–3650 days) in browser `localStorage`, and offers “use configured window” to clear that override;
+- renders recent results independently of the full-list search, score filters, and table/kanban switch; sorts by discovery date descending then score descending; keeps the section and day control visible with a localized empty state when no jobs match;
+- retains older jobs in the complete dataset: the X-day window filters display only and never deletes jobs, application statuses, or remarks;
+- preserves this recent-results section on every search refresh and Workbench regeneration, with labels in `zh`, `en`, and `de`;
 - reads the Workbench interface language from `workbench_language`, independently of `report_languages`;
 - supports `zh`, `en`, and `de`, with a local UI override that can return to “follow settings”;
-- preserves stored job analysis in its actual generated/source language;
+- uses compact main-list rows with on-demand inline analysis: strengths and gaps appear side by side in green and rose panels, stacking on mobile; detail drawers use the same semantic colors and retain readable text;
+- displays stored strengths/fit evidence (`reason`), gaps/risks (`gap`), job/language requirements (`jd`), and salary (`salary` or legacy `sal`) in job details; missing analysis must say “Not recorded”, never invent evidence;
+- preserves stored job analysis in its actual generated/source language; uses available `Zh` / `En` / `De` field variants with honest fallback to the base text;
+- checks feature parity against the user's previous Workbench before replacing it: scores, analysis, recent results, filters, tracking, and browser state must be audited, and any remaining regression explicitly disclosed;
 - never overwrites or bulk-migrates browser `localStorage` status and remarks.
 
 Before delivering any Workbench change, run:
@@ -128,6 +140,7 @@ Before delivering any Workbench change, run:
 2. A DOM smoke test proving that list, kanban, theme switching and config drawer render properly.
 3. Language tests for `zh`, `en`, and `de`.
 4. A mobile-width overflow check.
+5. Detail-content regression checks proving that stored `reason`, `gap`, `jd`, and salary appear as text in all three UI languages, with honest missing-data fallbacks.
 
 ## 7. Supported Commands
 

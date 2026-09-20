@@ -3,6 +3,7 @@
 
 import argparse
 import json
+import math
 import sys
 from pathlib import Path
 
@@ -22,6 +23,36 @@ def safe_json_for_script(data) -> str:
     """Serialize JSON safely for embedding inside an HTML <script> block."""
     raw = json.dumps(data, ensure_ascii=False)
     return raw.replace("<", "\\u003c").replace(">", "\\u003e").replace("&", "\\u0026")
+
+
+def normalize_job(job):
+    """Adapt legacy report rows without modifying their stored evidence or IDs.
+
+    Canonical fields win when present (including an explicit null score).
+    Missing/invalid scores stay unknown; this adapter never calculates fit.
+    """
+    result = dict(job)
+    aliases = {
+        "score": "fit", "company": "co", "location": "loc",
+        "workModel": "mode", "datePosted": "date", "salary": "sal",
+    }
+    for canonical, legacy in aliases.items():
+        if canonical not in result and legacy in job:
+            result[canonical] = job[legacy]
+    score = result.get("score")
+    if isinstance(score, bool) or not isinstance(score, (int, float, str)):
+        score = None
+    else:
+        try:
+            score = float(score)
+            if not math.isfinite(score) or not 0 <= score <= 100:
+                score = None
+            elif score.is_integer():
+                score = int(score)
+        except ValueError:
+            score = None
+    result["score"] = score
+    return result
 
 
 def main():
@@ -62,6 +93,8 @@ def main():
         except Exception as e:
             print(f"⚠️ Warning: Failed to parse jobs from {jobs_file}: {e}", file=sys.stderr)
 
+    jobs_data = [normalize_job(job) for job in jobs_data]
+
     # 3. Read Version
     version_file = SKILL_ROOT / "VERSION"
     current_version = version_file.read_text().strip() if version_file.exists() else "1.1.1"
@@ -73,6 +106,16 @@ def main():
         sys.exit(1)
 
     template_html = template_file.read_text(encoding="utf-8")
+
+    # 4b. Inject the optional theme refresh pack (scoped to the non-default themes).
+    theme_refresh_file = SKILL_ROOT / "templates" / "theme-refresh.css"
+    if theme_refresh_file.exists():
+        theme_css = theme_refresh_file.read_text(encoding="utf-8")
+        template_html = template_html.replace(
+            "</style>",
+            "/* theme refresh pack */\n" + theme_css + "\n</style>",
+            1,
+        )
 
     # 5. Inject Values
     title_map = {

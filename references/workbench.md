@@ -2,7 +2,7 @@
 
 ## Legacy single-file workbench
 
-The existing `job-hunt-workbench.html` is a self-contained HTML/CSS/JavaScript application. It is not currently built from `verified_jobs.json` by a deterministic generator.
+The existing `job-hunt-workbench.html` is a self-contained HTML/CSS/JavaScript application. It is now built deterministically from `verified_jobs.json` by `scripts/build_workbench.py`. The manual flow below describes older projects.
 
 Current update path:
 
@@ -42,12 +42,38 @@ When localized job display text is available, keep the existing base field for b
 
 
 Workbench UI supports instant client-side theme switching across 4 curated design systems:
-- `notion`: Editorial Craft Warm Workspace (Default - Paper canvas, ink charcoal, Forest Ink green accent `#1e5e3a`)
-- `obsidian`: Dark Velocity High-Contrast Dark Engine (`#010102` deep void, cold titanium monochrome accent `#f4f4f5`, obsidian carbon button `#09090b`)
-- `bauhaus`: Industrial Precision Functional Minimalism (Warm matte resin, hairline precision dividers, signature Braun signal orange accent `#e8590c`, tactile convex hardware keys)
-- `bento`: Spatial Quartz Glassmorphism (Frosted translucent quartz, warm amber topaz quartz accent `#b45309`, specular reflections, floating glass tiles)
+- `notion`: Editorial Craft Warm Workspace — the reference look, kept exactly as shipped. Do not restyle it when reworking the other themes.
+- `obsidian`: editorial index on deep green-tinted slate (`#181d1d` canvas, `#212827` surface, sage `#c8d8a9` accent, dark green `#243d2d` strengths / dark rose `#442d31` gaps).
+- `bauhaus`: warm gray-green industrial (`#e8e8e3` resin, square zero radii, dark `#30392d` table header with light text, olive-yellow `#d7de79` primary, 4px header rule).
+- `bento`: pale mint workspace (`#eef3f1` canvas, white surface, forest `#426e58` accent, 7–12px radii, soft shadows, pill score badges, 3px left rule on evidence panels).
 
 Theme selection is pure CSS-driven (zero LLM token consumption) and persists across page reloads in browser `localStorage`.
+
+### Theme refresh pack
+
+`templates/theme-refresh.css` holds the treatment for the three non-default
+themes; `scripts/build_workbench.py` appends it to the end of the main
+stylesheet at build time, so the generated workbench stays a single
+self-contained HTML file. Every selector in the pack must be scoped with
+`:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"])`
+or a single non-default `html[data-theme="…"]` attribute selector. A rule that
+matches `notion`, or an unscoped `html[data-theme]` selector, silently changes
+the reference look and fails the contract below.
+
+Two failure modes are easy to hit and cheap to avoid:
+
+- The literal `</style>` sequence anywhere in the pack (including inside a
+  comment) terminates the stylesheet element early and drops the remaining CSS
+  without any console error. Write "the closing style tag" instead.
+- Per-theme token blocks only win when their selector is at least as specific as
+  the one shipped in the template; `html[data-theme="obsidian"]` beats the
+  template's `[data-theme="obsidian"]`, a bare `[data-theme]` does not.
+
+Verification after any theme change: compare computed styles of the shipped
+workbench against the previous build for `notion` (must be identical), and
+against the approved preview for the other three themes. `scripts/test_workbench_browser.cjs`
+plus a computed-style probe covers this; the probe list used for direction A
+("索引编辑") lives in the project's `design-demos/theme-redesign/verify-applied.cjs`.
 
 ## Interactive candidate config editor
 
@@ -76,3 +102,43 @@ build_workbench.py + templates/workbench_template.html
 generated job-hunt-workbench.html (interactive, editable, 4 themes)
 ```
 
+
+## Job field compatibility
+
+The builder accepts a job list or an object containing `jobs`. It maps legacy
+`fit/co/loc/mode/date/sal` to `score/company/location/workModel/datePosted/salary`.
+Existing canonical fields win, including an explicit null score. Original fields,
+IDs, evidence, and source JSON remain unchanged. Numeric scores from 0 through 100
+are retained; missing, invalid, or out-of-range scores become null and display as
+“Unrated” in all views. Unrated jobs remain visible with no score filter, are
+excluded from high-fit counts/filters, and sort after scored jobs in either direction.
+This adapter does not calculate or validate the evidence behind an existing score,
+and does not infer freshness or role classification from legacy fields.
+
+Regression checks: `python3 scripts/test_workbench.py` and
+`node scripts/test_workbench_browser.cjs <generated-html>` (requires Playwright;
+set `PLAYWRIGHT_MODULE` to its installed module path if necessary).
+
+## Recent search results control
+
+Always render this section above the job list. Count jobs by their `addedOn`
+date within the last X local calendar days, including today. Exclude missing,
+invalid, and future discovery dates; do not substitute posting dates or freshness.
+Default to `[delivery].recent_search_days` (fallback 5). Accept whole numbers
+1–3650 and persist the display override as `job_workbench_recent_search_days`.
+“Use configured window” removes the override. Render a compact standalone card grid at the very top, before the full-list controls, with
+company, title, score, location, and discovery date. Click a card for full details
+and the apply link. Use five columns on wide desktop and responsive breakpoints
+below that. Show two rows by default with expand/collapse.
+Sort newest discovery dates first, then descending score. The main list filters
+and table/kanban switch do not affect this section. Keep the section visible
+when the count is zero. Older jobs and browser application state remain stored.
+Every search refresh must preserve original `addedOn` for existing jobs and set
+it to the discovery date for newly accepted jobs; do not renew it on each rebuild.
+
+## Compact analysis layout
+
+Main-list rows expand in place into two labeled panels: green for stored fit
+evidence, rose for gaps and risks. Both use readable text and dark-theme variants.
+On small screens they stack vertically. Filtering hides the expanded tray with
+its parent job. Full details retain the same color distinction and all job data.

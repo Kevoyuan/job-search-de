@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="notion">
+<html lang="zh" data-theme="notion">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" id="metaThemeColor" content="#ffffff">
-  <title>Germany Job Hunt Workbench - Job Hunt Workbench</title>
+  <title>德国岗位求职工作台 - Job Hunt Workbench</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -1019,6 +1019,52 @@
       font-variant-numeric: tabular-nums;
       letter-spacing: 0.02em;
     }
+    #recentSearchSection .control-bar { padding: 0; margin-bottom: 7px; border: 0; box-shadow: none; background: transparent; gap: 6px; }
+    #recentSearchSection .stats-group { gap: 6px; font-size: 11px; }
+    #recentSearchHeading { font-size: 13px; margin-right: 3px; }
+    #recentSearchDays { width: 52px !important; padding: 3px 5px; min-height: 26px; }
+    #recentSearchSection .filters-group .btn { font-size: 11px; padding: 3px 7px; }
+    .recent-cards { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
+    .recent-card { min-width: 0; padding: 7px 9px; border: 1px solid var(--border); border-radius: 6px; background: var(--bg-primary); color: var(--text); text-align: left; cursor: pointer; font: inherit; }
+    .recent-card:hover { border-color: var(--primary); }
+    .recent-card:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+    .recent-card[hidden] { display: none; }
+    .recent-card-top, .recent-card-meta { display: flex; justify-content: space-between; align-items: center; gap: 6px; font-size: 11px; line-height: 1.2; }
+    .recent-company, .recent-location { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+    .recent-card-title { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; font-size: 13px; font-weight: 600; line-height: 1.3; height: 34px; margin: 4px 0; }
+    .recent-card-meta { color: var(--text-muted); }
+    .recent-card-meta time { flex-shrink: 0; }
+    .recent-expand { margin-top: 6px; font-size: 11px; padding: 3px 7px; }
+    @media (max-width: 1180px) { .recent-cards { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+    @media (max-width: 900px) { .recent-cards { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+    @media (max-width: 760px) { .recent-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 480px) { .recent-cards { grid-template-columns: minmax(0, 1fr); } }
+
+    #jobsTableBody .job-row td { padding-top: 9px; padding-bottom: 9px; }
+    #jobsTableBody .job-row td:last-child { white-space: nowrap; }
+    .analysis-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+    .analysis-panel { min-width: 0; padding: 10px 12px; border-radius: 6px; font-size: 14px; line-height: 1.55; overflow-wrap: anywhere; }
+    .analysis-panel h3 { margin: 0 0 6px; font-size: 12px; color: inherit; }
+    .analysis-panel p { margin: 0; white-space: pre-wrap; }
+    .analysis-strengths { background: #eaf5ed; color: #245436; }
+    .analysis-gaps { background: #fceeed; color: #853934; }
+    [data-theme="obsidian"] .analysis-strengths { background: #173325; color: #c2e7cd; }
+    [data-theme="obsidian"] .analysis-gaps { background: #3a2325; color: #f2cbc7; }
+    .job-analysis-row[hidden] { display: none; }
+    .job-analysis-row > td { padding: 10px 14px; white-space: normal; }
+    .job-analysis-row .analysis-pair { margin: 0; }
+    #jobDetailDrawer { width: min(820px, 100vw); }
+    #jobDetailDrawer .drawer-body { padding: 16px; }
+    #jobDetailDrawer .form-section { margin-bottom: 12px; }
+    #jobDetailDrawer .job-detail-grid { gap: 8px; margin-bottom: 12px; }
+    #jobDetailDrawer .detail-card { padding: 8px 10px; }
+    @media (max-width: 600px) { .analysis-pair { grid-template-columns: 1fr; } }
+
+    .score-unrated {
+      background: var(--bg-secondary);
+      color: var(--text-muted);
+    }
+
     .score-high {
       background: var(--success-bg);
       color: var(--success-text);
@@ -1701,7 +1747,91 @@
         grid-template-columns: 1fr;
       }
     }
-  </style>
+  /* theme refresh pack */
+/* ==========================================================================
+   Theme refresh pack — "索引编辑" (editorial index).
+   Applies to obsidian / bauhaus / bento only. Editorial Craft ("notion") is
+   deliberately untouched: it stays the reference look of the workbench.
+   Injected by scripts/build_workbench.py at the end of the main stylesheet.
+   ========================================================================== */
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]){ --radius-xs:2px; --radius-sm:3px; --radius-md:4px; --radius-lg:4px; --radius-xl:6px; --backdrop-blur:none; }
+
+html[data-theme="obsidian"]{ color-scheme:dark; --bg:#181d1d; --bg-surface:#212827; --bg-primary:#212827; --bg-subtle:#2b3432; --bg-hover:#313d38; --border:#3b4641; --border-strong:#58695d; --text:#edf0e6; --text-muted:#b6c0b3; --text-faint:#a6b2a5; --primary:#c8d8a9; --primary-hover:#dfebc7; --primary-bg:#354431; --primary-text:#d8e7c0; --border-focus:#c8d8a9; --shadow-sm:none; --shadow-md:0 4px 16px #0003; --success:#9dcc99; --success-bg:#304631; --success-text:#c2e0b7; --warning:#d8bb7e; --warning-bg:#4b412c; --warning-text:#ead298; --danger-bg:#503337; --danger-text:#f1bfba; --info-bg:#35413d; --info-text:#c2d2c3; --a-head:#303b35; --a-good:#243d2d; --a-good-text:#c3dfbf; --a-bad:#442d31; --a-bad-text:#edc2bd; }
+html[data-theme="bauhaus"]{ color-scheme:light; --bg:#e8e8e3; --bg-surface:#fafbf7; --bg-primary:#fafbf7; --bg-subtle:#dcded5; --bg-hover:#eceddc; --border:#b5bbae; --border-strong:#485145; --text:#222d24; --text-muted:#566050; --text-faint:#65705d; --primary:#d7de79; --primary-hover:#e4e999; --primary-bg:#e3e8a9; --primary-text:#26301e; --border-focus:#526534; --shadow-sm:none; --shadow-md:none; --success:#3c702d; --success-bg:#dce9cb; --success-text:#325322; --warning:#835815; --warning-bg:#ece3b7; --warning-text:#6b4c0e; --danger-bg:#f1dcd5; --danger-text:#793a2d; --info-bg:#e1e4d2; --info-text:#4b5631; --a-head:#30392d; --a-good:#e4edd9; --a-good-text:#365029; --a-bad:#f2e2dc; --a-bad-text:#793e31; --radius-xs:0; --radius-sm:0; --radius-md:0; --radius-lg:0; }
+html[data-theme="bento"]{ color-scheme:light; --bg:#eef3f1; --bg-surface:#ffffff; --bg-primary:#ffffff; --bg-subtle:#e6eeea; --bg-hover:#e9f0ec; --border:#d5e0d9; --border-strong:#abc0b2; --text:#293b32; --text-muted:#596c60; --text-faint:#64766b; --primary:#426e58; --primary-hover:#315743; --primary-bg:#e1eee5; --primary-text:#315a42; --border-focus:#426e58; --shadow-sm:0 2px 6px #1c482008; --shadow-md:0 8px 24px #1c48200d; --success:#3a774a; --success-bg:#e1efdf; --success-text:#365f39; --warning:#986223; --warning-bg:#f5ead5; --warning-text:#855725; --danger-bg:#f7e4e3; --danger-text:#8d4446; --info-bg:#e4ede7; --info-text:#41634d; --a-head:#e9f1ec; --a-good:#eaf4e9; --a-good-text:#345f3b; --a-bad:#f9eaea; --a-bad-text:#884a4e; --radius-sm:7px; --radius-md:9px; --radius-lg:12px; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) body{ background:var(--bg); color:var(--text); font-size:14px; background-image:none; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) header{ padding:13px 28px; border-bottom:2px solid var(--text); background:var(--bg); box-shadow:none; backdrop-filter:none; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .brand-title{ font-size:21px; font-weight:750; letter-spacing:-.045em; gap:9px; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .brand-mark{ display:none; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .brand-version-pill{ font-size:12px; border:0; background:none; padding:0; font-weight:400; letter-spacing:0; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .main-container{ max-width:1600px; margin:auto; padding:18px 28px 28px; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .btn, :is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .select-dropdown, :is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .search-input{ font-size:12px; min-height:32px; box-shadow:none; border:1px solid var(--border-strong); background:var(--bg-surface); color:var(--text); border-radius:var(--radius-sm); }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .btn{ padding:6px 10px; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .btn:hover, :is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .btn:active{ transform:none; box-shadow:none; background:var(--bg-hover); }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .btn-primary{ background:var(--primary); color:var(--bg-surface); border-color:var(--primary); box-shadow:none; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .btn-primary:hover{ background:var(--primary-hover); color:var(--bg-surface); box-shadow:none; }
+html[data-theme="obsidian"] .btn-primary, html[data-theme="bauhaus"] .btn-primary{ color:#233020; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) #recentSearchSection{ border-top:1px solid var(--border-strong); border-bottom:1px solid var(--border-strong); padding:10px 0; margin-bottom:16px!important; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) #recentSearchSection .control-bar{ gap:10px; margin-bottom:10px; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) #recentSearchSection .stats-group, :is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) #recentSearchSection .filters-group .btn{ font-size:12px; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) #recentSearchHeading{ font-size:15px; font-weight:750; margin-right:12px; padding-right:15px; border-right:1px solid var(--border-strong); }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .recent-cards{ grid-template-columns:repeat(5,minmax(0,1fr)); gap:0; border:1px solid var(--border); }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .recent-card{ border:0; border-right:1px solid var(--border); border-bottom:1px solid var(--border); border-radius:0; padding:9px 11px; background:var(--bg-surface); }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .recent-card:hover{ background:var(--bg-hover); box-shadow:inset 0 2px var(--primary); }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .recent-card-title{ font-size:14px; line-height:1.35; height:38px; margin:5px 0; font-weight:650; letter-spacing:-.015em; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .recent-card-top, :is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .recent-card-meta{ font-size:12px; line-height:1.3; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .recent-company{ color:var(--text-muted); }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .score-badge{ font-size:12px; min-width:29px; padding:2px 5px; border-radius:2px; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .recent-expand{ font-size:12px; margin-top:8px; background:transparent; border-color:transparent; padding-left:0; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .main-container > .control-bar{ padding:0 0 12px; border:0; border-bottom:1px solid var(--border); background:none; border-radius:0; box-shadow:none; margin-bottom:10px; gap:12px; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .stats-group{ gap:14px; font-size:12px; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .stat-chip{ padding:0; background:none; border:0; font-size:12px; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .stat-chip strong{ font-size:17px; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .filter-chips-bar{ gap:6px; margin-bottom:12px; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .filter-chip-btn{ border-radius:2px; font-size:12px; padding:5px 10px; background:transparent; border-color:transparent; box-shadow:none; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .filter-chip-btn.active, :is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .btn-toggle-view.active{ background:var(--primary-bg); color:var(--primary-text); border-color:var(--border-strong); box-shadow:none; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .table-container{ border:0; border-top:2px solid var(--text); border-radius:0; box-shadow:none; background:var(--bg-surface); }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) table{ font-size:14px; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) th{ font-size:12px; padding:10px 12px; letter-spacing:0; text-transform:none; color:var(--text-muted); background:var(--a-head); border-bottom:1px solid var(--border-strong); }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) td{ padding:11px 12px; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) tr.job-row:hover td{ background:var(--bg-hover); }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .analysis-panel{ font-size:14px; border-radius:var(--radius-sm); border-top:2px solid currentColor; padding:12px 14px; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .analysis-strengths{ background:var(--a-good); color:var(--a-good-text); }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .analysis-gaps{ background:var(--a-bad); color:var(--a-bad-text); }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .analysis-panel h3{ font-size:12px; letter-spacing:.04em; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .job-analysis-row > td{ padding:12px; background:var(--bg-subtle); }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .drawer, :is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .modal{ background:var(--bg-surface); color:var(--text); border-color:var(--border-strong); }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .form-input, :is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) textarea{ background:var(--bg-subtle); color:var(--text); border-color:var(--border-strong); font-size:14px; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) kbd, :is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .status-badge, :is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .freshness-badge, :is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .tag, :is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .form-hint{ font-size:12px; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .kanban-card{ border:1px solid var(--border); box-shadow:none; background:var(--bg-surface); }
+html[data-theme="bauhaus"] th{ background:var(--a-head); color:#f0f3e7; }
+html[data-theme="bauhaus"] header{ border-bottom:4px solid var(--text); }
+html[data-theme="bauhaus"] .score-badge{ border:1px solid currentColor; }
+html[data-theme="obsidian"] .recent-card{ border-top:2px solid #536548; }
+html[data-theme="obsidian"] .table-container{ border-top-color:#cad8b4; }
+html[data-theme="bento"] .recent-cards{ gap:7px; border:0; }
+html[data-theme="bento"] .recent-card{ border:1px solid var(--border); border-radius:8px; box-shadow:var(--shadow-sm); }
+html[data-theme="bento"] .table-container{ border:1px solid var(--border); border-radius:10px; box-shadow:var(--shadow-md); }
+html[data-theme="bento"] .score-badge{ border-radius:20px; }
+html[data-theme="bento"] .analysis-panel{ border-top:0; border-left:3px solid currentColor; }
+@media(max-width:1000px){:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) header{ flex-wrap:wrap; gap:10px; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .recent-cards{ grid-template-columns:repeat(3,minmax(0,1fr)); }
+ }
+@media(max-width:600px){:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) header{ padding:12px 14px; position:static; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .brand-title{ font-size:19px; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .header-actions{ width:100%; flex-wrap:wrap; gap:7px; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .main-container{ padding:14px; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .recent-cards{ grid-template-columns:repeat(2,minmax(0,1fr)); }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .recent-card{ padding:8px; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) #recentSearchHeading{ flex-basis:100%; border-right:0; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .filters-group{ flex-wrap:wrap; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .analysis-pair{ grid-template-columns:1fr; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .search-box{ width:100%; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .search-input{ width:100%; }
+:is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .drawer{ width:100%; max-width:100%; }
+ }
+
+</style>
 </head>
 <body>
 
@@ -1736,7 +1866,7 @@
       <div class="brand-mark" aria-hidden="true">
         <svg class="ui-icon ui-icon-md" viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="5" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
       </div>
-      <span id="brandTitleText">Germany Job Hunt Workbench</span>
+      <span id="brandTitleText">德国岗位求职工作台</span>
       <span class="brand-version-pill">v1.2.1</span>
     </div>
     <div class="header-actions">
@@ -1771,6 +1901,24 @@
 
   <!-- Main Content Body -->
   <main class="main-container">
+    <section id="recentSearchSection" style="margin-bottom:20px;" aria-labelledby="recentSearchHeading">
+      <div class="control-bar">
+      <div class="stats-group" style="flex-wrap:wrap;">
+        <strong id="recentSearchHeading" data-i18n="recentSearchTitle">Recent search results</strong>
+        <label for="recentSearchDays" data-i18n="recentSearchDaysLabel">Last X calendar days (including today)</label>
+        <input id="recentSearchDays" class="select-dropdown" type="number" min="1" max="3650" step="1" style="width:88px;" onchange="changeRecentSearchDays()">
+        <strong id="recentSearchCount" class="tabular-nums">0</strong>
+        <span data-i18n="recentSearchJobs">jobs added</span>
+      </div>
+      <div class="filters-group" style="flex-wrap:wrap;">
+        <button class="btn" onclick="resetRecentSearchDays()" data-i18n="recentSearchReset">Use configured window</button>
+      </div>
+      </div>
+      <div id="recentSearchBody" class="recent-cards"></div>
+      <button id="recentSearchExpand" class="btn recent-expand" aria-expanded="false" aria-controls="recentSearchBody" onclick="toggleRecentCards()"></button>
+      <p id="recentSearchEmpty" data-i18n="recentSearchEmpty" style="padding:16px;color:var(--text-muted);">No new jobs in this window. Try more days.</p>
+    </section>
+
     <!-- Controls & Stats Bar -->
     <div class="control-bar">
       <!-- Metrics Badges -->
@@ -1969,6 +2117,25 @@
           <div class="detail-card-label" data-i18n="detailFresh">Freshness</div>
           <div id="jobDetailFreshness" class="detail-card-value">-</div>
         </div>
+      </div>
+
+      <section class="form-section">
+        <h3 class="form-label" data-i18n="detailRequirements">Job requirements</h3>
+        <div id="jobDetailRequirements" style="white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.65;font-size:14px;"></div>
+      </section>
+      <section class="form-section">
+        <h3 class="form-label" data-i18n="detailSalary">Salary</h3>
+        <div id="jobDetailSalary" style="white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.65;font-size:14px;"></div>
+      </section>
+      <div class="analysis-pair">
+        <section class="analysis-panel analysis-strengths">
+          <h3 data-i18n="detailStrengths">Strengths & fit evidence</h3>
+          <p id="jobDetailStrengths"></p>
+        </section>
+        <section class="analysis-panel analysis-gaps">
+          <h3 data-i18n="detailGaps">Gaps & risks</h3>
+          <p id="jobDetailGaps"></p>
+        </section>
       </div>
 
       <!-- Application Status Selector -->
@@ -2256,6 +2423,19 @@
         freshnessVerified: "Verified Fresh (Official ATS)",
         freshnessLikely: "Likely Fresh (Recent Active)",
         scoreAll: "All Scores",
+        scoreUnrated: "Unrated",
+        detailRequirements: "Job requirements / language",
+        detailSalary: "Salary",
+        detailStrengths: "Strengths & fit evidence",
+        detailGaps: "Gaps & risks",
+        detailNotRecorded: "Not recorded",
+        recentSearchTitle: "Recent search results",
+        recentSearchDaysLabel: "Last X calendar days (including today)",
+        recentSearchJobs: "jobs added",
+        recentAddedOn: "Added on",
+        recentExpand: "Show all", recentCollapse: "Collapse",
+        recentSearchEmpty: "No new jobs in this window. Try more days.",
+        recentSearchReset: "Use configured window",
         score75: "≥ 75 Score (Deep Fit)",
         score80: "≥ 80 Score (High Fit)",
         score85: "≥ 85 Score (Top Match)",
@@ -2380,6 +2560,19 @@ I am preparing to apply. Based on my candidate profile (profile.md), please prov
         freshnessVerified: "官方极鲜 (VERIFIED_FRESH)",
         freshnessLikely: "活跃近期 (LIKELY_FRESH)",
         scoreAll: "全部匹配度",
+        scoreUnrated: "未评分",
+        detailRequirements: "岗位要求 / 语言要求",
+        detailSalary: "薪资",
+        detailStrengths: "优势与匹配依据",
+        detailGaps: "差距与风险（Gap）",
+        detailNotRecorded: "暂无记录",
+        recentSearchTitle: "最近搜索结果",
+        recentSearchDaysLabel: "最近 X 天（含今天）",
+        recentSearchJobs: "条新增岗位",
+        recentAddedOn: "搜索新增日期",
+        recentExpand: "展开全部", recentCollapse: "收起",
+        recentSearchEmpty: "这段时间没有新增岗位，可以增加天数查看。",
+        recentSearchReset: "恢复配置天数",
         score75: "≥ 75 分 (深度分析)",
         score80: "≥ 80 分 (高度契合)",
         score85: "≥ 85 分 (极高优先级)",
@@ -2504,6 +2697,19 @@ I am preparing to apply. Based on my candidate profile (profile.md), please prov
         freshnessVerified: "Offiziell aktuell (VERIFIED_FRESH)",
         freshnessLikely: "Kürzlich aktiv (LIKELY_FRESH)",
         scoreAll: "Alle Passungsgrade",
+        scoreUnrated: "Unbewertet",
+        detailRequirements: "Stellen- / Sprachanforderungen",
+        detailSalary: "Gehalt",
+        detailStrengths: "Stärken & Passungsbelege",
+        detailGaps: "Lücken & Risiken",
+        detailNotRecorded: "Nicht erfasst",
+        recentSearchTitle: "Letzte Suchergebnisse",
+        recentSearchDaysLabel: "Letzte X Kalendertage (inkl. heute)",
+        recentSearchJobs: "neue Stellen",
+        recentAddedOn: "Hinzugefügt am",
+        recentExpand: "Alle anzeigen", recentCollapse: "Einklappen",
+        recentSearchEmpty: "Keine neuen Stellen in diesem Zeitraum. Wähle mehr Tage.",
+        recentSearchReset: "Konfigurierten Zeitraum nutzen",
         score75: "≥ 75 Punkte (Vertiefte Analyse)",
         score80: "≥ 80 Punkte (Hohe Passung)",
         score85: "≥ 85 Punkte (Top-Priorität)",
@@ -2619,7 +2825,7 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
     };
 
     // State Variables
-    let currentLang = localStorage.getItem('job_workbench_lang') || 'en' || 'en';
+    let currentLang = localStorage.getItem('job_workbench_lang') || 'zh' || 'en';
     if (!I18N[currentLang]) currentLang = 'en';
 
     let currentConfigTab = 'profile'; // 'profile' | 'preferences' | 'settings'
@@ -2636,6 +2842,94 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
     };
     let dirHandle = null;
     let fileHandles = {};
+
+    function validRecentDays(value) {
+      const days = Number(value);
+      return Number.isInteger(days) && days >= 1 && days <= 3650 ? days : null;
+    }
+
+    function configuredRecentDays() {
+      let section = '';
+      for (const raw of (EMBEDDED_CONFIG.settings || '').split(/\r?\n/)) {
+        const line = raw.trim();
+        if (line.startsWith(';') || line.startsWith('#')) continue;
+        const heading = line.match(/^\[([^\]]+)\]$/);
+        if (heading) section = heading[1].toLowerCase();
+        const setting = line.match(/^recent_search_days\s*=\s*(\d+)\s*(?:[;#].*)?$/i);
+        if (section === 'delivery' && setting) return validRecentDays(setting[1]) || 5;
+      }
+      return 5;
+    }
+
+    let recentSearchDays = validRecentDays(localStorage.getItem('job_workbench_recent_search_days')) || configuredRecentDays();
+
+    // Compare local calendar dates as day numbers, avoiding DST and UTC-midnight drift.
+    function isRecentSearch(job, days = recentSearchDays, now = new Date()) {
+      if (typeof job.addedOn !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(job.addedOn)) return false;
+      const added = new Date(job.addedOn + 'T00:00:00Z');
+      if (!Number.isFinite(added.getTime()) || added.toISOString().slice(0, 10) !== job.addedOn) return false;
+      const today = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
+      const age = (today - added.getTime()) / 86400000;
+      return age >= 0 && age < days;
+    }
+
+    let recentCardsExpanded = false;
+    function updateRecentCardVisibility() {
+      const body = document.getElementById('recentSearchBody');
+      const columns = getComputedStyle(body).gridTemplateColumns.split(' ').length;
+      const cards = [...body.children];
+      cards.forEach((card, index) => card.hidden = !recentCardsExpanded && index >= columns * 2);
+      const toggle = document.getElementById('recentSearchExpand');
+      toggle.hidden = cards.length <= columns * 2;
+      toggle.setAttribute('aria-expanded', String(recentCardsExpanded));
+      const dict = I18N[currentLang] || I18N.en;
+      toggle.textContent = recentCardsExpanded ? dict.recentCollapse : `${dict.recentExpand} (${cards.length})`;
+    }
+    function toggleRecentCards() {
+      recentCardsExpanded = !recentCardsExpanded;
+      updateRecentCardVisibility();
+    }
+    window.addEventListener('resize', updateRecentCardVisibility);
+
+    function renderRecentSearchResults() {
+      const dict = I18N[currentLang] || I18N.en;
+      const jobs = JOBS.filter(job => isRecentSearch(job)).sort((a, b) =>
+        b.addedOn.localeCompare(a.addedOn) || (hasScore(b) ? b.score : -1) - (hasScore(a) ? a.score : -1));
+      document.getElementById('recentSearchCount').textContent = jobs.length;
+      document.getElementById('recentSearchEmpty').hidden = jobs.length > 0;
+      const body = document.getElementById('recentSearchBody');
+      body.replaceChildren();
+      jobs.forEach(job => {
+        const card = document.createElement('button');
+        card.type = 'button';
+        card.className = 'recent-card';
+        card.dataset.id = job.id;
+        card.title = `${job.company || ''} · ${job.title || ''} · ${job.location || ''} · ${job.workModel || ''}`;
+        card.innerHTML = `
+          <span class="recent-card-top"><span class="recent-company">${escapeHtml(job.company || '-')}</span><span class="score-badge ${scoreClassName(job)}">${scoreText(job)}</span></span>
+          <span class="recent-card-title">${escapeHtml(job.title || '-')}</span>
+          <span class="recent-card-meta"><span class="recent-location">${escapeHtml(job.location || '-')}</span><time datetime="${escapeAttr(job.addedOn)}">${escapeHtml(job.addedOn.slice(5))}</time></span>`;
+        card.onclick = () => openJobDetail(job);
+        body.appendChild(card);
+      });
+      updateRecentCardVisibility();
+    }
+
+    function changeRecentSearchDays() {
+      const input = document.getElementById('recentSearchDays');
+      const days = validRecentDays(input.value);
+      if (days === null) { input.value = recentSearchDays; return; }
+      recentSearchDays = days;
+      localStorage.setItem('job_workbench_recent_search_days', String(days));
+      renderRecentSearchResults();
+    }
+
+    function resetRecentSearchDays() {
+      localStorage.removeItem('job_workbench_recent_search_days');
+      recentSearchDays = configuredRecentDays();
+      document.getElementById('recentSearchDays').value = recentSearchDays;
+      renderRecentSearchResults();
+    }
 
     // 1. Toast Notification Helper
     function showToast(msg, type = 'success') {
@@ -2685,6 +2979,7 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
       document.documentElement.lang = lang;
       applyLanguage(lang);
       renderJobs();
+      if (activeJobForDetail) openJobDetail(activeJobForDetail);
     }
 
     function applyLanguage(lang) {
@@ -2765,6 +3060,7 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
 
     // 5. Rendering & Filtering
     function renderJobs() {
+      renderRecentSearchResults();
       renderTable();
       renderKanban();
       updateMetrics();
@@ -2776,12 +3072,24 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
       let highCount = 0;
       let recentCount = 0;
       JOBS.forEach(j => {
-        if ((j.score || 0) >= 75) highCount++;
+        if (hasScore(j) && j.score >= 75) highCount++;
         if (j.isRecent || j.freshness === 'VERIFIED_FRESH') recentCount++;
       });
       document.getElementById('totalJobsCount').textContent = total;
       document.getElementById('highFitCount').textContent = highCount;
       document.getElementById('recentJobsCount').textContent = recentCount;
+    }
+
+    function hasScore(job) {
+      return typeof job.score === 'number' && Number.isFinite(job.score) && job.score >= 0 && job.score <= 100;
+    }
+
+    function scoreText(job) {
+      return hasScore(job) ? job.score : (I18N[currentLang] || I18N.en).scoreUnrated;
+    }
+
+    function scoreClassName(job) {
+      return !hasScore(job) ? 'score-unrated' : (job.score >= 80 ? 'score-high' : (job.score >= 70 ? 'score-med' : 'score-low'));
     }
 
     function renderTable() {
@@ -2791,6 +3099,9 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
 
       // Sort jobs
       const sorted = [...JOBS].sort((a, b) => {
+        if (currentSort.field === 'score' && hasScore(a) !== hasScore(b)) {
+          return hasScore(a) ? -1 : 1;
+        }
         let valA = a[currentSort.field];
         let valB = b[currentSort.field];
         if (typeof valA === 'string') valA = valA.toLowerCase();
@@ -2801,8 +3112,8 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
       });
 
       sorted.forEach((job) => {
-        const score = job.score || 0;
-        const scoreClass = score >= 80 ? 'score-high' : (score >= 70 ? 'score-med' : 'score-low');
+        const score = scoreText(job);
+        const scoreClass = scoreClassName(job);
         const workModelClass = /remote/i.test(job.workModel) ? 'tag-remote' : (/hybrid/i.test(job.workModel) ? 'tag-hybrid' : 'tag-onsite');
         const freshClass = job.freshness === 'VERIFIED_FRESH' ? 'fresh-verified' : 'fresh-likely';
         const freshText = job.freshness === 'VERIFIED_FRESH' ? dict.freshVerified : dict.freshActive;
@@ -2811,7 +3122,7 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
         tr.className = 'job-row';
         tr.setAttribute('data-id', job.id);
         tr.onclick = (e) => {
-          if (!e.target.closest('a')) openJobDetail(job);
+          if (!e.target.closest('a')) toggleRowAnalysis(tr, job);
         };
 
         tr.innerHTML = `
@@ -2837,11 +3148,38 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
         if (detailBtn) {
           detailBtn.onclick = (e) => {
             e.stopPropagation();
-            openJobDetail(job);
+            toggleRowAnalysis(tr, job);
           };
         }
+        detailBtn.setAttribute('aria-expanded', 'false');
         tbody.appendChild(tr);
       });
+    }
+
+    function toggleRowAnalysis(row, job) {
+      let tray = row.nextElementSibling;
+      if (!tray || !tray.classList.contains('job-analysis-row')) {
+        const dict = I18N[currentLang] || I18N.en;
+        tray = document.createElement('tr');
+        tray.className = 'job-analysis-row';
+        tray.hidden = true;
+        const cell = document.createElement('td');
+        cell.colSpan = 10;
+        cell.innerHTML = `<div class="analysis-pair">
+          <section class="analysis-panel analysis-strengths"><h3>${dict.detailStrengths}</h3><p>${escapeHtml(jobAnalysisText(job, 'reason'))}</p></section>
+          <section class="analysis-panel analysis-gaps"><h3>${dict.detailGaps}</h3><p>${escapeHtml(jobAnalysisText(job, 'gap'))}</p></section>
+        </div>`;
+        const details = document.createElement('button');
+        details.className = 'btn';
+        details.style.marginTop = '8px';
+        details.textContent = dict.detailHeader;
+        details.onclick = () => openJobDetail(job);
+        cell.appendChild(details);
+        tray.appendChild(cell);
+        row.after(tray);
+      }
+      tray.hidden = !tray.hidden;
+      row.querySelector('.btn-detail-trigger').setAttribute('aria-expanded', String(!tray.hidden));
     }
 
     function renderKanban() {
@@ -2871,13 +3209,13 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
           if (!e.target.closest('a') && !e.target.closest('select')) openJobDetail(job);
         };
 
-        const scoreClass = job.score >= 80 ? 'score-high' : (job.score >= 70 ? 'score-med' : 'score-low');
+        const scoreClass = scoreClassName(job);
         const workModelClass = /remote/i.test(job.workModel) ? 'tag-remote' : (/hybrid/i.test(job.workModel) ? 'tag-hybrid' : 'tag-onsite');
 
         card.innerHTML = `
           <div class="kanban-card-top">
             <span class="kanban-company">${escapeHtml(job.company)}</span>
-            <span class="score-badge ${scoreClass}">${job.score}</span>
+            <span class="score-badge ${scoreClass}">${scoreText(job)}</span>
           </div>
           <div class="kanban-title">${escapeHtml(job.title)}</div>
           <div class="kanban-meta">
@@ -2942,6 +3280,7 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
 
     // 7. Filtering & Search
     function filterJobs() {
+
       const q = document.getElementById('searchInput').value.trim().toLowerCase();
       const minScore = parseInt(document.getElementById('scoreFilter').value, 10) || 0;
       const freshness = document.getElementById('freshnessFilter').value;
@@ -2953,13 +3292,13 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
       JOBS.forEach((job) => {
         const text = `${job.company} ${job.title} ${job.location} ${job.roleType} ${job.id}`.toLowerCase();
         const matchesQ = !q || text.includes(q);
-        const matchesScore = (job.score || 0) >= minScore;
+        const matchesScore = minScore === 0 || (hasScore(job) && job.score >= minScore);
         const matchesFresh = freshness === 'all' || job.freshness === freshness;
 
         // Quick filter checks
         let matchesQuick = true;
         const status = getJobStatus(job.id);
-        if (currentQuickFilter === 'high-fit') matchesQuick = (job.score || 0) >= 75;
+        if (currentQuickFilter === 'high-fit') matchesQuick = hasScore(job) && job.score >= 75;
         if (currentQuickFilter === 'remote-only') matchesQuick = /remote/i.test(job.workModel);
         if (currentQuickFilter === 'fresh-only') matchesQuick = job.freshness === 'VERIFIED_FRESH' || job.isRecent;
         if (currentQuickFilter === 'in-progress') matchesQuick = status === 'applied' || status === 'interview';
@@ -2969,7 +3308,11 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
 
         // Table row visibility
         const row = document.querySelector(`#jobsTableBody tr[data-id="${job.id}"]`);
-        if (row) row.style.display = isVisible ? '' : 'none';
+        if (row) {
+          row.style.display = isVisible ? '' : 'none';
+          const tray = row.nextElementSibling;
+          if (tray && tray.classList.contains('job-analysis-row')) tray.style.display = isVisible ? '' : 'none';
+        }
 
         // Kanban card visibility
         const card = document.querySelector(`.kanban-card[data-id="${job.id}"]`);
@@ -3040,18 +3383,28 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
       filterJobs();
     }
 
+    function jobAnalysisText(job, field) {
+      const suffix = {zh: 'Zh', en: 'En', de: 'De'}[currentLang];
+      const value = job[field + suffix] || job[field];
+      return typeof value === 'string' && value.trim() ? value : (I18N[currentLang] || I18N.en).detailNotRecorded;
+    }
+
     // 9. Job Detail Drawer
     function openJobDetail(job) {
       const dict = I18N[currentLang] || I18N.en;
       activeJobForDetail = job;
+      document.getElementById('jobDetailRequirements').textContent = jobAnalysisText(job, 'jd');
+      document.getElementById('jobDetailSalary').textContent = jobAnalysisText(job, 'salary');
+      document.getElementById('jobDetailStrengths').textContent = jobAnalysisText(job, 'reason');
+      document.getElementById('jobDetailGaps').textContent = jobAnalysisText(job, 'gap');
       document.getElementById('jobDetailHeaderCompany').textContent = job.company;
       document.getElementById('jobDetailTitle').textContent = job.title;
       document.getElementById('jobDetailCompanySub').textContent = `${job.company} · ${job.roleType || ''}`;
       
       const scoreBadge = document.getElementById('jobDetailScoreBadge');
-      scoreBadge.className = 'score-badge ' + (job.score >= 80 ? 'score-high' : (job.score >= 70 ? 'score-med' : 'score-low'));
+      scoreBadge.className = 'score-badge ' + scoreClassName(job);
       const scoreLabel = currentLang === 'en' ? 'Fit Score: ' : (currentLang === 'de' ? 'Passung: ' : '契合分: ');
-      scoreBadge.textContent = scoreLabel + (job.score || 0);
+      scoreBadge.textContent = scoreLabel + scoreText(job);
 
       document.getElementById('jobDetailLocation').textContent = job.location || '-';
       document.getElementById('jobDetailWorkModel').textContent = job.workModel || '-';
@@ -3426,6 +3779,8 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;');
     }
+
+    document.getElementById('recentSearchDays').value = recentSearchDays;
 
     // Initialize UI with preferred language
     applyLanguage(currentLang);
