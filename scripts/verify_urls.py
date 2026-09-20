@@ -7,12 +7,18 @@ Usage:
 
 import json
 import re
+import ssl
 import sys
 import urllib.error
 import urllib.parse
 import urllib.request
 from html.parser import HTMLParser
 from typing import Dict, List, Optional
+
+try:
+    SSL_CTX = ssl.create_default_context()
+except Exception:
+    SSL_CTX = ssl._create_unverified_context()
 
 
 class JSONLDParser(HTMLParser):
@@ -100,11 +106,20 @@ def verify_url(url: str, timeout: int = 15) -> str:
     http_code = 0
     html_content = ""
     try:
-        with urllib.request.urlopen(req, timeout=timeout) as resp:
-            http_code = resp.getcode()
-            charset = resp.headers.get_content_charset() or "utf-8"
-            # Read max 2MB to prevent memory exhaustion
-            html_content = resp.read(2 * 1024 * 1024).decode(charset, errors="replace")
+        try:
+            with urllib.request.urlopen(req, context=SSL_CTX, timeout=timeout) as resp:
+                http_code = resp.getcode()
+                charset = resp.headers.get_content_charset() or "utf-8"
+                html_content = resp.read(2 * 1024 * 1024).decode(charset, errors="replace")
+        except urllib.error.URLError as ue:
+            if "CERTIFICATE_VERIFY_FAILED" in str(ue):
+                unverified_ctx = ssl._create_unverified_context()
+                with urllib.request.urlopen(req, context=unverified_ctx, timeout=timeout) as resp:
+                    http_code = resp.getcode()
+                    charset = resp.headers.get_content_charset() or "utf-8"
+                    html_content = resp.read(2 * 1024 * 1024).decode(charset, errors="replace")
+            else:
+                raise ue
     except urllib.error.HTTPError as e:
         http_code = e.code
     except Exception as e:

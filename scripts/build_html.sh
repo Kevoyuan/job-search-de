@@ -9,7 +9,20 @@ if [ -z "$THEME" ]; then THEME=modern; fi
 SKILL_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 BUN_DIR="$WD/.buntmp"; BUN_INSTALL_DIR="$WD/.buninstall"; mkdir -p "$BUN_DIR" "$BUN_INSTALL_DIR"
 export BUN_TMPDIR="$BUN_DIR" BUN_INSTALL="$BUN_INSTALL_DIR" TMPDIR="$BUN_DIR"
-MDTOHTML="$SKILL_ROOT/../baoyu-markdown-to-html/scripts/main.ts"
+MDTOHTML=""
+for candidate in \
+  "$SKILL_ROOT/../baoyu-markdown-to-html/scripts/main.ts" \
+  "$HOME/.agents/skills/baoyu-markdown-to-html/scripts/main.ts" \
+  "/Volumes/SSD/dotdirs/agents/skills/baoyu-markdown-to-html/scripts/main.ts"; do
+  if [ -f "$candidate" ]; then
+    MDTOHTML="$candidate"
+    break
+  fi
+done
+if [ -z "$MDTOHTML" ]; then
+  echo "ERROR: baoyu-markdown-to-html/scripts/main.ts not found." >&2
+  exit 1
+fi
 # NOTE: 不能把 "npx -y bun" 存进单个变量再 "$BUN_BIN" 展开（shell 会把它当成一个
 # 名为 "npx -y bun" 的可执行文件，报 command not found）。此时转换步骤静默失败，
 # 而下方 fix_html.py 仍会成功处理旧 HTML，导致误以为报告已更新（实际交付的是旧版）。
