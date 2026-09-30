@@ -17,10 +17,12 @@ Discover → Verify → Triage → Evidence Score → Report → Delivery
 
 Before running job discovery, evaluation, or workbench tasks:
 
-1. Run `python3 scripts/check_update.py`.
+1. Run `python3 scripts/check_update.py` (add `--json` for a machine-readable payload, `--offline` to skip the network).
 2. If a new version is available, inform the user with a concise 1-line update reminder:
    `💡 job-search-de update available (v{remote}). Type /update-skill to upgrade.`
 3. Continue executing the user's requested action without blocking.
+
+The Workbench performs the same check on its own: `scripts/build_workbench.py` resolves the published version at build time (disable with `--no-update-check`), bakes the result into the HTML, and the page re-checks on load when the build was offline. A newer release surfaces a top banner plus a **Usage Guide** drawer with one-click copy buttons.
 
 ## 1. Candidate onboarding and configuration
 
@@ -112,7 +114,8 @@ Read delivery choices from `.job-search/preferences.md` and `.job-search/setting
 
 - provides an integrated **Candidate Config & Preferences Drawer** that allows directly modifying `profile.md`, `preferences.md`, and `settings.ini` via browser File System Access API with `Ctrl+S` / `Cmd+S` direct save;
 - provides visual form editing alongside Markdown source mode with dirty state indicators and fallback copy/export options;
-- includes top update notification banners with one-click code copy buttons (`/update-skill`);
+- auto-detects the skill version: the build resolves the published release, the page re-checks on load when the build was offline, and a top banner appears only when a newer version exists, with one-click copy buttons for `/update-skill` and `npx skills update job-search-de -g`; dismissing the banner remembers that release so a later version still alerts;
+- ships an integrated **Usage Guide** drawer (header book button or `G`) covering quick start, everyday commands, configuration files, the current installed version with a manual "check for updates" action, and copyable update commands, localized in `zh`, `en`, and `de`;
 - supports instant client-side theme switching (Notion / Editorial Craft, Obsidian, Bauhaus, Bento);
 - keeps Editorial Craft as the untouched reference look: `templates/theme-refresh.css` styles only `obsidian`, `bauhaus`, and `bento`, and `scripts/build_workbench.py` injects that pack at the end of the main stylesheet on every build; never restyle or restructure Editorial Craft when reworking the other three themes;
 - keeps the theme pack free of the literal `</style>` sequence (it would terminate the stylesheet element early and silently drop the rest of the CSS); describe the closing tag in words instead; verify theme work with a computed-style equality check against the previously shipped workbench;
@@ -166,6 +169,7 @@ Users or agents can invoke these specialized shortcuts:
 | Path | Purpose |
 |---|---|
 | `scripts/update_skill.sh` | Auto-update skill to latest GitHub version |
+| `scripts/check_update.py` | Detect the published release; reusable API plus `--json` / `--offline` CLI |
 | `scripts/init_config.py` | Create candidate-neutral project configuration templates |
 | `scripts/download.sh` | Download ATS and public-channel payloads with concurrency limits |
 | `scripts/parse_ats.py` | Normalize, classify, freshness-label, and triage ATS roles |

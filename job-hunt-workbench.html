@@ -1667,6 +1667,170 @@
     }
 
     /* ==========================================================================
+       Usage Guide Drawer
+       ========================================================================== */
+    .docs-drawer {
+      width: min(720px, 94vw);
+    }
+    .docs-body {
+      padding: 20px 22px;
+      gap: 22px;
+    }
+    .docs-section h3 {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--text-muted);
+      margin: 0 0 10px;
+    }
+    .docs-section p {
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--text-muted);
+      margin: 0 0 10px;
+    }
+    .docs-version-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+      padding: 14px 16px;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+    }
+    .docs-version-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+    }
+    .docs-version-value {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 4px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .docs-version-value code {
+      font-family: var(--font-mono);
+      font-size: 13px;
+    }
+    .docs-version-status {
+      font-size: 12.5px;
+      margin: 8px 0 0;
+      min-height: 17px;
+      color: var(--text-muted);
+    }
+    .docs-version-status.ok { color: var(--success); }
+    .docs-version-status.warn { color: var(--warning); }
+    .docs-steps {
+      margin: 0;
+      padding-left: 20px;
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--text);
+    }
+    .docs-steps li { margin-bottom: 4px; }
+    .docs-cmd-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .docs-cmd {
+      display: grid;
+      grid-template-columns: minmax(120px, max-content) 1fr;
+      align-items: baseline;
+      gap: 12px;
+      font-size: 13px;
+      padding: 8px 12px;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+    }
+    .docs-cmd code {
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--text);
+      white-space: nowrap;
+    }
+    .docs-cmd span { color: var(--text-muted); line-height: 1.5; }
+    .docs-update-row {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+    .docs-update-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .docs-code {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 8px 8px 8px 12px;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-sm);
+    }
+    .docs-code code {
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+      color: var(--text);
+      word-break: break-all;
+    }
+    .docs-copy-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      flex-shrink: 0;
+      padding: 5px 10px;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--text);
+      background: var(--bg-hover);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xs);
+      cursor: pointer;
+      transition: var(--transition-fast);
+    }
+    .docs-copy-btn:hover {
+      border-color: var(--border-focus);
+    }
+    .docs-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .docs-links a {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12.5px;
+      font-weight: 500;
+      padding: 6px 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-full);
+      background: var(--bg-subtle);
+      color: var(--text);
+      text-decoration: none;
+      transition: var(--transition-fast);
+    }
+    .docs-links a:hover {
+      border-color: var(--border-focus);
+      background: var(--bg-hover);
+    }
+
+    /* ==========================================================================
        Mobile Responsive Behaviors
        ========================================================================== */
     @media (max-width: 1024px) {
@@ -1835,27 +1999,27 @@ html[data-theme="bento"] .analysis-panel{ border-top:0; border-left:3px solid cu
 </head>
 <body>
 
-  <!-- Top Version Update Banner with One-Click Copy -->
-  <div id="updateBanner" class="update-banner" style="display: none;">
+  <!-- Top Version Update Banner: auto-shown only when a newer release exists -->
+  <div id="updateBanner" class="update-banner" style="display: none;" role="status" aria-live="polite">
     <div class="update-banner-content">
-      <span class="update-badge">Skill Update</span>
-      <span id="updateBannerMsg">New version available <strong id="remoteVerText">v1.2.1</strong> (Current: v1.2.1)</span>
+      <span class="update-badge" data-i18n="updateBadge">Skill Update</span>
+      <span id="updateBannerMsg"></span>
       <div class="code-pill-wrapper">
-        <span class="code-pill">/update-skill</span>
-        <button class="btn-copy-code" onclick="copyUpdateCommand('/update-skill', this)" title="Copy Command" data-i18n-title="btnCopy">
+        <span class="code-pill" id="updateSlashPill">/update-skill</span>
+        <button class="btn-copy-code" onclick="copySlashUpdate(this)" title="Copy Command" data-i18n-title="btnCopy">
           <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
           <span data-i18n="btnCopy">Copy</span>
         </button>
       </div>
       <div class="code-pill-wrapper">
-        <span class="code-pill">npx skills update job-search-de -g</span>
-        <button class="btn-copy-code" onclick="copyUpdateCommand('npx skills update job-search-de -g', this)" title="Copy Command" data-i18n-title="btnCopy">
+        <span class="code-pill" id="updateCliPill">npx skills update job-search-de -g</span>
+        <button class="btn-copy-code" onclick="copyCliUpdate(this)" title="Copy Command" data-i18n-title="btnCopy">
           <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
           <span data-i18n="btnCopy">Copy</span>
         </button>
       </div>
     </div>
-    <button class="btn-banner-close" onclick="document.getElementById('updateBanner').style.display='none'" title="Close" aria-label="Close" data-i18n-title="btnClose" data-i18n-aria="btnClose">
+    <button class="btn-banner-close" onclick="dismissUpdateBanner()" title="Close" aria-label="Close" data-i18n-title="btnClose" data-i18n-aria="btnClose">
       <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
     </button>
   </div>
@@ -1867,9 +2031,14 @@ html[data-theme="bento"] .analysis-panel{ border-top:0; border-left:3px solid cu
         <svg class="ui-icon ui-icon-md" viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="5" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
       </div>
       <span id="brandTitleText">德国岗位求职工作台</span>
-      <span class="brand-version-pill">v1.2.1</span>
+      <span class="brand-version-pill">v1.3.0</span>
     </div>
     <div class="header-actions">
+      <!-- Usage Guide Button -->
+      <button class="btn btn-icon" onclick="openDocsDrawer()" title="Usage Guide (Press G)" aria-label="Usage Guide" data-i18n-title="docsBtn" data-i18n-aria="docsBtn">
+        <svg class="ui-icon ui-icon-md" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      </button>
+
       <!-- Keyboard Help Button -->
       <button class="btn btn-icon" onclick="openShortcutsModal()" title="Keyboard Shortcuts (Press ?)" aria-label="Keyboard Shortcuts" data-i18n-title="shortcutsBtn" data-i18n-aria="shortcutsBtn">
         <svg class="ui-icon ui-icon-md" viewBox="0 0 24 24"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="M6 8h.01M10 8h.01M14 8h.01M18 8h.01M6 12h.01M10 12h.01M14 12h.01M18 12h.01M7 16h10"/></svg>
@@ -2302,6 +2471,113 @@ html[data-theme="bento"] .analysis-panel{ border-top:0; border-left:3px solid cu
     </div>
   </div>
 
+  <!-- Usage Guide Drawer -->
+  <div id="docsOverlay" class="drawer-overlay" onclick="closeDocsDrawer()"></div>
+  <div id="docsDrawer" class="drawer docs-drawer" role="dialog" aria-modal="true" aria-labelledby="docsTitle">
+    <div class="drawer-header">
+      <div class="drawer-title">
+        <svg class="ui-icon ui-icon-md" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        <span id="docsTitle" data-i18n="docsTitle">Usage Guide</span>
+      </div>
+      <button class="btn-close-drawer" onclick="closeDocsDrawer()" title="Close" aria-label="Close" data-i18n-title="btnClose" data-i18n-aria="btnClose">
+        <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+
+    <div class="drawer-body docs-body">
+      <!-- Version status -->
+      <div class="docs-version-card">
+        <div>
+          <div class="docs-version-label" data-i18n="docsVersionLabel">Installed skill version</div>
+          <div class="docs-version-value">
+            <code>v<span id="docsCurrentVersion">1.3.0</span></code>
+            <span id="docsVersionBadge" class="update-badge" style="display:none;" data-i18n="docsUpdateBadge">Update available</span>
+          </div>
+        </div>
+        <button class="btn" id="docsCheckBtn" onclick="recheckSkillVersion(false)">
+          <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><polyline points="21 3 21 9 15 9"/></svg>
+          <span data-i18n="docsCheckNow">Check for updates</span>
+        </button>
+      </div>
+      <p id="docsVersionStatus" class="docs-version-status"></p>
+
+      <section class="docs-section">
+        <h3 data-i18n="docsQuickStart">Quick start</h3>
+        <ol class="docs-steps">
+          <li data-i18n="docsStep1">Install the skill in your agent: npx skills add Kevoyuan/job-search-de -g</li>
+          <li data-i18n="docsStep2">Open your job-search folder and provide your CV, or describe your background.</li>
+          <li data-i18n="docsStep3">Ask in plain language or use a command below. This workbench is generated from the results.</li>
+        </ol>
+      </section>
+
+      <section class="docs-section">
+        <h3 data-i18n="docsCommands">Everyday commands</h3>
+        <div class="docs-cmd-list">
+          <div class="docs-cmd"><code>/refresh</code><span data-i18n="docsCmdRefresh">Run a full job discovery pass and rebuild this workbench.</span></div>
+          <div class="docs-cmd"><code>/match &lt;url&gt;</code><span data-i18n="docsCmdMatch">Deep evidence scoring for a single job URL or pasted description.</span></div>
+          <div class="docs-cmd"><code>/tailor &lt;job&gt;</code><span data-i18n="docsCmdTailor">Generate tailored CV bullets and a German cover letter from verified facts.</span></div>
+          <div class="docs-cmd"><code>/digest</code><span data-i18n="docsCmdDigest">A 60-second briefing of newly verified roles.</span></div>
+          <div class="docs-cmd"><code>/sync</code><span data-i18n="docsCmdSync">Sync application statuses with your Notion job tracker (needs setup).</span></div>
+          <div class="docs-cmd"><code>/update-skill</code><span data-i18n="docsCmdUpdate">Update the skill to the latest release.</span></div>
+        </div>
+      </section>
+
+      <section class="docs-section">
+        <h3 data-i18n="docsConfig">Configuration files</h3>
+        <p data-i18n="docsConfigDesc">Your profile and preferences live in .job-search/ inside your job-search folder. You normally change them by telling the agent.</p>
+        <div class="docs-cmd-list">
+          <div class="docs-cmd"><code>profile.md</code><span data-i18n="docsCfgProfile">Verified experience, skills, and qualifications.</span></div>
+          <div class="docs-cmd"><code>preferences.md</code><span data-i18n="docsCfgPreferences">Target roles, cities, languages, and exclusions.</span></div>
+          <div class="docs-cmd"><code>settings.ini</code><span data-i18n="docsCfgSettings">Search windows, score thresholds, and output languages.</span></div>
+        </div>
+      </section>
+
+      <section class="docs-section">
+        <h3 data-i18n="docsUpdate">Updating the skill</h3>
+        <p data-i18n="docsUpdateDesc">This workbench checks for new releases on load. When one is available a banner appears at the top; copy either command below to upgrade.</p>
+        <div class="docs-update-row">
+          <span class="docs-update-label" data-i18n="docsUpdateSlash">In your agent chat</span>
+          <div class="docs-code">
+            <code id="docsSlashPill">/update-skill</code>
+            <button class="docs-copy-btn" onclick="copySlashUpdate(this)">
+              <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+              <span data-i18n="btnCopy">Copy</span>
+            </button>
+          </div>
+        </div>
+        <div class="docs-update-row">
+          <span class="docs-update-label" data-i18n="docsUpdateCli">In your terminal</span>
+          <div class="docs-code">
+            <code id="docsCliPill">npx skills update job-search-de -g</code>
+            <button class="docs-copy-btn" onclick="copyCliUpdate(this)">
+              <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+              <span data-i18n="btnCopy">Copy</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="docs-section">
+        <h3 data-i18n="docsLinks">More details</h3>
+        <div class="docs-links">
+          <a id="docsLinkRepo" href="https://github.com/Kevoyuan/job-search-de" target="_blank" rel="noopener">
+            <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            <span data-i18n="docsLinkRepo">Project on GitHub</span>
+          </a>
+          <a id="docsLinkReadme" href="https://github.com/Kevoyuan/job-search-de#readme" target="_blank" rel="noopener">
+            <span data-i18n="docsLinkReadme">README</span>
+          </a>
+          <a id="docsLinkSkill" href="https://github.com/Kevoyuan/job-search-de/blob/main/SKILL.md" target="_blank" rel="noopener">
+            <span data-i18n="docsLinkSkill">Workflow &amp; commands</span>
+          </a>
+          <a id="docsLinkScoring" href="https://github.com/Kevoyuan/job-search-de/blob/main/references/scoring.md" target="_blank" rel="noopener">
+            <span data-i18n="docsLinkScoring">How matching is scored</span>
+          </a>
+        </div>
+      </section>
+    </div>
+  </div>
+
   <!-- Keyboard Shortcuts Cheat Sheet Modal -->
   <div id="shortcutsModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="shortcutsTitle" onclick="closeShortcutsModal(event)">
     <div class="modal-box" onclick="event.stopPropagation()">
@@ -2318,6 +2594,7 @@ html[data-theme="bento"] .analysis-panel{ border-top:0; border-left:3px solid cu
         <div class="shortcut-item"><span data-i18n="scTable">Toggle Table view</span> <kbd>T</kbd></div>
         <div class="shortcut-item"><span data-i18n="scKanban">Toggle Kanban view</span> <kbd>K</kbd></div>
         <div class="shortcut-item"><span data-i18n="scConfig">Open candidate configs</span> <kbd>C</kbd></div>
+        <div class="shortcut-item"><span data-i18n="scGuide">Open usage guide</span> <kbd>G</kbd></div>
         <div class="shortcut-item"><span data-i18n="scSave">Save current config</span> <kbd>Ctrl+S</kbd></div>
         <div class="shortcut-item"><span data-i18n="scNotion">Switch to Editorial Craft theme</span> <kbd>1</kbd></div>
         <div class="shortcut-item"><span data-i18n="scObsidian">Switch to Dark Velocity theme</span> <kbd>2</kbd></div>
@@ -2408,6 +2685,32 @@ html[data-theme="bento"] .analysis-panel{ border-top:0; border-left:3px solid cu
     ];
 
     const JOBS = (Array.isArray(RAW_JOBS) && RAW_JOBS.length > 0) ? RAW_JOBS : SAMPLE_JOBS;
+
+    // Skill release metadata, injected by build_workbench.py at build time.
+    // UPDATE_AVAILABLE reflects the newest known release; recheckSkillVersion()
+    // can refresh it at runtime when the browser can reach GitHub.
+    let CURRENT_SKILL_VERSION = "1.3.0";
+    let LATEST_SKILL_VERSION = "1.3.0";
+    let UPDATE_AVAILABLE = false;
+    let UPDATE_CHECKED = true;
+    const SLASH_UPDATE_COMMAND = "/update-skill";
+    const CLI_UPDATE_COMMAND = "npx skills update job-search-de -g";
+    const SKILL_REPO_URL = "https://github.com/Kevoyuan/job-search-de";
+    const SKILL_VERSION_URL = "https://raw.githubusercontent.com/Kevoyuan/job-search-de/main/VERSION";
+
+    function isNewerVersion(remote, current) {
+      const parse = value => {
+        const match = String(value == null ? '' : value).trim().match(/^v?(\d+)\.(\d+)\.(\d+)/);
+        return match ? match.slice(1).map(Number) : null;
+      };
+      const remoteParts = parse(remote);
+      const currentParts = parse(current);
+      if (!remoteParts || !currentParts) return false;
+      for (let i = 0; i < 3; i++) {
+        if (remoteParts[i] !== currentParts[i]) return remoteParts[i] > currentParts[i];
+      }
+      return false;
+    }
 
     // Internationalization (i18n) Dictionary
     const I18N = {
@@ -2535,6 +2838,45 @@ html[data-theme="bento"] .analysis-panel{ border-top:0; border-left:3px solid cu
         toastWorkspaceConnected: "Workspace connected and files synchronized!",
         toastWorkspaceFailed: "Workspace connection canceled or failed",
         toastPromptCopied: "AI Cover Letter Prompt copied!",
+        docsBtn: "Usage Guide (Press G)",
+        docsTitle: "Usage Guide",
+        docsVersionLabel: "Installed skill version",
+        docsUpdateBadge: "Update available",
+        docsCheckNow: "Check for updates",
+        docsQuickStart: "Quick start",
+        docsStep1: "Install the skill in your agent: npx skills add Kevoyuan/job-search-de -g",
+        docsStep2: "Open your job-search folder and provide your CV, or describe your background.",
+        docsStep3: "Ask in plain language or use a command below. This workbench is generated from the results.",
+        docsCommands: "Everyday commands",
+        docsCmdRefresh: "Run a full job discovery pass and rebuild this workbench.",
+        docsCmdMatch: "Deep evidence scoring for a single job URL or pasted description.",
+        docsCmdTailor: "Generate tailored CV bullets and a German cover letter from verified facts.",
+        docsCmdDigest: "A 60-second briefing of newly verified roles.",
+        docsCmdSync: "Sync application statuses with your Notion job tracker (needs setup).",
+        docsCmdUpdate: "Update the skill to the latest release.",
+        docsConfig: "Configuration files",
+        docsConfigDesc: "Your profile and preferences live in .job-search/ inside your job-search folder. You normally change them by telling the agent.",
+        docsCfgProfile: "Verified experience, skills, and qualifications.",
+        docsCfgPreferences: "Target roles, cities, languages, and exclusions.",
+        docsCfgSettings: "Search windows, score thresholds, and output languages.",
+        docsUpdate: "Updating the skill",
+        docsUpdateDesc: "This workbench checks for new releases on load. When one is available a banner appears at the top; copy either command below to upgrade.",
+        docsUpdateSlash: "In your agent chat",
+        docsUpdateCli: "In your terminal",
+        docsLinks: "More details",
+        docsLinkRepo: "Project on GitHub",
+        docsLinkReadme: "README",
+        docsLinkSkill: "Workflow & commands",
+        docsLinkScoring: "How matching is scored",
+        updateBadge: "Skill Update",
+        updateMsgAvailable: "New version {remote} is available (you have {current}).",
+        updateMsgUpToDate: "You are on the latest version ({current}).",
+        updateMsgUnknown: "Update check unavailable while offline.",
+        updateChecking: "Checking for updates...",
+        toastUpdateFound: "New version available",
+        toastUpToDate: "Already on the latest version",
+        toastUpdateFailed: "Could not reach the update server",
+        scGuide: "Open usage guide",
         statusNames: {
           todo: "To Evaluate",
           prep: "Preparing",
@@ -2672,6 +3014,45 @@ I am preparing to apply. Based on my candidate profile (profile.md), please prov
         toastWorkspaceConnected: "工作区已连接并同步文件！",
         toastWorkspaceFailed: "连接本地目录取消或失败",
         toastPromptCopied: "已复制 AI 推荐信定制提示词！",
+        docsBtn: "使用说明 (按 G 打开)",
+        docsTitle: "使用说明",
+        docsVersionLabel: "当前已安装的 skill 版本",
+        docsUpdateBadge: "有新版本",
+        docsCheckNow: "检查更新",
+        docsQuickStart: "快速开始",
+        docsStep1: "在你的 AI Agent 中安装 skill：npx skills add Kevoyuan/job-search-de -g",
+        docsStep2: "打开你的求职目录，提供简历，或直接描述你的背景。",
+        docsStep3: "用自然语言提问，或使用下面的指令。本工作台由搜索结果自动生成。",
+        docsCommands: "常用指令",
+        docsCmdRefresh: "执行一次完整的岗位发现流程，并重建本工作台。",
+        docsCmdMatch: "对单个职位链接或粘贴的 JD 做深度证据评分。",
+        docsCmdTailor: "基于已验证事实生成定制简历要点与德文求职信。",
+        docsCmdDigest: "用 60 秒速览最近新验证的岗位。",
+        docsCmdSync: "与 Notion 求职追踪表同步投递状态（需先配置）。",
+        docsCmdUpdate: "将 skill 更新到最新版本。",
+        docsConfig: "配置文件",
+        docsConfigDesc: "你的档案与偏好保存在求职目录下的 .job-search/ 中。通常只需告诉 Agent 即可修改。",
+        docsCfgProfile: "已验证的经历、技能与资质。",
+        docsCfgPreferences: "目标岗位、城市、语言与排除项。",
+        docsCfgSettings: "搜索时间窗、评分阈值与输出语言。",
+        docsUpdate: "更新 skill",
+        docsUpdateDesc: "本工作台在打开时会自动检查新版本。检测到新版本时顶部会弹出提示条，复制下面任意一条命令即可升级。",
+        docsUpdateSlash: "在 Agent 对话中",
+        docsUpdateCli: "在终端中",
+        docsLinks: "更多资料",
+        docsLinkRepo: "GitHub 项目主页",
+        docsLinkReadme: "README 说明",
+        docsLinkSkill: "工作流与指令",
+        docsLinkScoring: "匹配评分规则",
+        updateBadge: "Skill 更新",
+        updateMsgAvailable: "发现新版本 {remote}（当前 {current}）。",
+        updateMsgUpToDate: "已是最新版本（{current}）。",
+        updateMsgUnknown: "离线状态，暂时无法检查更新。",
+        updateChecking: "正在检查更新...",
+        toastUpdateFound: "发现新版本",
+        toastUpToDate: "已是最新版本",
+        toastUpdateFailed: "无法连接更新服务器",
+        scGuide: "打开使用说明",
         statusNames: {
           todo: "待评估",
           prep: "准备申请",
@@ -2809,6 +3190,45 @@ I am preparing to apply. Based on my candidate profile (profile.md), please prov
         toastWorkspaceConnected: "Arbeitsbereich verbunden und synchronisiert!",
         toastWorkspaceFailed: "Verzeichnisverbindung abgebrochen",
         toastPromptCopied: "Prompt in Zwischenablage kopiert!",
+        docsBtn: "Anleitung (G drücken)",
+        docsTitle: "Anleitung",
+        docsVersionLabel: "Installierte Skill-Version",
+        docsUpdateBadge: "Update verfügbar",
+        docsCheckNow: "Nach Updates suchen",
+        docsQuickStart: "Schnellstart",
+        docsStep1: "Skill im Agenten installieren: npx skills add Kevoyuan/job-search-de -g",
+        docsStep2: "Job-Suchordner öffnen und Lebenslauf bereitstellen oder Hintergrund beschreiben.",
+        docsStep3: "In natürlicher Sprache fragen oder einen Befehl unten nutzen. Diese Workbench entsteht aus den Ergebnissen.",
+        docsCommands: "Alltagsbefehle",
+        docsCmdRefresh: "Vollständigen Suchlauf starten und diese Workbench neu aufbauen.",
+        docsCmdMatch: "Tiefe Evidenzbewertung für eine Job-URL oder eingefügte Beschreibung.",
+        docsCmdTailor: "Passgenaue CV-Punkte und deutsches Anschreiben aus belegten Fakten erzeugen.",
+        docsCmdDigest: "60-Sekunden-Überblick über neu verifizierte Stellen.",
+        docsCmdSync: "Bewerbungsstatus mit dem Notion-Tracker synchronisieren (Einrichtung nötig).",
+        docsCmdUpdate: "Skill auf die neueste Version aktualisieren.",
+        docsConfig: "Konfigurationsdateien",
+        docsConfigDesc: "Profil und Präferenzen liegen in .job-search/ im Job-Suchordner. Normalerweise änderst du sie über den Agenten.",
+        docsCfgProfile: "Belegte Erfahrung, Fähigkeiten und Qualifikationen.",
+        docsCfgPreferences: "Zielrollen, Städte, Sprachen und Ausschlüsse.",
+        docsCfgSettings: "Suchfenster, Score-Schwellen und Ausgabesprachen.",
+        docsUpdate: "Skill aktualisieren",
+        docsUpdateDesc: "Diese Workbench prüft beim Öffnen auf neue Versionen. Bei Verfügbarkeit erscheint oben ein Banner; kopiere einen der Befehle unten.",
+        docsUpdateSlash: "Im Agenten-Chat",
+        docsUpdateCli: "Im Terminal",
+        docsLinks: "Mehr Details",
+        docsLinkRepo: "Projekt auf GitHub",
+        docsLinkReadme: "README",
+        docsLinkSkill: "Workflow & Befehle",
+        docsLinkScoring: "Wie bewertet wird",
+        updateBadge: "Skill-Update",
+        updateMsgAvailable: "Neue Version {remote} verfügbar (installiert: {current}).",
+        updateMsgUpToDate: "Du nutzt bereits die neueste Version ({current}).",
+        updateMsgUnknown: "Offline: Update-Prüfung nicht möglich.",
+        updateChecking: "Suche nach Updates...",
+        toastUpdateFound: "Neue Version verfügbar",
+        toastUpToDate: "Bereits aktuell",
+        toastUpdateFailed: "Update-Server nicht erreichbar",
+        scGuide: "Anleitung öffnen",
         statusNames: {
           todo: "Zu bewerten",
           prep: "In Vorbereitung",
@@ -2972,6 +3392,121 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
       showToast(dict.toastCopied);
     }
 
+    function copySlashUpdate(btnElement) {
+      copyUpdateCommand(SLASH_UPDATE_COMMAND, btnElement);
+    }
+
+    function copyCliUpdate(btnElement) {
+      copyUpdateCommand(CLI_UPDATE_COMMAND, btnElement);
+    }
+
+    // 1b. Skill release detection, update banner, and usage guide
+    function dict() {
+      return I18N[currentLang] || I18N.en;
+    }
+
+    function formatUpdateMessage(key, values) {
+      const template = String(dict()[key] || '');
+      return template.replace(/\{(\w+)\}/g, (match, name) =>
+        Object.prototype.hasOwnProperty.call(values, name) ? String(values[name]) : match);
+    }
+
+    function renderUpdateBanner() {
+      const banner = document.getElementById('updateBanner');
+      if (!banner) return;
+      const dismissed = sessionStorage.getItem('job_workbench_update_dismissed');
+      if (!UPDATE_AVAILABLE || dismissed === LATEST_SKILL_VERSION) {
+        banner.style.display = 'none';
+        return;
+      }
+      const message = document.getElementById('updateBannerMsg');
+      if (message) {
+        message.textContent = formatUpdateMessage('updateMsgAvailable', {
+          remote: 'v' + LATEST_SKILL_VERSION,
+          current: 'v' + CURRENT_SKILL_VERSION
+        });
+      }
+      const slashPill = document.getElementById('updateSlashPill');
+      if (slashPill) slashPill.textContent = SLASH_UPDATE_COMMAND;
+      const cliPill = document.getElementById('updateCliPill');
+      if (cliPill) cliPill.textContent = CLI_UPDATE_COMMAND;
+      banner.style.display = 'flex';
+    }
+
+    function dismissUpdateBanner() {
+      sessionStorage.setItem('job_workbench_update_dismissed', LATEST_SKILL_VERSION);
+      const banner = document.getElementById('updateBanner');
+      if (banner) banner.style.display = 'none';
+    }
+
+    function renderDocsVersion() {
+      const current = document.getElementById('docsCurrentVersion');
+      if (current) current.textContent = CURRENT_SKILL_VERSION;
+      const badge = document.getElementById('docsVersionBadge');
+      if (badge) badge.style.display = UPDATE_AVAILABLE ? 'inline-block' : 'none';
+      const slashPill = document.getElementById('docsSlashPill');
+      if (slashPill) slashPill.textContent = SLASH_UPDATE_COMMAND;
+      const cliPill = document.getElementById('docsCliPill');
+      if (cliPill) cliPill.textContent = CLI_UPDATE_COMMAND;
+
+      const status = document.getElementById('docsVersionStatus');
+      if (!status) return;
+      status.classList.remove('ok', 'warn');
+      if (UPDATE_AVAILABLE) {
+        status.classList.add('warn');
+        status.textContent = formatUpdateMessage('updateMsgAvailable', {
+          remote: 'v' + LATEST_SKILL_VERSION,
+          current: 'v' + CURRENT_SKILL_VERSION
+        });
+      } else if (UPDATE_CHECKED) {
+        status.classList.add('ok');
+        status.textContent = formatUpdateMessage('updateMsgUpToDate', {current: 'v' + CURRENT_SKILL_VERSION});
+      } else {
+        status.textContent = dict().updateMsgUnknown;
+      }
+    }
+
+    async function recheckSkillVersion(interactive) {
+      const button = document.getElementById('docsCheckBtn');
+      const status = document.getElementById('docsVersionStatus');
+      if (button) button.disabled = true;
+      if (interactive && status) {
+        status.classList.remove('ok', 'warn');
+        status.textContent = dict().updateChecking;
+      }
+      try {
+        const response = await fetch(SKILL_VERSION_URL, {cache: 'no-store'});
+        if (!response.ok) throw new Error('HTTP ' + response.status);
+        const remote = (await response.text()).trim();
+        if (!remote) throw new Error('Empty version payload');
+        LATEST_SKILL_VERSION = remote.replace(/^v/, '');
+        UPDATE_AVAILABLE = isNewerVersion(LATEST_SKILL_VERSION, CURRENT_SKILL_VERSION);
+        UPDATE_CHECKED = true;
+        renderUpdateBanner();
+        renderDocsVersion();
+        if (interactive) showToast(UPDATE_AVAILABLE ? dict().toastUpdateFound : dict().toastUpToDate, UPDATE_AVAILABLE ? 'warn' : 'success');
+        return true;
+      } catch (error) {
+        if (interactive) showToast(dict().toastUpdateFailed, 'error');
+        if (interactive && status && !UPDATE_CHECKED) status.textContent = dict().updateMsgUnknown;
+        return false;
+      } finally {
+        if (button) button.disabled = false;
+      }
+    }
+
+    function openDocsDrawer() {
+      renderDocsVersion();
+      document.getElementById('docsOverlay').classList.add('open');
+      document.getElementById('docsDrawer').classList.add('open');
+      if (!UPDATE_CHECKED) recheckSkillVersion(false);
+    }
+
+    function closeDocsDrawer() {
+      document.getElementById('docsOverlay').classList.remove('open');
+      document.getElementById('docsDrawer').classList.remove('open');
+    }
+
     // 2. Language & Theme Switching
     function switchLanguage(lang) {
       currentLang = lang;
@@ -3011,6 +3546,8 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
       if (titleEl) titleEl.textContent = dict.title;
       document.title = `${dict.title} - Job Hunt Workbench`;
 
+      renderUpdateBanner();
+      renderDocsVersion();
       updateDirtyDisplay();
     }
 
@@ -3716,6 +4253,10 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
           closeJobDetail();
           return;
         }
+        if (document.getElementById('docsDrawer').classList.contains('open')) {
+          closeDocsDrawer();
+          return;
+        }
         if (document.getElementById('configDrawer').classList.contains('open')) {
           closeConfigDrawer();
           return;
@@ -3740,6 +4281,8 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
         switchView('kanban');
       } else if (e.key === 'c' || e.key === 'C') {
         openConfigDrawer();
+      } else if (e.key === 'g' || e.key === 'G') {
+        openDocsDrawer();
       } else if (e.key === '1') {
         switchTheme('notion');
       } else if (e.key === '2') {
@@ -3785,6 +4328,11 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
     // Initialize UI with preferred language
     applyLanguage(currentLang);
     renderJobs();
+    renderUpdateBanner();
+    renderDocsVersion();
+
+    // When the build could not reach GitHub, retry the release check in-browser.
+    if (!UPDATE_CHECKED) recheckSkillVersion(false);
   </script>
 </body>
 </html>

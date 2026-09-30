@@ -49,6 +49,31 @@ for (const match of html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/gi)) new 
         assert.equal(await page.locator('html').getAttribute('data-theme'), theme);
       }
     }
+    // Skill update banner + usage guide drawer
+    assert.equal(await page.locator('#updateBanner').count(), 1);
+    assert.equal(await page.locator('#updateBanner .btn-copy-code').count(), 2);
+    assert.equal(
+      await page.locator('#updateBanner').isVisible(),
+      await page.evaluate(() => UPDATE_AVAILABLE),
+      'banner visibility must follow the detected update state');
+    assert.equal(
+      await page.evaluate(() => UPDATE_AVAILABLE),
+      await page.evaluate(() => isNewerVersion(LATEST_SKILL_VERSION, CURRENT_SKILL_VERSION)),
+      'UPDATE_AVAILABLE must be derived from the two versions');
+    await page.evaluate(() => openDocsDrawer());
+    await page.locator('#docsDrawer').waitFor({state: 'visible'});
+    assert.equal(await page.locator('#docsCurrentVersion').textContent(), await page.evaluate(() => CURRENT_SKILL_VERSION));
+    assert.equal(await page.locator('#docsDrawer .docs-copy-btn').count(), 2);
+    for (const lang of ['zh', 'en', 'de']) {
+      await page.evaluate(lang => switchLanguage(lang), lang);
+      assert.ok((await page.locator('#docsTitle').textContent()).length > 0);
+      assert.equal(await page.locator('#docsCliPill').textContent(), 'npx skills update job-search-de -g');
+      assert.equal(await page.locator('#docsSlashPill').textContent(), '/update-skill');
+    }
+    await page.evaluate(() => switchLanguage('en'));
+    await page.evaluate(() => closeDocsDrawer());
+    await page.locator('#docsDrawer').waitFor({state: 'hidden'});
+
     for (const lang of ['zh', 'en', 'de']) {
       const content = await page.evaluate(lang => {
         switchLanguage(lang);
@@ -130,7 +155,12 @@ for (const match of html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/gi)) new 
       const sizes = await page.evaluate(() => [document.documentElement.scrollWidth, window.innerWidth]);
       assert.ok(sizes[0] <= sizes[1] + 1, `${view} mobile overflow: ${sizes}`);
     }
+    await page.evaluate(() => openDocsDrawer());
+    await page.locator('#docsDrawer').waitFor({state: 'visible'});
+    const drawerSizes = await page.evaluate(() => [document.documentElement.scrollWidth, window.innerWidth]);
+    assert.ok(drawerSizes[0] <= drawerSizes[1] + 1, `usage guide mobile overflow: ${drawerSizes}`);
+    await page.evaluate(() => closeDocsDrawer());
     assert.deepEqual(errors, []);
-    console.log(`PASS: syntax, ${expected} high-fit jobs, scores, filters, sorting, 3 languages, 4 themes, drawers, kanban, recent-day boundaries/persistence/filtering, mobile`);
+    console.log(`PASS: syntax, ${expected} high-fit jobs, scores, filters, sorting, 3 languages, 4 themes, drawers, kanban, recent-day boundaries/persistence/filtering, update banner + usage guide, mobile`);
   } finally { await browser.close(); }
 })().catch(error => {console.error(error); process.exitCode = 1;});

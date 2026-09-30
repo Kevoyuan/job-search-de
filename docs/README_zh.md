@@ -68,7 +68,7 @@ git clone https://github.com/Kevoyuan/job-search-de.git ~/.agents/skills/job-sea
 | 评估一个岗位 | `/match <职位链接或岗位描述>` |
 | 定制简历和求职信 | `/tailor <职位 ID 或链接>` |
 | 查看近期精选 | `/digest` |
-| 更新 Skill | `/update-skill` |
+| 更新 Skill | `/update-skill`，或在终端执行 `npx skills update job-search-de -g` |
 | 同步到 Notion | `/sync`，需要先配置 Notion 集成 |
 
 ## 修改求职偏好
@@ -86,6 +86,28 @@ git clone https://github.com/Kevoyuan/job-search-de.git ~/.agents/skills/job-sea
 | `settings.ini` | 搜索时间范围、评分阈值和输出语言 |
 
 需要手动调整设置或自定义公司、关键词列表时，查看[配置指南](../references/configuration.md)。
+
+## 让 Skill 保持最新
+
+工作台在构建时和打开时都会自动检查新版本。一旦发现新版本，顶部会弹出提示条，并附上两条更新命令的一键复制按钮。点击头部的书本图标（或按 `G`）打开**使用说明**，可以查看当前已安装版本、手动重新检查并复制更新命令。
+
+在助手对话中：
+
+```text
+/update-skill
+```
+
+或在终端直接执行：
+
+```bash
+npx skills update job-search-de -g
+```
+
+只想查看线上版本、不执行更新：
+
+```bash
+python3 scripts/check_update.py
+```
 
 ## 数据与隐私
 

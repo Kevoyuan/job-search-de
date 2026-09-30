@@ -212,7 +212,7 @@ Managementbericht und interaktive Workbench job-hunt-workbench.html generiert!
 | Befehl | Beschreibung |
 |---|---|
 | `/refresh` | **Vollständige Aktualisierung**: Führt erneuten ATS-Abruf, Verifizierung, Evidenz-Scoring durch und aktualisiert Workbench & Bericht. |
-| `/update-skill` | **Skill-Update**: Lädt die neueste GitHub-Version herunter. |
+| `/update-skill` | **Skill-Update**: Lädt die neueste GitHub-Version herunter. Im Terminal auch per `npx skills update job-search-de -g`. Die Workbench erkennt neue Versionen und zeigt oben ein Banner mit Ein-Klick-Kopieren. |
 | `/match <url / jd>` | **Einzelabgleich**: Bewertet eine einzelne Stelle gegen Ihr Profil. |
 | `/tailor <id / url>` | **Anschreiben-Generator**: Erzeugt maßgeschneiderte CV-Punkte und deutsches Anschreiben. |
 | `/sync` | **Notion-Sync**: Synchronisiert Status mit Ihrer Notion-Job-Datenbank. |

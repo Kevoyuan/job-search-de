@@ -199,7 +199,7 @@ AI 어시스턴트(Antigravity, Claude Code, Cursor, OpenClaw)에 요청하세�
 | 명령어 | 설명 |
 |---|---|
 | `/refresh` | **전체 검색 갱신**: 최신 ATS 공고 재수집, 링크 유효성 검증, 스코어링 및 워크벤치 갱신. |
-| `/update-skill` | **Skill 자동 업데이트**: GitHub 최신 버전 코드를 자동으로 가져옵니다. |
+| `/update-skill` | **Skill 자동 업데이트**: GitHub 최신 버전 코드를 자동으로 가져옵니다. 터미널에서는 `npx skills update job-search-de -g` 로도 실행할 수 있습니다. 워크벤치는 새 버전을 감지하면 상단에 알림 배너와 원클릭 복사 버튼을 표시합니다. |
 | `/match <url / jd>` | **단일 공고 즉시 평가**: 특정 공고 URL 또는 JD 텍스트를 프로필과 즉시 매칭 평가. |
 | `/tailor <id / url>` | **맞춤 이력서 및 커버레터 생성**: 검증된 근거 기반 독일식 지원 서류 생성. |
 | `/sync` | **Notion 동기화**: Notion 채용 지원 현황 데이터베이스와 양방향 동기화. |

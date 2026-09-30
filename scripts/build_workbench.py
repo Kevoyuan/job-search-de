@@ -8,6 +8,19 @@ import sys
 from pathlib import Path
 
 SKILL_ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+try:
+    from check_update import REMOTE_VERSION_URL, check_update as run_update_check
+except Exception:  # pragma: no cover - degrade to "no update info" when unavailable
+    run_update_check = None
+    REMOTE_VERSION_URL = "https://raw.githubusercontent.com/Kevoyuan/job-search-de/main/VERSION"
+
+FALLBACK_UPDATE_META = {
+    "repo": "https://github.com/Kevoyuan/job-search-de",
+    "slashCommand": "/update-skill",
+    "command": "npx skills update job-search-de -g",
+}
 
 
 def load_file_content(path: Path) -> str:
@@ -61,6 +74,10 @@ def main():
     parser.add_argument("--jobs-file", default=None, help="Path to verified_jobs.json")
     parser.add_argument("--output", default=None, help="Output HTML file path (default: <workdir>/job-hunt-workbench.html)")
     parser.add_argument("--lang", default="en", choices=["zh", "en", "de"], help="Workbench UI language")
+    parser.add_argument("--no-update-check", action="store_true",
+                        help="Skip the GitHub version lookup and bake in the local version only")
+    parser.add_argument("--update-timeout", type=float, default=2.0,
+                        help="Version lookup timeout in seconds (default: 2.0)")
     args = parser.parse_args()
 
     workdir = Path(args.workdir).resolve()
@@ -95,9 +112,23 @@ def main():
 
     jobs_data = [normalize_job(job) for job in jobs_data]
 
-    # 3. Read Version
+    # 3. Read Version and resolve the remote release (best-effort, never blocking)
     version_file = SKILL_ROOT / "VERSION"
     current_version = version_file.read_text().strip() if version_file.exists() else "1.1.1"
+
+    update_meta = dict(FALLBACK_UPDATE_META)
+    update_meta.update({
+        "current": current_version,
+        "remote": current_version,
+        "updateAvailable": False,
+        "checked": False,
+    })
+    if run_update_check is not None and not args.no_update_check:
+        try:
+            detected = run_update_check(timeout=args.update_timeout)
+            update_meta.update(detected)
+        except Exception as exc:  # pragma: no cover - network failures must not break builds
+            print(f"⚠️ Warning: version check skipped ({exc})", file=sys.stderr)
 
     # 4. Read Template
     template_file = SKILL_ROOT / "templates" / "workbench_template.html"
@@ -127,8 +158,15 @@ def main():
 
     rendered_html = template_html.replace("__TITLE__", title)
     rendered_html = rendered_html.replace("__LANG__", args.lang)
-    rendered_html = rendered_html.replace("__CURRENT_VERSION__", current_version)
-    rendered_html = rendered_html.replace("__LATEST_VERSION__", current_version)
+    rendered_html = rendered_html.replace("__CURRENT_VERSION__", update_meta["current"])
+    rendered_html = rendered_html.replace("__LATEST_VERSION__", update_meta["remote"])
+    rendered_html = rendered_html.replace("__UPDATE_AVAILABLE__", "true" if update_meta["updateAvailable"] else "false")
+    rendered_html = rendered_html.replace("__UPDATE_CHECKED__", "true" if update_meta["checked"] else "false")
+    rendered_html = rendered_html.replace("__UPDATE_COMMAND__", safe_json_for_script(update_meta["command"]))
+    rendered_html = rendered_html.replace("__SLASH_COMMAND__", safe_json_for_script(update_meta["slashCommand"]))
+    rendered_html = rendered_html.replace("__REPO_URL__", safe_json_for_script(update_meta["repo"]))
+    rendered_html = rendered_html.replace("__REPO_URL_RAW__", update_meta["repo"])
+    rendered_html = rendered_html.replace("__VERSION_CHECK_URL__", safe_json_for_script(REMOTE_VERSION_URL))
     rendered_html = rendered_html.replace("__EMBEDDED_CONFIG_JSON__", safe_json_for_script(embedded_config))
     rendered_html = rendered_html.replace("__JOBS_JSON__", safe_json_for_script(jobs_data))
 
@@ -137,7 +175,15 @@ def main():
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(rendered_html, encoding="utf-8")
 
+    if update_meta["updateAvailable"]:
+        status = f"update available → v{update_meta['remote']}"
+    elif update_meta["checked"]:
+        status = f"up to date (v{update_meta['current']})"
+    else:
+        status = f"update check skipped (v{update_meta['current']})"
+
     print(f"✨ Generated Workbench HTML: {output_path} ({len(jobs_data)} jobs loaded)")
+    print(f"   ↳ skill version: {status}")
 
 
 if __name__ == "__main__":

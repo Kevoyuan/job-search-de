@@ -199,7 +199,7 @@ AIアシスタント（Antigravity、Claude Code、Cursor、OpenClaw）に話し
 | コマンド | 説明 |
 |---|---|
 | `/refresh` | **全体検索更新**: ATS求人の再取得、リンク検証、スコアリングを実行し、ワークベンチを更新。 |
-| `/update-skill` | **Skill自動更新**: GitHub上の最新コードを取得。 |
+| `/update-skill` | **Skill自動更新**: GitHub上の最新コードを取得。ターミナルからは `npx skills update job-search-de -g` でも実行可能。ワークベンチは新バージョンを検出すると上部に通知バナーを表示し、ワンクリックでコピーできます。 |
 | `/match <url / jd>` | **単一求人評価**: 指定した求人票とプロファイルを即時照合。 |
 | `/tailor <id / url>` | **履歴書・カバーレター生成**: エビデンスに基づきドイツ式応募書類を生成。 |
 | `/sync` | **Notion同期**: Notionデータベースと選考進捗を双方向同期。 |

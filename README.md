@@ -68,7 +68,7 @@ Ask in plain language, or use these shortcuts in your agent chat after loading t
 | Check one job | `/match <job URL or pasted description>` |
 | Tailor application materials | `/tailor <job ID or URL>` |
 | Review recent matches | `/digest` |
-| Update the skill | `/update-skill` |
+| Update the skill | `/update-skill`, or run `npx skills update job-search-de -g` in a terminal |
 | Sync with Notion | `/sync` — requires a configured Notion integration. |
 
 ## Change your preferences
@@ -86,6 +86,28 @@ The agent stores your profile and preferences in `.job-search/` inside your job-
 | `settings.ini` | Search windows, score thresholds, and output languages |
 
 For manual settings and optional company/keyword lists, see the [configuration guide](references/configuration.md).
+
+## Keep the skill up to date
+
+The workbench checks for new releases when it is built and again when you open it. If a newer version exists, a banner appears at the top with a copy button for either update path. Open the **Usage Guide** (the book icon in the header, or press `G`) to see your installed version, re-check manually, and copy the commands.
+
+In your agent chat:
+
+```text
+/update-skill
+```
+
+Or straight from a terminal:
+
+```bash
+npx skills update job-search-de -g
+```
+
+To check the published version without updating:
+
+```bash
+python3 scripts/check_update.py
+```
 
 ## Data and privacy
 

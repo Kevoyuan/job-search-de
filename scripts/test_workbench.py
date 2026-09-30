@@ -7,6 +7,30 @@ import tempfile
 import unittest
 from pathlib import Path
 from build_workbench import normalize_job
+from check_update import is_newer, parse_version
+
+
+class VersionCheckTests(unittest.TestCase):
+    def test_semver_ordering(self):
+        cases = [
+            ("1.2.2", "1.2.1", True),
+            ("1.3.0", "1.2.9", True),
+            ("2.0.0", "1.9.9", True),
+            ("v1.3.0", "1.2.1", True),
+            ("1.2.1", "1.2.1", False),
+            ("1.2.0", "1.2.1", False),
+            ("1.10.0", "1.9.0", True),
+        ]
+        for remote, current, expected in cases:
+            with self.subTest(remote=remote, current=current):
+                self.assertEqual(is_newer(remote, current), expected)
+
+    def test_unparseable_versions_never_trigger_an_update(self):
+        for remote, current in [("garbage", "1.2.1"), ("1.3", "1.2.1"), (None, "1.2.1"), ("", "1.2.1")]:
+            with self.subTest(remote=remote):
+                self.assertFalse(is_newer(remote, current))
+        self.assertEqual(parse_version("v1.2.3"), (1, 2, 3))
+        self.assertIsNone(parse_version("1.2"))
 
 
 class WorkbenchTests(unittest.TestCase):
