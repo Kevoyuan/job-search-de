@@ -10,3 +10,7 @@ __pycache__/
 tmp/
 .gstack/
 *.visual-check.*
+
+# Agent workspace data (local memory/notes) and the standalone promo-video project
+.workbuddy-ai/
+promo-video/
