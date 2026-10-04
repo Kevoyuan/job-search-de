@@ -1911,6 +1911,53 @@
         grid-template-columns: 1fr;
       }
     }
+
+    /* Configuration editor: shared local renderer for Markdown and INI. */
+    #configDrawer .drawer-body { background: var(--bg-subtle); min-height: 0; scrollbar-gutter: stable; }
+    #configDrawer .drawer-tabs { padding: 0 16px; gap: 0; }
+    #configDrawer .drawer-tab { flex: 1; min-width: 0; min-height: 48px; padding: 12px 8px; }
+    #configDrawer .mode-btn { min-height: 44px; }
+    #configDrawer .btn-close-drawer { width: 44px; height: 44px; }
+    #configDrawer #btnConnectDir { min-height: 44px; }
+    #configDrawer .drawer-footer { flex-wrap: wrap; gap: 12px; }
+    #configDrawer .drawer-footer > div:last-child { flex-wrap: wrap; }
+    #configDrawer .drawer-title { min-width: 0; overflow-wrap: anywhere; }
+    #configDrawer .btn-close-drawer { flex-shrink: 0; }
+    #configDrawer .mode-toggle { flex-shrink: 0; }
+    #configDrawer #currentFileLabel { overflow-wrap: anywhere; min-width: 0; }
+    #configDrawer .drawer-footer .btn { min-height: 44px; }
+    .config-overview { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; }
+    .config-overview h2 { margin: 0; font-size: 24px; letter-spacing: -.025em; }
+    #configFieldCount { font-size: 12px; color: var(--text); font-variant-numeric: tabular-nums; }
+    .config-section-nav { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+    .config-section-nav button { font: inherit; font-size: 12px; text-align: left; min-height: 44px; padding: 8px 12px; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); color: var(--text); background: var(--bg-surface); cursor: pointer; overflow-wrap: anywhere; }
+    .config-sections { display: grid; gap: 16px; }
+    .config-card { padding: 24px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--bg-surface); scroll-margin-block: 16px; min-width: 0; }
+    .config-card h3 { margin: 0 0 20px; font-size: 16px; line-height: 1.4; overflow-wrap: anywhere; }
+    .config-field-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 20px 24px; }
+    .config-field { min-width: 0; }
+    .config-field .form-label { font-weight: 500; line-height: 1.5; margin-bottom: 8px; overflow-wrap: anywhere; }
+    .config-prose { grid-column: 1 / -1; }
+    .config-value { display: block; min-height: 44px; resize: none; overflow: hidden; line-height: 1.6; font-family: var(--font-sans); padding: 10px 12px; border-radius: var(--radius-sm); }
+    .config-prose .config-value { background: var(--bg-subtle); }
+    .config-error { display: block; font-size: 12px; margin-top: 8px; color: var(--text); }
+    .config-error[hidden] { display: none; }
+    .config-value[aria-invalid="true"] { border: 2px solid var(--warning); }
+    .config-meter { width: 100%; height: 12px; margin-top: 8px; accent-color: var(--primary); }
+    @media (hover: hover) and (pointer: fine) {
+      .config-section-nav button:hover { border-color: var(--primary); background: var(--bg-hover); }
+    }
+    @media (max-width: 600px) {
+      #configDrawer .drawer-body { padding: 16px; }
+      #configDrawer .drawer-tabs { padding: 0 8px; }
+      #configDrawer .drawer-tab { font-size: 12px; overflow-wrap: anywhere; }
+      #configDrawer .mode-bar { padding: 8px 16px; gap: 8px; }
+      #configDrawer .drawer-footer { padding: 12px 16px; }
+      #configDrawer .drawer-footer kbd { display: none; }
+      .config-card { padding: 16px; }
+      .config-field-grid { grid-template-columns: minmax(0,1fr); gap: 16px; }
+      .config-section-nav button { min-height: 44px; }
+    }
   </style>
 </head>
 <body>
@@ -2289,9 +2336,9 @@
 
     <!-- Drawer Tabs -->
     <div class="drawer-tabs">
-      <button class="drawer-tab active" onclick="switchConfigTab('profile')" data-i18n="tabProfile">profile.md (Profile &amp; Facts)</button>
-      <button class="drawer-tab" onclick="switchConfigTab('preferences')" data-i18n="tabPreferences">preferences.md (Search Preferences)</button>
-      <button class="drawer-tab" onclick="switchConfigTab('settings')" data-i18n="tabSettings">settings.ini (Runtime Settings)</button>
+      <button class="drawer-tab active" onclick="switchConfigTab('profile')" data-i18n="tabProfile">Profile</button>
+      <button class="drawer-tab" onclick="switchConfigTab('preferences')" data-i18n="tabPreferences">Preferences</button>
+      <button class="drawer-tab" onclick="switchConfigTab('settings')" data-i18n="tabSettings">Settings</button>
     </div>
 
     <!-- Mode bar (Form vs Markdown Source) -->
@@ -2307,65 +2354,20 @@
     <div class="drawer-body">
       <!-- Source Mode -->
       <div id="sourceEditorContainer" style="display: flex; flex-direction: column; flex: 1;">
-        <textarea id="configTextarea" class="editor-textarea" oninput="markConfigDirty()" placeholder="Loading configuration content..." data-i18n-placeholder="cfgPlaceholder"></textarea>
+        <textarea aria-label="Configuration source" id="configTextarea" class="editor-textarea" oninput="markConfigDirty()" placeholder="Loading configuration content..." data-i18n-placeholder="cfgPlaceholder"></textarea>
       </div>
 
-      <!-- Form Mode (Preferences / Settings helper) -->
+      <!-- Local, lossless configuration editor: no model or network rendering. -->
       <div id="formEditorContainer" style="display: none;">
-        <div id="formPreferences" style="display: none;">
-          <div class="form-section">
-            <label class="form-label" data-i18n="lblLocations">Target Cities &amp; Priorities (Priority Locations)</label>
-            <input type="text" id="formInputLocations" class="form-input" placeholder="E.g. Frankfurt, Munich, Remote" data-i18n-placeholder="hintLocations" oninput="syncFormToPreferences()">
-            <div class="form-hint" data-i18n="hintLocations">Listed in order of priority, separated by commas. E.g. Frankfurt, Munich, Berlin, Remote.</div>
-          </div>
-          <div class="form-section">
-            <label class="form-label" data-i18n="lblWorkModes">Work Modes</label>
-            <div class="checkbox-group">
-              <label class="checkbox-label"><input type="checkbox" id="chkRemote" onchange="syncFormToPreferences()"> <span data-i18n="lblRemote">Remote</span></label>
-              <label class="checkbox-label"><input type="checkbox" id="chkHybrid" onchange="syncFormToPreferences()"> <span data-i18n="lblHybrid">Hybrid</span></label>
-              <label class="checkbox-label"><input type="checkbox" id="chkOnsite" onchange="syncFormToPreferences()"> <span data-i18n="lblOnsite">On-site</span></label>
-            </div>
-          </div>
-          <div class="form-section">
-            <label class="form-label" data-i18n="lblExclusions">Hard Exclusions (Keywords)</label>
-            <input type="text" id="formInputExclusions" class="form-input" placeholder="E.g. PHP, WordPress, German C1 Required" oninput="syncFormToPreferences()">
-            <div class="form-hint" data-i18n="hintExclusions">Jobs containing these keywords will be excluded during triage.</div>
-          </div>
-        </div>
-
-        <div id="formSettings" style="display: none;">
-          <div class="form-section">
-            <label class="form-label" data-i18n="lblThresholds">Screening &amp; Scoring Thresholds</label>
-            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
-              <div>
-                <label class="form-hint" data-i18n="hintTriage">Triage Keep</label>
-                <input type="number" id="formTriageKeep" class="form-input tabular-nums" value="65" oninput="syncFormToSettings()">
-              </div>
-              <div>
-                <label class="form-hint" data-i18n="hintDeep">Deep Score</label>
-                <input type="number" id="formDeepScore" class="form-input tabular-nums" value="75" oninput="syncFormToSettings()">
-              </div>
-              <div>
-                <label class="form-hint" data-i18n="hintHigh">High Value</label>
-                <input type="number" id="formHighValue" class="form-input tabular-nums" value="80" oninput="syncFormToSettings()">
-              </div>
-            </div>
-          </div>
-          <div class="form-section">
-            <label class="form-label" data-i18n="lblFreshDays">Freshness Window (Days)</label>
-            <input type="number" id="formFreshDays" class="form-input tabular-nums" value="14" oninput="syncFormToSettings()">
-          </div>
-        </div>
-
-        <div id="formProfileNotice" style="display: none; padding: 20px; text-align: center; color: var(--text-muted); font-size: 13px;" data-i18n="profileNotice">
-          Candidate profile <code>profile.md</code> contains detailed skills and evidence chains. Please use <strong>Source Mode</strong> for precise edits.
-        </div>
+        <div class="config-overview"><h2 id="configVisualTitle"></h2><span id="configFieldCount"></span></div>
+        <nav id="configSectionNav" class="config-section-nav"></nav>
+        <div id="configSections" class="config-sections"></div>
       </div>
     </div>
 
     <!-- Drawer Footer -->
     <div class="drawer-footer">
-      <div class="dirty-indicator" id="dirtyStatus">
+      <div class="dirty-indicator" id="dirtyStatus" role="status" aria-live="polite">
         <span class="status-dot"></span>
         <span id="dirtyText" data-i18n="cfgDirtyNo">Ready (No unsaved changes)</span>
       </div>
@@ -2381,7 +2383,7 @@
         <button class="btn btn-primary" onclick="saveCurrentConfig()">
           <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
           <span data-i18n="btnSave">Save Changes</span>
-          <kbd style="margin-left:4px;">Ctrl+S</kbd>
+          <kbd>Ctrl+S</kbd>
         </button>
       </div>
     </div>
@@ -2709,9 +2711,9 @@
         cfgFsConnected: "Connected to local directory: ",
         btnConnectDir: "Connect local .job-search directory",
         btnReconnectDir: "Change directory",
-        tabProfile: "profile.md (Profile & Facts)",
-        tabPreferences: "preferences.md (Search Preferences)",
-        tabSettings: "settings.ini (Runtime Settings)",
+        tabProfile: "Profile",
+        tabPreferences: "Preferences",
+        tabSettings: "Settings",
         modeForm: "Visual Form",
         modeSource: "Source Mode",
         cfgPlaceholder: "Loading configuration content...",
@@ -2881,13 +2883,13 @@ I am preparing to apply. Based on my candidate profile (profile.md), please prov
         btnClose: "关闭",
         btnOfficialApply: "前往官方投递网站",
         cfgTitle: "候选人配置与偏好设置",
-        cfgFsDisconnected: "未连接本地工作区（只读预览模式）",
+        cfgFsDisconnected: "未连接文件夹 · 修改后可导出",
         cfgFsConnected: "已关联本地目录: ",
         btnConnectDir: "关联本地 .job-search 目录",
         btnReconnectDir: "重新选择目录",
-        tabProfile: "profile.md (画像与事实)",
-        tabPreferences: "preferences.md (搜索偏好)",
-        tabSettings: "settings.ini (运行设置)",
+        tabProfile: "个人资料",
+        tabPreferences: "求职偏好",
+        tabSettings: "搜索设置",
         modeForm: "可视化表单",
         modeSource: "源码模式",
         cfgPlaceholder: "正在加载配置内容...",
@@ -3061,9 +3063,9 @@ I am preparing to apply. Based on my candidate profile (profile.md), please prov
         cfgFsConnected: "Verknüpft mit lokalem Verzeichnis: ",
         btnConnectDir: "Lokales .job-search Verzeichnis verknüpfen",
         btnReconnectDir: "Anderes Verzeichnis wählen",
-        tabProfile: "profile.md (Profil & Fakten)",
-        tabPreferences: "preferences.md (Suchpräferenzen)",
-        tabSettings: "settings.ini (Einstellungen)",
+        tabProfile: "Profil",
+        tabPreferences: "Präferenzen",
+        tabSettings: "Einstellungen",
         modeForm: "Formularansicht",
         modeSource: "Quellcode",
         cfgPlaceholder: "Lade Konfiguration...",
@@ -3165,7 +3167,7 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
     if (!I18N[currentLang]) currentLang = 'en';
 
     let currentConfigTab = 'profile'; // 'profile' | 'preferences' | 'settings'
-    let currentEditorMode = 'source'; // 'source' | 'form'
+    let currentEditorMode = 'form'; // 'source' | 'form'
     let currentQuickFilter = 'all';
     let currentSort = { field: 'score', order: 'desc' };
     let activeJobForDetail = null;
@@ -3425,12 +3427,14 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
 
     // 2. Language & Theme Switching
     function switchLanguage(lang) {
+      if (!validateConfigInputs()) return;
       currentLang = lang;
       localStorage.setItem('job_workbench_lang', lang);
       document.documentElement.lang = lang;
       applyLanguage(lang);
       renderJobs();
       if (activeJobForDetail) openJobDetail(activeJobForDetail);
+      if (currentEditorMode === 'form') populateFormFromData();
     }
 
     function applyLanguage(lang) {
@@ -3925,24 +3929,26 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
     function openConfigDrawer() {
       document.getElementById('drawerOverlay').classList.add('open');
       document.getElementById('configDrawer').classList.add('open');
-      loadConfigTabContent();
+      if (!document.querySelector('#formEditorContainer [aria-invalid="true"]')) {
+        loadConfigTabContent();
+        setEditorMode(currentEditorMode);
+      }
     }
 
     function closeConfigDrawer() {
-      if (isDirty[currentConfigTab]) {
-        const msg = currentLang === 'en' ? 'Unsaved changes exist. Close anyway?' : (currentLang === 'de' ? 'Ungespeicherte Änderungen vorhanden. Wirklich schließen?' : '存在未保存的修改，确定要关闭吗？');
-        if (!confirm(msg)) return;
-      }
+      // Closing preserves all drafts in memory; warn only before leaving the page.
       document.getElementById('drawerOverlay').classList.remove('open');
       document.getElementById('configDrawer').classList.remove('open');
     }
 
     function switchConfigTab(tab) {
+      if (!validateConfigInputs()) return;
       if (isDirty[currentConfigTab]) {
         saveDraftInMemory();
       }
       currentConfigTab = tab;
-      document.querySelectorAll('.drawer-tab').forEach((btn, idx) => {
+      document.querySelectorAll('#configDrawer .drawer-tab').forEach((btn, idx) => {
+        btn.setAttribute('aria-pressed', String(['profile', 'preferences', 'settings'][idx] === tab));
         btn.classList.toggle('active', 
           (tab === 'profile' && idx === 0) || 
           (tab === 'preferences' && idx === 1) || 
@@ -3964,13 +3970,19 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
     }
 
     function markConfigDirty() {
-      configData[currentConfigTab] = document.getElementById('configTextarea').value;
+      const value = document.getElementById('configTextarea').value.replace(/\r\n?/g, '\n');
+      if (value !== configData[currentConfigTab].replace(/\r\n/g, '\n')) {
+        configData[currentConfigTab] = configData[currentConfigTab].includes('\r\n') ? value.replace(/\n/g, '\r\n') : value;
+      }
       isDirty[currentConfigTab] = true;
       updateDirtyDisplay();
     }
 
     function saveDraftInMemory() {
-      configData[currentConfigTab] = document.getElementById('configTextarea').value;
+      const value = document.getElementById('configTextarea').value.replace(/\r\n?/g, '\n');
+      if (value !== configData[currentConfigTab].replace(/\r\n/g, '\n')) {
+        configData[currentConfigTab] = configData[currentConfigTab].includes('\r\n') ? value.replace(/\n/g, '\r\n') : value;
+      }
     }
 
     function updateDirtyDisplay() {
@@ -3983,6 +3995,7 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
     }
 
     async function connectLocalWorkspace() {
+      if (!validateConfigInputs()) return;
       const dict = I18N[currentLang] || I18N.en;
       if (!window.showDirectoryPicker) {
         alert(currentLang === 'en' 
@@ -4020,6 +4033,7 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
     }
 
     async function saveCurrentConfig() {
+      if (!validateConfigInputs()) return;
       const dict = I18N[currentLang] || I18N.en;
       saveDraftInMemory();
       const filename = currentConfigTab === 'profile' ? 'profile.md' : (currentConfigTab === 'preferences' ? 'preferences.md' : 'settings.ini');
@@ -4046,6 +4060,7 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
     }
 
     function exportCurrentConfig() {
+      if (!validateConfigInputs()) return;
       const dict = I18N[currentLang] || I18N.en;
       const filename = currentConfigTab === 'profile' ? 'profile.md' : (currentConfigTab === 'preferences' ? 'preferences.md' : 'settings.ini');
       const blob = new Blob([configData[currentConfigTab]], { type: 'text/markdown;charset=utf-8' });
@@ -4059,6 +4074,7 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
     }
 
     function copyCurrentConfig() {
+      if (!validateConfigInputs()) return;
       const dict = I18N[currentLang] || I18N.en;
       saveDraftInMemory();
       fallbackCopy(configData[currentConfigTab]);
@@ -4066,7 +4082,10 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
     }
 
     function setEditorMode(mode) {
+      if (!validateConfigInputs()) return;
       currentEditorMode = mode;
+      document.getElementById('modeBtnForm').setAttribute('aria-pressed', String(mode === 'form'));
+      document.getElementById('modeBtnSource').setAttribute('aria-pressed', String(mode === 'source'));
       document.getElementById('modeBtnForm').classList.toggle('active', mode === 'form');
       document.getElementById('modeBtnSource').classList.toggle('active', mode === 'source');
       
@@ -4084,62 +4103,205 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
       }
     }
 
-    function populateFormFromData() {
-      document.getElementById('formPreferences').style.display = currentConfigTab === 'preferences' ? 'block' : 'none';
-      document.getElementById('formSettings').style.display = currentConfigTab === 'settings' ? 'block' : 'none';
-      document.getElementById('formProfileNotice').style.display = currentConfigTab === 'profile' ? 'block' : 'none';
-
-      if (currentConfigTab === 'preferences') {
-        const text = configData.preferences;
-        const locMatch = text.match(/locations?[:：]\s*(.+)/i);
-        if (locMatch) document.getElementById('formInputLocations').value = locMatch[1];
-        document.getElementById('chkRemote').checked = /remote/i.test(text);
-        document.getElementById('chkHybrid').checked = /hybrid/i.test(text);
-        document.getElementById('chkOnsite').checked = /on-site|onsite/i.test(text);
-      } else if (currentConfigTab === 'settings') {
-        const text = configData.settings;
-        const triage = text.match(/triage_keep\s*=\s*(\d+)/);
-        const deep = text.match(/deep_score\s*=\s*(\d+)/);
-        const high = text.match(/high_value_fit\s*=\s*(\d+)/);
-        const fresh = text.match(/fresh_days\s*=\s*(\d+)/);
-        if (triage) document.getElementById('formTriageKeep').value = triage[1];
-        if (deep) document.getElementById('formDeepScore').value = deep[1];
-        if (high) document.getElementById('formHighValue').value = high[1];
-        if (fresh) document.getElementById('formFreshDays').value = fresh[1];
-      }
+    // Parse source into editable spans. Unedited bytes (including CRLF, comments,
+    // unknown keys and Markdown) survive every visual edit unchanged.
+    let configSpans = [];
+    function validateConfigInputs() {
+      const invalid = document.querySelector('#formEditorContainer [aria-invalid="true"]');
+      if (invalid) { invalid.focus(); return false; }
+      return true;
     }
-
-    function syncFormToPreferences() {
-      let text = configData.preferences;
-      const locs = document.getElementById('formInputLocations').value;
-      if (locs) {
-        if (/locations?[:：]/i.test(text)) {
-          text = text.replace(/locations?[:：].+/i, `locations: ${locs}`);
-        } else {
-          text = `locations: ${locs}\n` + text;
+    function configCopy(en, zh, de) {
+      return currentLang === 'zh' ? zh : currentLang === 'de' ? de : en;
+    }
+    function parseConfigDocument(text, ini) {
+      const sections = [];
+      let section;
+      let offset = 0;
+      let fence = null;
+      const lines = text.match(/[^\n]*\n|[^\n]+$/g) || [];
+      function ensureSection() {
+        if (!section) sections.push(section = {title: configCopy('Overview', '概览', 'Übersicht'), items: []});
+        return section;
+      }
+      for (const raw of lines) {
+        const line = raw.replace(/\r?\n$/, '');
+        const end = offset + line.length;
+        const marker = !ini && line.match(/^\s*(`{3,}|~{3,})/);
+        const wasFenced = !!fence;
+        if (marker) {
+          if (!fence) fence = marker[1];
+          else if (marker[1][0] === fence[0] && marker[1].length >= fence.length) fence = null;
         }
+        const heading = !wasFenced && !marker && (ini ? line.match(/^\s*\[([^\]]+)\]\s*$/) : line.match(/^#{1,6}\s+(.+?)\s*#*$/));
+        if (heading) {
+          sections.push(section = {title: heading[1], items: []});
+        } else if (line.trim()) {
+          const field = !wasFenced && !marker && (ini ? line.match(/^(\s*([^;#=][^=]*?)\s*=\s*)(.*)$/) : line.match(/^(\s*[-*+]\s+([^:：]+)[:：][ \t]*)(.*)$/));
+          if (field) {
+            const comment = ini ? field[3].match(/([ \t]+[;#].*)$/) : null;
+            const suffix = comment ? comment[1].length : 0;
+            ensureSection().items.push({label: field[2].trim(), value: field[3].slice(0, field[3].length - suffix), start: offset + field[1].length, end: end - suffix, field: true, section: ensureSection().title});
+          } else {
+            const items = ensureSection().items;
+            const prev = items[items.length - 1];
+            if (prev && !prev.field) { prev.end = end; prev.value = text.slice(prev.start, end); }
+            else items.push({value: line, start: offset, end, field: false});
+          }
+        }
+        offset += raw.length;
       }
-      configData.preferences = text;
-      document.getElementById('configTextarea').value = text;
-      markConfigDirty();
+      return sections;
+    }
+    function configFieldLabel(label) {
+      const names = {
+        'Basic facts': ['基本信息', 'Grunddaten'], 'Evidence library': ['经历与成果', 'Erfahrungen & Ergebnisse'],
+        'Skill boundaries': ['能力边界', 'Kompetenzgrenzen'], 'Exact evidence': ['直接证据', 'Direkte Nachweise'],
+        'Transferable evidence': ['可迁移经验', 'Übertragbare Erfahrung'], 'Genuine gaps': ['能力缺口', 'Kompetenzlücken'],
+        'Provenance': ['资料来源', 'Quellen'], 'Target roles': ['目标岗位', 'Zielpositionen'],
+        'Location and work model': ['地点与工作方式', 'Standort & Arbeitsmodell'], 'Constraints': ['求职限制', 'Rahmenbedingungen'],
+        'Search coverage': ['搜索范围', 'Suchumfang'], 'Delivery': ['交付方式', 'Ausgabe'],
+        'Current role': ['当前岗位', 'Aktuelle Position'], 'Years of relevant experience': ['相关工作年限', 'Relevante Berufsjahre'],
+        'Current location': ['当前所在地', 'Aktueller Standort'], 'Work authorization': ['工作许可', 'Arbeitserlaubnis'],
+        'Education': ['教育背景', 'Ausbildung'], 'Languages': ['语言能力', 'Sprachen'],
+        'search': ['搜索范围与时效', 'Suchumfang & Aktualität'], 'locations': ['地点优先级', 'Standortprioritäten'],
+        'thresholds': ['筛选评分门槛', 'Bewertungsschwellen'], 'delivery': ['报告与工作台', 'Berichte & Workbench'],
+        'triage_keep': ['初筛保留分数', 'Vorselektion'], 'deep_score': ['深入分析分数', 'Detailanalyse'],
+        'high_value_fit': ['高匹配分数', 'Hohe Übereinstimmung'], 'fresh_days': ['新职位窗口（天）', 'Aktualitätsfenster (Tage)'],
+        'exception_days': ['例外窗口（天）', 'Ausnahmefenster (Tage)'], 'recent_search_days': ['近期搜索窗口（天）', 'Suchfenster (Tage)'],
+        'country_query': ['目标国家', 'Zielland'], 'priority_1': ['第一优先级', 'Erste Priorität'],
+        'priority_2': ['第二优先级', 'Zweite Priorität'], 'priority_3': ['第三优先级', 'Dritte Priorität'],
+        'broad': ['扩展搜索地点', 'Weitere Standorte'], 'report_languages': ['报告语言', 'Berichtssprachen'],
+        'workbench_language': ['工作台语言', 'Workbench-Sprache'], 'workbench': ['生成工作台', 'Workbench erstellen'],
+        'notion': ['Notion 同步', 'Notion-Synchronisierung']
+      };
+      return names[label] && currentLang !== 'en' ? names[label][currentLang === 'de' ? 1 : 0] : label;
+    }
+    function configElement(tag, className, text) {
+      const el = document.createElement(tag);
+      if (className) el.className = className;
+      if (text !== undefined) el.textContent = text;
+      return el;
+    }
+    function growConfigInput(input) {
+      input.style.height = 'auto';
+      input.style.height = Math.max(44, input.scrollHeight + 2) + 'px';
+    }
+    function updateConfigCount() {
+      const fields = configSpans.filter(s => s.field);
+      const filled = fields.filter(s => s.value.trim()).length;
+      document.getElementById('configFieldCount').textContent = fields.length
+        ? configCopy(`${filled} / ${fields.length} fields filled`, `已填写 ${filled} / ${fields.length} 项`, `${filled} / ${fields.length} Felder ausgefüllt`)
+        : configCopy('Free-form document', '自由格式文档', 'Freies Dokument');
+    }
+    function updateConfigSpan(index, value) {
+      const span = configSpans[index];
+      const source = configData[currentConfigTab];
+      const delta = value.length - (span.end - span.start);
+      configData[currentConfigTab] = source.slice(0, span.start) + value + source.slice(span.end);
+      span.end += delta;
+      span.value = value;
+      configSpans.slice(index + 1).forEach(s => { s.start += delta; s.end += delta; });
+      document.getElementById('configTextarea').value = configData[currentConfigTab];
+      isDirty[currentConfigTab] = true;
+      updateDirtyDisplay();
+      updateConfigCount();
+    }
+    function populateFormFromData() {
+      const root = document.getElementById('configSections');
+      const nav = document.getElementById('configSectionNav');
+      root.replaceChildren(); nav.replaceChildren(); configSpans = [];
+      const titles = {
+        profile: configCopy('Profile & evidence', '个人资料与经历', 'Profil & Nachweise'),
+        preferences: configCopy('Search preferences', '求职偏好', 'Suchpräferenzen'),
+        settings: configCopy('Search settings', '搜索设置', 'Sucheinstellungen')
+      };
+      document.getElementById('configVisualTitle').textContent = titles[currentConfigTab];
+      nav.setAttribute('aria-label', configCopy('Document sections', '文档章节', 'Dokumentabschnitte'));
+      const sections = parseConfigDocument(configData[currentConfigTab] || '', currentConfigTab === 'settings');
+      sections.forEach((section, sectionIndex) => {
+        const card = configElement('section', 'config-card');
+        card.id = `config-section-${sectionIndex}`;
+        const heading = configElement('h3', '', configFieldLabel(section.title));
+        heading.tabIndex = -1;
+        card.append(heading);
+        const jump = configElement('button', '', configFieldLabel(section.title));
+        jump.type = 'button';
+        jump.onclick = () => { heading.focus({preventScroll: true}); card.scrollIntoView({block: 'start'}); };
+        nav.append(jump);
+        const grid = configElement('div', 'config-field-grid');
+        section.items.forEach(item => {
+          const index = configSpans.push(item) - 1;
+          const wrapper = configElement('div', item.field ? 'config-field' : 'config-field config-prose');
+          const label = configElement('label', 'form-label', item.field ? configFieldLabel(item.label) : configCopy('Notes & details', '说明与详细内容', 'Notizen & Details'));
+          label.htmlFor = `config-value-${index}`;
+          const input = configElement('textarea', 'form-input config-value');
+          input.id = label.htmlFor; input.rows = 1; input.value = item.value;
+          input.placeholder = configCopy('Not specified', '待填写', 'Nicht angegeben');
+          input.spellcheck = false;
+          const secret = /password|secret|token|api[_ -]?key/i.test(item.label || '');
+          // Secrets retain a manual editing path without exposing values in a preview.
+          let control = input;
+          if (secret) {
+            control = configElement('input', 'form-input config-value');
+            control.type = 'password'; control.id = input.id; control.value = item.value;
+            control.autocomplete = 'off';
+          }
+          const numeric = currentConfigTab === 'settings' && (
+            (item.section === 'thresholds' && ['triage_keep', 'deep_score', 'high_value_fit'].includes(item.label)) ||
+            (item.section === 'search' && ['fresh_days', 'exception_days'].includes(item.label)) ||
+            (item.section === 'delivery' && item.label === 'recent_search_days'));
+          if (numeric) {
+            control = configElement('input', 'form-input config-value');
+            control.type = 'text'; control.inputMode = 'numeric'; control.id = input.id; control.value = item.value;
+          } else if (currentConfigTab === 'settings' && /^(true|false)$/i.test(item.value)) {
+            control = configElement('select', 'form-input config-value'); control.id = input.id;
+            for (const value of ['true', 'false']) {
+              const option = configElement('option', '', value === 'true' ? configCopy('Enabled', '启用', 'Aktiviert') : configCopy('Disabled', '停用', 'Deaktiviert'));
+              option.value = value; control.append(option);
+            }
+            control.value = item.value.toLowerCase();
+          }
+          wrapper.append(label, control);
+          const error = configElement('span', 'config-error');
+          error.id = input.id + '-error'; error.hidden = true; error.setAttribute('aria-live', 'polite');
+          control.setAttribute('aria-describedby', error.id); wrapper.append(error);
+          const score = currentConfigTab === 'settings' && section.title === 'thresholds' && ['triage_keep', 'deep_score', 'high_value_fit'].includes(item.label);
+          let meter;
+          if (score) {
+            meter = configElement('meter', 'config-meter'); meter.min = 0; meter.max = 100;
+            meter.setAttribute('aria-labelledby', label.htmlFor + '-label'); label.id = label.htmlFor + '-label';
+            meter.value = Number(item.value); wrapper.append(meter);
+          }
+          control.addEventListener('input', () => {
+            const maximum = item.section === 'thresholds' ? 100 : null;
+            const invalid = numeric && (!/^\d+$/.test(control.value) || !Number.isSafeInteger(Number(control.value)) || Number(control.value) < 0 || (maximum !== null && Number(control.value) > maximum));
+            control.setAttribute('aria-invalid', String(invalid));
+            error.hidden = !invalid;
+            error.textContent = invalid ? (maximum === 100 ? configCopy('Enter a whole number from 0 to 100.', '请输入 0–100 的整数。', 'Ganze Zahl von 0 bis 100 eingeben.') : configCopy('Enter a non-negative whole number.', '请输入非负整数。', 'Eine nicht negative ganze Zahl eingeben.')) : '';
+            if (invalid) return;
+            updateConfigSpan(index, control.value);
+            if (control.tagName === 'TEXTAREA') growConfigInput(control);
+            if (meter) meter.value = Number(control.value);
+          });
+          grid.append(wrapper);
+        });
+        card.append(grid); root.append(card);
+      });
+      if (!sections.length) {
+        const empty = configElement('section', 'config-card');
+        empty.append(configElement('h3', '', configCopy('This file is empty', '此文件暂无内容', 'Diese Datei ist leer')));
+        const button = configElement('button', 'btn', configCopy('Add content in source mode', '在源码模式中添加内容', 'Inhalt im Quelltext ergänzen'));
+        button.onclick = () => { setEditorMode('source'); document.getElementById('configTextarea').focus(); };
+        empty.append(button); root.append(empty);
+      }
+      updateConfigCount();
+      root.querySelectorAll('textarea').forEach(growConfigInput);
     }
 
-    function syncFormToSettings() {
-      let text = configData.settings;
-      const triage = document.getElementById('formTriageKeep').value;
-      const deep = document.getElementById('formDeepScore').value;
-      const high = document.getElementById('formHighValue').value;
-      const fresh = document.getElementById('formFreshDays').value;
-      
-      text = text.replace(/triage_keep\s*=\s*\d+/, `triage_keep = ${triage}`);
-      text = text.replace(/deep_score\s*=\s*\d+/, `deep_score = ${deep}`);
-      text = text.replace(/high_value_fit\s*=\s*\d+/, `high_value_fit = ${high}`);
-      text = text.replace(/fresh_days\s*=\s*\d+/, `fresh_days = ${fresh}`);
-      
-      configData.settings = text;
-      document.getElementById('configTextarea').value = text;
-      markConfigDirty();
-    }
+    window.addEventListener('beforeunload', event => {
+      if (Object.values(isDirty).some(Boolean) || document.querySelector('#formEditorContainer [aria-invalid="true"]')) { event.preventDefault(); event.returnValue = ''; }
+    });
 
     // 11. Keyboard Shortcuts Modal & Event Handlers
     function openShortcutsModal() {

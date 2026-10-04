@@ -149,3 +149,14 @@ The workbench supports 4 curated palettes. Every palette enforces a single prima
 - 🚫 **Banned: Overlapping Content Stacks**: Clean spatial zones only.
 - 🚫 **Banned: Oversaturated Accents**: Color saturation strictly below 80%.
 - 🚫 **Banned: Fake Precision Numbers**: No artificial `99.99%` claims. Factual score metrics only.
+
+
+## 8. Configuration editor ownership
+
+- Scope: the profile, preferences and settings drawer, not the job dashboard. The existing vanilla HTML architecture and palette remain canonical. Runtime tokens live in the template stylesheet; generated workbenches inherit them.
+- `parseConfigDocument`, `populateFormFromData` and `updateConfigSpan` in `templates/workbench_template.html` own all three visual editors. Parse Markdown headings/bullet fields and INI sections/keys locally. Never use model calls, remote renderers or runtime packages for configuration visualization.
+- Visual mode is the default. Cards follow source order, with section navigation and an honest filled-field count. Free-form content remains editable; source mode handles structural changes. Unknown fields, Markdown fences, comments and unedited line endings must survive edits. No generated candidate facts.
+- The existing `.form-input`, `.btn`, drawer, mode switch and theme variables are shared owners. Boolean settings intentionally use native select controls; OS-owned popup geometry is acceptable for the two-option control. Numeric settings use inline validation and do not overwrite the last valid value until corrected.
+- Visual edits and source edits share one in-memory draft per file. Switching tabs and closing the drawer preserve drafts. Reloading/leaving warns about unsaved changes. Save uses the existing local file permission flow; without a connected folder it exports a file. Drafts containing personal data are not persisted to browser storage.
+- Desktop cards use two columns; narrow screens use one. The drawer body owns scrolling, footer actions wrap, controls have 44px targets, and textareas grow with content. English, Chinese and German UI labels follow the existing language selector; source document wording is retained.
+- Regression coverage: `scripts/test_config_editor.cjs` checks zero-request operation, source round trips, CRLF/comments/code fences, safe text rendering, drafts, validation and three languages at 390/1440/1728px.

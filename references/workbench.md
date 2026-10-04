@@ -81,7 +81,7 @@ Workbench provides an integrated **Candidate Configuration & Preferences Drawer*
 - Reads and displays candidate facts (`profile.md`), search preferences (`preferences.md`), and deterministic thresholds (`settings.ini`).
 - **File System Access API integration**: Users can click "关联本地目录" to authorize browser access to their local `.job-search/` folder. Edits made in the drawer (or through the visual form mode) can be written back directly to disk with one click (`Ctrl+S` / `Cmd+S`).
 - **Graceful Fallback**: For browsers without direct File System Access (like Safari), users can export modified files or copy Markdown content to clipboard.
-- **Visual Form & Source modes**: Allows editing key parameters via interactive form controls or directly editing Markdown/INI source code with real-time dirty status indicators.
+- **Visual Form & Source modes**: Defaults to local visual editing for all three configuration files, with section navigation, field completion counts, threshold meters, boolean controls and inline numeric validation. Markdown/INI parsing and rendering use deterministic browser code, with no model calls or token usage. Source mode shares the same draft; untouched content, unknown keys and comments are retained. Closing the drawer preserves in-memory drafts, and leaving the page warns about unsaved changes.
 
 ## Update notifications with one-click copy
 
