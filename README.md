@@ -52,7 +52,7 @@ The agent extracts your background, asks for missing preferences, searches compa
 
 - **Job shortlist:** official application links, locations, and freshness labels. Missing dates are marked as unknown.
 - **Match report:** strengths, gaps, and supporting CV evidence.
-- **Browser workbench:** open the generated `job-hunt-workbench.html` to filter jobs, switch between table and kanban views, and track applications. Includes four themes and Chinese, English, and German interfaces.
+- **Browser workbench:** open the generated `job-hunt-workbench.html` to filter jobs, switch between table and kanban views, and track applications. Includes five themes and Chinese, English, and German interfaces.
 
 ![Job workbench](docs/images/workbench-table.png)
 

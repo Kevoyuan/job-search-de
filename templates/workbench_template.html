@@ -66,6 +66,28 @@
       --backdrop-blur: blur(0px);
     }
 
+    /* Themely Dark: neutral surfaces with the existing green accent. */
+    [data-theme="dark"] {
+      color-scheme: dark;
+      --bg: #17191c; --bg-surface: #202328; --bg-primary: #202328;
+      --bg-subtle: #292d33; --bg-hover: #30373f;
+      --border: #59636f; --border-strong: #788491; --border-focus: #a8cdb5;
+      --text: #edf0f2; --text-muted: #b6bdc6; --text-faint: #a6afbb;
+      --primary: #a8cdb5; --primary-hover: #c2decc;
+      --primary-bg: #2b4034; --primary-text: #c5e5d0;
+      --success: #92cda3; --success-bg: #263e30; --success-text: #bce2c7;
+      --warning: #dfbd82; --warning-bg: #443924; --warning-text: #eed3a3;
+      --danger: #e6a19b; --danger-bg: #452e31; --danger-text: #f0bdb8;
+      --info-bg: #30373f; --info-text: #d0d9e4;
+      --shadow-sm: 0 1px 2px #0003;
+      --shadow-md: 0 4px 12px #0004;
+      --shadow-lg: 0 16px 40px -8px #0006;
+    }
+    [data-theme="dark"] .btn-primary,
+    [data-theme="dark"] .btn-primary:hover { color: #17251c; }
+    [data-theme="dark"] .analysis-strengths { background: var(--success-bg); color: var(--success-text); }
+    [data-theme="dark"] .analysis-gaps { background: var(--danger-bg); color: var(--danger-text); }
+
     /* Dark Velocity Theme (High-Contrast Cybernetic Dark Mode) */
     [data-theme="obsidian"] {
       color-scheme: dark;
@@ -2017,6 +2039,7 @@
       <!-- Theme Switcher -->
       <select id="themeSelector" class="select-dropdown" onchange="switchTheme(this.value)" aria-label="Theme">
         <option value="notion">Editorial Craft</option>
+        <option value="dark">Dark · 深色</option>
         <option value="obsidian">Dark Velocity</option>
         <option value="bauhaus">Industrial Precision</option>
         <option value="bento">Spatial Quartz</option>
@@ -2517,6 +2540,7 @@
         <div class="shortcut-item"><span data-i18n="scNotion">Switch to Editorial Craft theme</span> <kbd>1</kbd></div>
         <div class="shortcut-item"><span data-i18n="scObsidian">Switch to Dark Velocity theme</span> <kbd>2</kbd></div>
         <div class="shortcut-item"><span data-i18n="scBauhaus">Switch to Industrial Precision theme</span> <kbd>3</kbd></div>
+        <div class="shortcut-item"><span data-i18n="scDark">Switch to Dark theme</span> <kbd>5</kbd></div>
         <div class="shortcut-item"><span data-i18n="scBento">Switch to Spatial Quartz theme</span> <kbd>4</kbd></div>
       </div>
     </div>
@@ -2747,6 +2771,7 @@
         scNotion: "Switch to Editorial Craft theme",
         scObsidian: "Switch to Dark Velocity theme",
         scBauhaus: "Switch to Industrial Precision theme",
+        scDark: "Switch to Dark theme",
         scBento: "Switch to Spatial Quartz theme",
         toastSuccess: "Operation successful",
         toastCopied: "Copied to clipboard",
@@ -2923,6 +2948,7 @@ I am preparing to apply. Based on my candidate profile (profile.md), please prov
         scNotion: "切换 Editorial Craft (纸境文稿) 主题",
         scObsidian: "切换 Dark Velocity (暗夜极客) 主题",
         scBauhaus: "切换 Industrial Precision (精密工业) 主题",
+        scDark: "切换深色主题",
         scBento: "切换 Spatial Quartz (空灵石英) 主题",
         toastSuccess: "操作成功",
         toastCopied: "已复制到剪贴板",
@@ -3099,6 +3125,7 @@ I am preparing to apply. Based on my candidate profile (profile.md), please prov
         scNotion: "Editorial Craft Theme",
         scObsidian: "Dark Velocity Theme",
         scBauhaus: "Industrielle Präzision Theme",
+        scDark: "Zum dunklen Theme wechseln",
         scBento: "Spatial Quartz Theme",
         toastSuccess: "Erfolgreich",
         toastCopied: "In Zwischenablage kopiert",
@@ -3479,6 +3506,7 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
 
       const themeColors = {
         notion: '#ffffff',
+        dark: '#17191c',
         obsidian: '#010102',
         bauhaus: '#ece9e2',
         bento: '#f6f4f0'
@@ -4369,6 +4397,8 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
         switchTheme('bauhaus');
       } else if (e.key === '4') {
         switchTheme('bento');
+      } else if (e.key === '5') {
+        switchTheme('dark');
       }
     });
 

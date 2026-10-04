@@ -66,6 +66,28 @@
       --backdrop-blur: blur(0px);
     }
 
+    /* Themely Dark: neutral surfaces with the existing green accent. */
+    [data-theme="dark"] {
+      color-scheme: dark;
+      --bg: #17191c; --bg-surface: #202328; --bg-primary: #202328;
+      --bg-subtle: #292d33; --bg-hover: #30373f;
+      --border: #59636f; --border-strong: #788491; --border-focus: #a8cdb5;
+      --text: #edf0f2; --text-muted: #b6bdc6; --text-faint: #a6afbb;
+      --primary: #a8cdb5; --primary-hover: #c2decc;
+      --primary-bg: #2b4034; --primary-text: #c5e5d0;
+      --success: #92cda3; --success-bg: #263e30; --success-text: #bce2c7;
+      --warning: #dfbd82; --warning-bg: #443924; --warning-text: #eed3a3;
+      --danger: #e6a19b; --danger-bg: #452e31; --danger-text: #f0bdb8;
+      --info-bg: #30373f; --info-text: #d0d9e4;
+      --shadow-sm: 0 1px 2px #0003;
+      --shadow-md: 0 4px 12px #0004;
+      --shadow-lg: 0 16px 40px -8px #0006;
+    }
+    [data-theme="dark"] .btn-primary,
+    [data-theme="dark"] .btn-primary:hover { color: #17251c; }
+    [data-theme="dark"] .analysis-strengths { background: var(--success-bg); color: var(--success-text); }
+    [data-theme="dark"] .analysis-gaps { background: var(--danger-bg); color: var(--danger-text); }
+
     /* Dark Velocity Theme (High-Contrast Cybernetic Dark Mode) */
     [data-theme="obsidian"] {
       color-scheme: dark;
@@ -1911,6 +1933,53 @@
         grid-template-columns: 1fr;
       }
     }
+
+    /* Configuration editor: shared local renderer for Markdown and INI. */
+    #configDrawer .drawer-body { background: var(--bg-subtle); min-height: 0; scrollbar-gutter: stable; }
+    #configDrawer .drawer-tabs { padding: 0 16px; gap: 0; }
+    #configDrawer .drawer-tab { flex: 1; min-width: 0; min-height: 48px; padding: 12px 8px; }
+    #configDrawer .mode-btn { min-height: 44px; }
+    #configDrawer .btn-close-drawer { width: 44px; height: 44px; }
+    #configDrawer #btnConnectDir { min-height: 44px; }
+    #configDrawer .drawer-footer { flex-wrap: wrap; gap: 12px; }
+    #configDrawer .drawer-footer > div:last-child { flex-wrap: wrap; }
+    #configDrawer .drawer-title { min-width: 0; overflow-wrap: anywhere; }
+    #configDrawer .btn-close-drawer { flex-shrink: 0; }
+    #configDrawer .mode-toggle { flex-shrink: 0; }
+    #configDrawer #currentFileLabel { overflow-wrap: anywhere; min-width: 0; }
+    #configDrawer .drawer-footer .btn { min-height: 44px; }
+    .config-overview { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; }
+    .config-overview h2 { margin: 0; font-size: 24px; letter-spacing: -.025em; }
+    #configFieldCount { font-size: 12px; color: var(--text); font-variant-numeric: tabular-nums; }
+    .config-section-nav { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+    .config-section-nav button { font: inherit; font-size: 12px; text-align: left; min-height: 44px; padding: 8px 12px; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); color: var(--text); background: var(--bg-surface); cursor: pointer; overflow-wrap: anywhere; }
+    .config-sections { display: grid; gap: 16px; }
+    .config-card { padding: 24px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--bg-surface); scroll-margin-block: 16px; min-width: 0; }
+    .config-card h3 { margin: 0 0 20px; font-size: 16px; line-height: 1.4; overflow-wrap: anywhere; }
+    .config-field-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 20px 24px; }
+    .config-field { min-width: 0; }
+    .config-field .form-label { font-weight: 500; line-height: 1.5; margin-bottom: 8px; overflow-wrap: anywhere; }
+    .config-prose { grid-column: 1 / -1; }
+    .config-value { display: block; min-height: 44px; resize: none; overflow: hidden; line-height: 1.6; font-family: var(--font-sans); padding: 10px 12px; border-radius: var(--radius-sm); }
+    .config-prose .config-value { background: var(--bg-subtle); }
+    .config-error { display: block; font-size: 12px; margin-top: 8px; color: var(--text); }
+    .config-error[hidden] { display: none; }
+    .config-value[aria-invalid="true"] { border: 2px solid var(--warning); }
+    .config-meter { width: 100%; height: 12px; margin-top: 8px; accent-color: var(--primary); }
+    @media (hover: hover) and (pointer: fine) {
+      .config-section-nav button:hover { border-color: var(--primary); background: var(--bg-hover); }
+    }
+    @media (max-width: 600px) {
+      #configDrawer .drawer-body { padding: 16px; }
+      #configDrawer .drawer-tabs { padding: 0 8px; }
+      #configDrawer .drawer-tab { font-size: 12px; overflow-wrap: anywhere; }
+      #configDrawer .mode-bar { padding: 8px 16px; gap: 8px; }
+      #configDrawer .drawer-footer { padding: 12px 16px; }
+      #configDrawer .drawer-footer kbd { display: none; }
+      .config-card { padding: 16px; }
+      .config-field-grid { grid-template-columns: minmax(0,1fr); gap: 16px; }
+      .config-section-nav button { min-height: 44px; }
+    }
   /* theme refresh pack */
 /* ==========================================================================
    Theme refresh pack — "索引编辑" (editorial index).
@@ -1995,52 +2064,6 @@ html[data-theme="bento"] .analysis-panel{ border-top:0; border-left:3px solid cu
 :is(html[data-theme="obsidian"],html[data-theme="bauhaus"],html[data-theme="bento"]) .drawer{ width:100%; max-width:100%; }
  }
 
-    /* Configuration editor: shared local renderer for Markdown and INI. */
-    #configDrawer .drawer-body { background: var(--bg-subtle); min-height: 0; scrollbar-gutter: stable; }
-    #configDrawer .drawer-tabs { padding: 0 16px; gap: 0; }
-    #configDrawer .drawer-tab { flex: 1; min-width: 0; min-height: 48px; padding: 12px 8px; }
-    #configDrawer .mode-btn { min-height: 44px; }
-    #configDrawer .btn-close-drawer { width: 44px; height: 44px; }
-    #configDrawer #btnConnectDir { min-height: 44px; }
-    #configDrawer .drawer-footer { flex-wrap: wrap; gap: 12px; }
-    #configDrawer .drawer-footer > div:last-child { flex-wrap: wrap; }
-    #configDrawer .drawer-title { min-width: 0; overflow-wrap: anywhere; }
-    #configDrawer .btn-close-drawer { flex-shrink: 0; }
-    #configDrawer .mode-toggle { flex-shrink: 0; }
-    #configDrawer #currentFileLabel { overflow-wrap: anywhere; min-width: 0; }
-    #configDrawer .drawer-footer .btn { min-height: 44px; }
-    .config-overview { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; }
-    .config-overview h2 { margin: 0; font-size: 24px; letter-spacing: -.025em; }
-    #configFieldCount { font-size: 12px; color: var(--text); font-variant-numeric: tabular-nums; }
-    .config-section-nav { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
-    .config-section-nav button { font: inherit; font-size: 12px; text-align: left; min-height: 44px; padding: 8px 12px; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); color: var(--text); background: var(--bg-surface); cursor: pointer; overflow-wrap: anywhere; }
-    .config-sections { display: grid; gap: 16px; }
-    .config-card { padding: 24px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--bg-surface); scroll-margin-block: 16px; min-width: 0; }
-    .config-card h3 { margin: 0 0 20px; font-size: 16px; line-height: 1.4; overflow-wrap: anywhere; }
-    .config-field-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 20px 24px; }
-    .config-field { min-width: 0; }
-    .config-field .form-label { font-weight: 500; line-height: 1.5; margin-bottom: 8px; overflow-wrap: anywhere; }
-    .config-prose { grid-column: 1 / -1; }
-    .config-value { display: block; min-height: 44px; resize: none; overflow: hidden; line-height: 1.6; font-family: var(--font-sans); padding: 10px 12px; border-radius: var(--radius-sm); }
-    .config-prose .config-value { background: var(--bg-subtle); }
-    .config-error { display: block; font-size: 12px; margin-top: 8px; color: var(--text); }
-    .config-error[hidden] { display: none; }
-    .config-value[aria-invalid="true"] { border: 2px solid var(--warning); }
-    .config-meter { width: 100%; height: 12px; margin-top: 8px; accent-color: var(--primary); }
-    @media (hover: hover) and (pointer: fine) {
-      .config-section-nav button:hover { border-color: var(--primary); background: var(--bg-hover); }
-    }
-    @media (max-width: 600px) {
-      #configDrawer .drawer-body { padding: 16px; }
-      #configDrawer .drawer-tabs { padding: 0 8px; }
-      #configDrawer .drawer-tab { font-size: 12px; overflow-wrap: anywhere; }
-      #configDrawer .mode-bar { padding: 8px 16px; gap: 8px; }
-      #configDrawer .drawer-footer { padding: 12px 16px; }
-      #configDrawer .drawer-footer kbd { display: none; }
-      .config-card { padding: 16px; }
-      .config-field-grid { grid-template-columns: minmax(0,1fr); gap: 16px; }
-      .config-section-nav button { min-height: 44px; }
-    }
 </style>
 </head>
 <body>
@@ -2077,7 +2100,7 @@ html[data-theme="bento"] .analysis-panel{ border-top:0; border-left:3px solid cu
         <svg class="ui-icon ui-icon-md" viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="5" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
       </div>
       <span id="brandTitleText">德国岗位求职工作台</span>
-      <span class="brand-version-pill">v1.4.0</span>
+      <span class="brand-version-pill">v1.5.0</span>
     </div>
     <div class="header-actions">
       <!-- Usage Guide Button -->
@@ -2100,6 +2123,7 @@ html[data-theme="bento"] .analysis-panel{ border-top:0; border-left:3px solid cu
       <!-- Theme Switcher -->
       <select id="themeSelector" class="select-dropdown" onchange="switchTheme(this.value)" aria-label="Theme">
         <option value="notion">Editorial Craft</option>
+        <option value="dark">Dark · 深色</option>
         <option value="obsidian">Dark Velocity</option>
         <option value="bauhaus">Industrial Precision</option>
         <option value="bento">Spatial Quartz</option>
@@ -2491,7 +2515,7 @@ html[data-theme="bento"] .analysis-panel{ border-top:0; border-left:3px solid cu
         <div>
           <div class="docs-version-label" data-i18n="docsVersionLabel">Installed skill version</div>
           <div class="docs-version-value">
-            <code>v<span id="docsCurrentVersion">1.4.0</span></code>
+            <code>v<span id="docsCurrentVersion">1.5.0</span></code>
             <span id="docsVersionBadge" class="update-badge" style="display:none;" data-i18n="docsUpdateBadge">Update available</span>
           </div>
         </div>
@@ -2600,6 +2624,7 @@ html[data-theme="bento"] .analysis-panel{ border-top:0; border-left:3px solid cu
         <div class="shortcut-item"><span data-i18n="scNotion">Switch to Editorial Craft theme</span> <kbd>1</kbd></div>
         <div class="shortcut-item"><span data-i18n="scObsidian">Switch to Dark Velocity theme</span> <kbd>2</kbd></div>
         <div class="shortcut-item"><span data-i18n="scBauhaus">Switch to Industrial Precision theme</span> <kbd>3</kbd></div>
+        <div class="shortcut-item"><span data-i18n="scDark">Switch to Dark theme</span> <kbd>5</kbd></div>
         <div class="shortcut-item"><span data-i18n="scBento">Switch to Spatial Quartz theme</span> <kbd>4</kbd></div>
       </div>
     </div>
@@ -2690,10 +2715,10 @@ html[data-theme="bento"] .analysis-panel{ border-top:0; border-left:3px solid cu
     // Skill release metadata, injected by build_workbench.py at build time.
     // UPDATE_AVAILABLE reflects the newest known release; recheckSkillVersion()
     // can refresh it at runtime when the browser can reach GitHub.
-    let CURRENT_SKILL_VERSION = "1.4.0";
-    let LATEST_SKILL_VERSION = "1.4.0";
+    let CURRENT_SKILL_VERSION = "1.5.0";
+    let LATEST_SKILL_VERSION = "1.5.0";
     let UPDATE_AVAILABLE = false;
-    let UPDATE_CHECKED = true;
+    let UPDATE_CHECKED = false;
     const SLASH_UPDATE_COMMAND = "/update-skill";
     const CLI_UPDATE_COMMAND = "npx skills update job-search-de -g";
     const SKILL_REPO_URL = "https://github.com/Kevoyuan/job-search-de";
@@ -2830,6 +2855,7 @@ html[data-theme="bento"] .analysis-panel{ border-top:0; border-left:3px solid cu
         scNotion: "Switch to Editorial Craft theme",
         scObsidian: "Switch to Dark Velocity theme",
         scBauhaus: "Switch to Industrial Precision theme",
+        scDark: "Switch to Dark theme",
         scBento: "Switch to Spatial Quartz theme",
         toastSuccess: "Operation successful",
         toastCopied: "Copied to clipboard",
@@ -3006,6 +3032,7 @@ I am preparing to apply. Based on my candidate profile (profile.md), please prov
         scNotion: "切换 Editorial Craft (纸境文稿) 主题",
         scObsidian: "切换 Dark Velocity (暗夜极客) 主题",
         scBauhaus: "切换 Industrial Precision (精密工业) 主题",
+        scDark: "切换深色主题",
         scBento: "切换 Spatial Quartz (空灵石英) 主题",
         toastSuccess: "操作成功",
         toastCopied: "已复制到剪贴板",
@@ -3182,6 +3209,7 @@ I am preparing to apply. Based on my candidate profile (profile.md), please prov
         scNotion: "Editorial Craft Theme",
         scObsidian: "Dark Velocity Theme",
         scBauhaus: "Industrielle Präzision Theme",
+        scDark: "Zum dunklen Theme wechseln",
         scBento: "Spatial Quartz Theme",
         toastSuccess: "Erfolgreich",
         toastCopied: "In Zwischenablage kopiert",
@@ -3562,6 +3590,7 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
 
       const themeColors = {
         notion: '#ffffff',
+        dark: '#17191c',
         obsidian: '#010102',
         bauhaus: '#ece9e2',
         bento: '#f6f4f0'
@@ -4452,6 +4481,8 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
         switchTheme('bauhaus');
       } else if (e.key === '4') {
         switchTheme('bento');
+      } else if (e.key === '5') {
+        switchTheme('dark');
       }
     });
 

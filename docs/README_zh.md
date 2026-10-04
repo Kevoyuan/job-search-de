@@ -52,7 +52,7 @@ git clone https://github.com/Kevoyuan/job-search-de.git ~/.agents/skills/job-sea
 
 - **职位清单**：官方投递链接、工作地点和时效标记；无法确认的日期会注明未知。
 - **匹配报告**：适合的理由、能力差距，以及对应的简历证据。
-- **求职工作台**：用浏览器打开生成的 `job-hunt-workbench.html`，筛选职位、切换表格或看板、记录投递进度。支持四种主题和中英德三种界面语言。
+- **求职工作台**：用浏览器打开生成的 `job-hunt-workbench.html`，筛选职位、切换表格或看板、记录投递进度。支持五种主题和中英德三种界面语言。
 
 ![求职工作台](images/workbench-table.png)
 

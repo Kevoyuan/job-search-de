@@ -44,11 +44,20 @@ for (const match of html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/gi)) new 
       await page.evaluate(() => openConfigDrawer());
       assert.ok(await page.locator('#configDrawer').evaluate(el => el.classList.contains('open')));
       await page.evaluate(() => closeConfigDrawer());
-      for (const theme of ['notion', 'obsidian', 'bauhaus', 'bento']) {
+      for (const theme of ['notion', 'dark', 'obsidian', 'bauhaus', 'bento']) {
         await page.evaluate(theme => switchTheme(theme), theme);
         assert.equal(await page.locator('html').getAttribute('data-theme'), theme);
       }
     }
+    await page.selectOption('#themeSelector', 'dark');
+    assert.equal(await page.locator('#metaThemeColor').getAttribute('content'), '#17191c');
+    assert.equal(await page.locator('html').evaluate(el => getComputedStyle(el).colorScheme), 'dark');
+    await page.reload();
+    assert.equal(await page.locator('html').getAttribute('data-theme'), 'dark');
+    assert.equal(await page.locator('#themeSelector').inputValue(), 'dark');
+    await page.keyboard.press('1');
+    await page.keyboard.press('5');
+    assert.equal(await page.locator('html').getAttribute('data-theme'), 'dark');
     // Skill update banner + usage guide drawer
     assert.equal(await page.locator('#updateBanner').count(), 1);
     assert.equal(await page.locator('#updateBanner .btn-copy-code').count(), 2);
@@ -161,6 +170,6 @@ for (const match of html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/gi)) new 
     assert.ok(drawerSizes[0] <= drawerSizes[1] + 1, `usage guide mobile overflow: ${drawerSizes}`);
     await page.evaluate(() => closeDocsDrawer());
     assert.deepEqual(errors, []);
-    console.log(`PASS: syntax, ${expected} high-fit jobs, scores, filters, sorting, 3 languages, 4 themes, drawers, kanban, recent-day boundaries/persistence/filtering, update banner + usage guide, mobile`);
+    console.log(`PASS: syntax, ${expected} high-fit jobs, scores, filters, sorting, 3 languages, 5 themes, drawers, kanban, recent-day boundaries/persistence/filtering, update banner + usage guide, mobile`);
   } finally { await browser.close(); }
 })().catch(error => {console.error(error); process.exitCode = 1;});

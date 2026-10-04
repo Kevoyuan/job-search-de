@@ -17,7 +17,7 @@
 
 ## 2. Color Palette & Roles
 
-The workbench supports 4 curated palettes. Every palette enforces a single primary chromatic accent with saturation strictly controlled below 80%, absolute neutral bases, zero neon glow artifacts, and strict WCAG AA contrast compliance. Pure black (`#000000`) is strictly banned across all themes.
+The workbench supports 5 curated palettes. Every palette enforces a single primary chromatic accent with saturation strictly controlled below 80%, absolute neutral bases, zero neon glow artifacts, and strict WCAG AA contrast compliance. Pure black (`#000000`) is strictly banned across all themes.
 
 ### 2.1 Editorial Craft (Default: Warm Paper & Ink Workspace)
 - **Canvas White** (`#ffffff`): Primary card and table container surface
@@ -160,3 +160,7 @@ The workbench supports 4 curated palettes. Every palette enforces a single prima
 - Visual edits and source edits share one in-memory draft per file. Switching tabs and closing the drawer preserve drafts. Reloading/leaving warns about unsaved changes. Save uses the existing local file permission flow; without a connected folder it exports a file. Drafts containing personal data are not persisted to browser storage.
 - Desktop cards use two columns; narrow screens use one. The drawer body owns scrolling, footer actions wrap, controls have 44px targets, and textareas grow with content. English, Chinese and German UI labels follow the existing language selector; source document wording is retained.
 - Regression coverage: `scripts/test_config_editor.cjs` checks zero-request operation, source round trips, CRLF/comments/code fences, safe text rendering, drafts, validation and three languages at 390/1440/1728px.
+
+### Dark (Themely, `data-theme="dark"`)
+
+Neutral charcoal canvas `#17191c`, elevated surface `#202328`, muted surface `#292d33`, text `#edf0f2`, secondary text `#b6bdc6`, border `#59636f`, and green accent `#a8cdb5` with dark button text `#17251c`. Preserves the default layout and fonts. Select Dark in the theme menu or press 5; the existing local preference persists across reloads.

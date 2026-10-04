@@ -99,7 +99,7 @@ candidate config (.job-search/profile.md, preferences.md, settings.ini)
               ↓
 build_workbench.py + templates/workbench_template.html
               ↓
-generated job-hunt-workbench.html (interactive, editable, 4 themes)
+generated job-hunt-workbench.html (interactive, editable, 5 themes)
 ```
 
 
