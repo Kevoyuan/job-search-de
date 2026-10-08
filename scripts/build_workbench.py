@@ -2,10 +2,13 @@
 """Build an interactive, modern Job Hunt Workbench HTML with local candidate config editing support."""
 
 import argparse
+import base64
 import json
 import math
 import sys
 from pathlib import Path
+from analytics_data import normalize_analytics
+from scoring_policy import apply_policy, load_policy
 
 SKILL_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -38,13 +41,13 @@ def safe_json_for_script(data) -> str:
     return raw.replace("<", "\\u003c").replace(">", "\\u003e").replace("&", "\\u0026")
 
 
-def normalize_job(job):
+def normalize_job(job, policy=None):
     """Adapt legacy report rows without modifying their stored evidence or IDs.
 
     Canonical fields win when present (including an explicit null score).
     Missing/invalid scores stay unknown; this adapter never calculates fit.
     """
-    result = dict(job)
+    result = apply_policy(job, policy)
     aliases = {
         "score": "fit", "company": "co", "location": "loc",
         "workModel": "mode", "datePosted": "date", "salary": "sal",
@@ -65,6 +68,7 @@ def normalize_job(job):
         except ValueError:
             score = None
     result["score"] = score
+    result["analytics"] = normalize_analytics(result)
     return result
 
 
@@ -74,6 +78,7 @@ def main():
     parser.add_argument("--jobs-file", default=None, help="Path to verified_jobs.json")
     parser.add_argument("--output", default=None, help="Output HTML file path (default: <workdir>/job-hunt-workbench.html)")
     parser.add_argument("--lang", default="en", choices=["zh", "en", "de"], help="Workbench UI language")
+    parser.add_argument("--demo", action="store_true", help="Use only the explicitly fictional analytics fixture and configuration")
     parser.add_argument("--no-update-check", action="store_true",
                         help="Skip the GitHub version lookup and bake in the local version only")
     parser.add_argument("--update-timeout", type=float, default=2.0,
@@ -110,7 +115,13 @@ def main():
         except Exception as e:
             print(f"⚠️ Warning: Failed to parse jobs from {jobs_file}: {e}", file=sys.stderr)
 
-    jobs_data = [normalize_job(job) for job in jobs_data]
+    if args.demo:
+        fixture = json.loads((SKILL_ROOT / "tests" / "fixtures" / "analytics_demo.json").read_text(encoding="utf-8"))
+        jobs_data = fixture["jobs"]
+        embedded_config = fixture["config"]
+        profile_content = embedded_config["profile"]
+    policy = load_policy(embedded_config["settings"], embedded_config["preferences"])
+    jobs_data = [normalize_job(job, policy) for job in jobs_data if isinstance(job, dict)] if isinstance(jobs_data, list) else []
 
     # 3. Read Version and resolve the remote release (best-effort, never blocking)
     version_file = SKILL_ROOT / "VERSION"
@@ -137,6 +148,13 @@ def main():
         sys.exit(1)
 
     template_html = template_file.read_text(encoding="utf-8")
+    font_data = base64.b64encode((SKILL_ROOT / "assets/fonts/InterVariable.woff2").read_bytes()).decode("ascii")
+    template_html = template_html.replace("__LIEFLAT_MONO_JS__", (SKILL_ROOT / "assets/vendor/lieflat-mono.js").read_text(encoding="utf-8").replace("</script", "<\\/script"))
+    font_license = (SKILL_ROOT / "references/licenses/Inter-OFL.txt").read_text(encoding="utf-8")
+    analytics_css = "/* Bundled Inter font: " + font_license + " */\n" + (SKILL_ROOT / "templates/analytics.css").read_text(encoding="utf-8")
+    template_html = template_html.replace("__ANALYTICS_CSS__", analytics_css)
+    template_html = template_html.replace("__INTER_FONT_DATA__", font_data)
+    template_html = template_html.replace("__ANALYTICS_JS__", (SKILL_ROOT / "templates" / "analytics.js").read_text(encoding="utf-8"))
 
     # 4b. Inject the optional theme refresh pack (scoped to the non-default themes).
     theme_refresh_file = SKILL_ROOT / "templates" / "theme-refresh.css"
@@ -169,6 +187,7 @@ def main():
     rendered_html = rendered_html.replace("__VERSION_CHECK_URL__", safe_json_for_script(REMOTE_VERSION_URL))
     rendered_html = rendered_html.replace("__EMBEDDED_CONFIG_JSON__", safe_json_for_script(embedded_config))
     rendered_html = rendered_html.replace("__JOBS_JSON__", safe_json_for_script(jobs_data))
+    rendered_html = rendered_html.replace("__DEMO_MODE__", "true" if args.demo else "false")
 
     # 6. Save Output
     output_path = Path(args.output).resolve() if args.output else (workdir / "job-hunt-workbench.html")

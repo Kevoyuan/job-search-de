@@ -35,3 +35,8 @@ This file is normally generated from a few confirmation choices after the candid
 - Workbench language (zh / en / bilingual):
 - Workbench required:
 - Status system (none / Notion / other):
+
+<!-- Executable seniority constraints live in settings.ini [seniority]:
+target_years_min, target_years_max, exclude_non_engineering_managers,
+manager_title_exceptions. An optional [thresholds] max_required_years overrides
+ the target maximum for explicit required experience. Blank means unconstrained. -->

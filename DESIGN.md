@@ -164,3 +164,44 @@ The workbench supports 5 curated palettes. Every palette enforces a single prima
 ### Dark (Themely, `data-theme="dark"`)
 
 Neutral charcoal canvas `#17191c`, elevated surface `#202328`, muted surface `#292d33`, text `#edf0f2`, secondary text `#b6bdc6`, border `#59636f`, and green accent `#a8cdb5` with dark button text `#17251c`. Preserves the default layout and fonts. Select Dark in the theme menu or press 5; the existing local preference persists across reloads.
+
+## 9. Collected-job analytics
+
+This is a product comparison tool within the existing cockpit, not a report hero.
+The runtime CSS variables remain canonical (token mapping model B). The analysis
+shell consumes `--font-sans`, `--text`, `--text-muted`, `--bg-surface`, `--border`,
+`--border-strong`, `--border-focus` and `--radius-md` from the existing themes.
+An 18px title, 22px tabular sample count and a single 44px control row preserve
+the job-list density. Mobile controls reflow without changing filter semantics.
+
+The user's explicit Lieflat Charts direction is a scoped exception to the Inter
+ban: only chart cards use embedded Inter and Mono paper `#F0EFEB`, ink `#1C1C1A`,
+muted `#6A6963`, grid `#DEDDD6`, and 24px card radii. The surrounding analysis
+controls and matching-job links inherit the application theme. The countable
+unit-stroke ranking is the analytics signature; everything around it remains
+quiet and functional. No candidate scores or radar graphics are part of this view.
+
+`templates/analytics.css` owns the scoped card tokens; `assets/vendor/lieflat-mono.js`
+implements the same Mono palette for SVG marks. Chart labels render at 12px in
+physical CSS pixels. SVG viewBoxes must never be enlarged to fill the page.
+Distribution charts cap at 1120px and reflow labels to their measured widths.
+Cross charts wrap full horizontal labels, retain circle-area counting, and scroll
+within a keyboard-reachable region when the genuine matrix exceeds the viewport.
+Exact-values tables have a 360px maximum scroll region and sticky headings.
+No rotated or ellipsized category names, giant sample-count hero, full-width
+category selector on desktop, or repeated stacked control rows.
+
+`references/analytics.md` owns aggregation/filter behavior; the Canonical UI Map
+in `references/workbench.md` owns controls. Layout measurements, label bounds,
+keyboard scrolling, themes/locales and mobile evidence are verified by
+`scripts/test_analytics_layout.cjs` plus the existing analytics browser test.
+
+### Primary track view
+
+The primary analytics view is a compact horizontal bar breakdown with one main
+track per job. Use 13px full text labels, 18px bars (12px on phones), exact right-
+aligned counts and 44px interactive rows. Phones wrap the meter under its label.
+No animation/replay is needed. Today/latest/all scope is visible and shares filters
+with the job list. Existing Mono charts remain secondary controls; missing category
+and technology states are omitted from the technical cross matrix and retain their
+own information-quality view.

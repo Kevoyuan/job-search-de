@@ -1,0 +1,16 @@
+{
+  "profile": "product-admin",
+  "sourceRoots": ["templates"],
+  "locale": "zh / en / de",
+  "canonicalMap": "references/workbench.md",
+  "requiredCapabilities": ["Select/Listbox", "Scrollbar"],
+  "ownership": {"Select/Listbox": "native"},
+  "requiredCommands": ["unit", "e2e", "accessibility", "configuration"],
+  "commands": {
+    "unit": "python3 scripts/test_analytics.py && python3 scripts/test_workbench.py",
+    "e2e": "node scripts/test_workbench_browser.cjs job-hunt-workbench.html",
+    "accessibility": "node scripts/test_analytics_browser.cjs job-hunt-workbench.html && node scripts/test_analytics_layout.cjs job-hunt-workbench.html",
+    "configuration": "node scripts/test_config_editor.cjs job-hunt-workbench.html"
+  },
+  "evidence": {"layout": "scripts/test_analytics_layout.cjs", "keyboardAndLocalization": "scripts/test_analytics_browser.cjs", "configuration": "scripts/test_config_editor.cjs"}
+}

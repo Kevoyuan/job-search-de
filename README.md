@@ -58,6 +58,8 @@ The agent extracts your background, asks for missing preferences, searches compa
 
 The skill does not submit applications or contact employers without your explicit authorization.
 
+The **Analysis** view explores collected jobs by location, industry, role, technology and work model. Click charts to filter matching jobs. Missing evidence stays unknown. See [analytics data and counting](references/analytics.md).
+
 ## Everyday use
 
 Ask in plain language, or use these shortcuts in your agent chat after loading the skill. They are not terminal commands; if your agent reserves slash commands, use the plain-language request instead.
@@ -120,4 +122,4 @@ Availability checks reflect the time of the search and cannot guarantee that a j
 - [Skill workflow and commands](SKILL.md)
 - [How matching is scored](references/scoring.md)
 - [Interactive architecture diagram](docs/architecture.html) — download and open in a browser
-- [MIT License](LICENSE)
+- [MIT License](LICENSE) · [Third-party chart and font licenses](THIRD_PARTY_NOTICES.md)

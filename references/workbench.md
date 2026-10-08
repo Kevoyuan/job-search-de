@@ -142,3 +142,37 @@ Main-list rows expand in place into two labeled panels: green for stored fit
 evidence, rose for gaps and risks. Both use readable text and dark-theme variants.
 On small screens they stack vertically. Filtering hides the expanded tray with
 its parent job. Full details retain the same color distinction and all job data.
+
+
+## Collected-job tag statistics
+
+The **Jobs / Analysis** switch adds location/industry/role/technology/work-model
+counts, shares and coverage, plus location-by-role / role-by-technology matrices.
+All analysis facets share main-list filters. Data contracts, unknowns, aggregation,
+legacy enrichment and explicit demo builds are specified in
+[analytics.md](analytics.md). Normal empty builds stay empty; use `--demo` for the
+clearly labeled fictional fixture.
+
+## Canonical UI Map
+
+The vanilla workbench accepts browser/OS-owned option popup geometry. Existing
+native selects remain the owner for themes, languages, filters and configuration;
+analytics reuses this choice. Buttons use the shared `.btn` recipe. SVG chart
+marks use the documented keyboard button adapter in `templates/analytics.js`.
+
+| Capability | Canonical owner | Source of truth | Allowed variants | Verification |
+|---|---|---|---|---|
+| Select/Listbox | Native HTML select in workbench template and analytics module | DESIGN.md and this contract | single option popup / multiple matrix display selectors | test_analytics_browser.cjs and test_config_editor.cjs |
+| Scrollbar | Platform scrollbar, global template stylesheet | Existing workbench layout | document / chart horizontal region / bounded exact-values table | test_analytics_layout.cjs keyboard scrolling and overflow |
+
+Analytics is a local synchronous read-only projection. Empty/no-result states and
+unknown categories remain distinct. No network request, mutation, permissions,
+server failures or create/delete workflow is introduced. The source templates
+are the audited product source; generated HTML mirrors them. Architecture docs
+and historical design demos are separate documentation surfaces.
+
+Letter/theme shortcuts only run without Ctrl, Meta or Alt. Preserve browser/OS
+copy, paste, undo, tab and other combinations. Ignore IME composition and text
+entry in native fields, contenteditable regions or textbox widgets. Ctrl/Meta+S
+is intercepted only in the open configuration editor, without Alt or Shift.
+`scripts/test_shortcuts_browser.cjs` verifies these boundaries and bare-key actions.

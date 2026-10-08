@@ -70,6 +70,8 @@ Read [templates/search_queries.md](templates/search_queries.md) for query compos
   - `CLOSED`: the role is no longer active and must be excluded.
 - Never present an aggregator index date as an official posting date. Record salary only when its source is explicit.
 
+For collected-job tag analytics, follow `references/analytics.md`. Save evidenced job `analysis` fields for cities, employer industry and job category. At acquisition time, retain the full original job description (not just language requirements or a summary), its source URL and capture date. Persist technology names, categories, required/preferred/mentioned levels, evidence, source URL and extraction version in `analysis.technologies`, preserving missing-information states and existing fit scores. `parse_ats.py` does this locally for downloaded ATS payloads. For web/manual results, run `python3 scripts/save_job_analysis.py --jobs-file <workdir>/verified_jobs.json` immediately after saving records and before building the workbench. Fetch the official detail description when acquisition only exposes a listing/snippet; mark unavailable descriptions honestly. Do not make additional model calls solely to populate tags.
+
 Write normalized results to `verified_jobs.json`. A legacy project may temporarily merge `ats_results.json` with manually verified report rows, but disclose that difference in the delivery.
 
 ## 4. Two-stage evidence scoring
@@ -185,3 +187,7 @@ Users or agents can invoke these specialized shortcuts:
 | `references/resume-parser.md` | Resume Parser Prompt, evidence JSON schema, and merge rules |
 | `references/scoring.md` | General scoring defaults |
 | `references/workbench.md` | Legacy Workbench data flow and recommended architecture |
+
+### Mandatory scoring provenance
+
+Every acquired row starts as `scoreStage: triage`. Use `scripts/evidence_score.py` and `references/scoring.md` for a completed evidence assessment before publishing a final match score. Never turn keyword/title scores into evidence scores by changing a stage label. Apply structured settings.ini seniority constraints via the save/build pipeline after any merge; explicit hard exclusions override scores. Preserve original descriptions and requirement excerpts. Language/driving-licence uncertainty requires review rather than an invented match.

@@ -1,0 +1,468 @@
+{
+  "config": {
+    "profile": "# Demonstration configuration\n",
+    "preferences": "# Fictional demo preferences\n",
+    "settings": "[delivery]\nrecent_search_days = 365\nworkbench_language = zh\n"
+  },
+  "jobs": [
+    {
+      "id": "demo-1",
+      "company": "Northstar Demo",
+      "title": "Senior Backend Engineer",
+      "roleType": "Backend",
+      "location": "Berlin",
+      "workModel": "Hybrid",
+      "score": 70,
+      "addedOn": "2026-10-05",
+      "datePosted": "2026-10-01",
+      "freshness": "DATE_UNKNOWN",
+      "url": "https://example.com/",
+      "jd": "Fictional job description: Python, PostgreSQL, Docker",
+      "reason": "Fictional evidence for interface demonstration.",
+      "gap": "Demonstration only. Do not apply.",
+      "analysis": {
+        "analyzedAt": "2026-10-05",
+        "industry": "Software",
+        "evidence": {
+          "industry": "Fictional employer industry: Software"
+        },
+        "technologies": [
+          {
+            "name": "Python",
+            "requirement": "required",
+            "evidence": "Fictional description lists Python as required"
+          },
+          {
+            "name": "PostgreSQL",
+            "requirement": "preferred",
+            "evidence": "Fictional description lists PostgreSQL as preferred"
+          },
+          {
+            "name": "Docker",
+            "requirement": "mentioned",
+            "evidence": "Fictional description lists Docker as mentioned"
+          }
+        ]
+      }
+    },
+    {
+      "id": "demo-2",
+      "company": "Juniper Demo",
+      "title": "Platform Engineer",
+      "roleType": "Platform / DevOps",
+      "location": "München",
+      "workModel": "Hybrid",
+      "score": 71,
+      "addedOn": "2026-10-05",
+      "datePosted": "2026-10-01",
+      "freshness": "DATE_UNKNOWN",
+      "url": "https://example.com/",
+      "jd": "Fictional job description: K8s, Terraform, AWS",
+      "reason": "Fictional evidence for interface demonstration.",
+      "gap": "Demonstration only. Do not apply.",
+      "analysis": {
+        "analyzedAt": "2026-10-05",
+        "industry": "Manufacturing",
+        "evidence": {
+          "industry": "Fictional employer industry: Manufacturing"
+        },
+        "technologies": [
+          {
+            "name": "K8s",
+            "requirement": "required",
+            "evidence": "Fictional description lists K8s as required"
+          },
+          {
+            "name": "Terraform",
+            "requirement": "preferred",
+            "evidence": "Fictional description lists Terraform as preferred"
+          },
+          {
+            "name": "AWS",
+            "requirement": "mentioned",
+            "evidence": "Fictional description lists AWS as mentioned"
+          }
+        ]
+      }
+    },
+    {
+      "id": "demo-3",
+      "company": "Harbor Demo",
+      "title": "Data Engineer",
+      "roleType": "Data Engineering",
+      "location": "Hamburg",
+      "workModel": "On-site",
+      "score": 72,
+      "addedOn": "2026-10-05",
+      "datePosted": "2026-10-01",
+      "freshness": "DATE_UNKNOWN",
+      "url": "https://example.com/",
+      "jd": "Fictional job description: Python, SQL, AWS",
+      "reason": "Fictional evidence for interface demonstration.",
+      "gap": "Demonstration only. Do not apply.",
+      "analysis": {
+        "analyzedAt": "2026-10-05",
+        "industry": "Logistics",
+        "evidence": {
+          "industry": "Fictional employer industry: Logistics"
+        },
+        "technologies": [
+          {
+            "name": "Python",
+            "requirement": "required",
+            "evidence": "Fictional description lists Python as required"
+          },
+          {
+            "name": "SQL",
+            "requirement": "preferred",
+            "evidence": "Fictional description lists SQL as preferred"
+          },
+          {
+            "name": "AWS",
+            "requirement": "mentioned",
+            "evidence": "Fictional description lists AWS as mentioned"
+          }
+        ]
+      }
+    },
+    {
+      "id": "demo-4",
+      "company": "Linden Demo",
+      "title": "Backend Engineer",
+      "roleType": "Backend",
+      "location": "Cologne",
+      "workModel": "Remote",
+      "score": 73,
+      "addedOn": "2026-10-05",
+      "datePosted": "2026-10-01",
+      "freshness": "DATE_UNKNOWN",
+      "url": "https://example.com/",
+      "jd": "Fictional job description: Java, PostgreSQL, Kubernetes",
+      "reason": "Fictional evidence for interface demonstration.",
+      "gap": "Demonstration only. Do not apply.",
+      "analysis": {
+        "analyzedAt": "2026-10-05",
+        "industry": "Finance",
+        "evidence": {
+          "industry": "Fictional employer industry: Finance"
+        },
+        "technologies": [
+          {
+            "name": "Java",
+            "requirement": "required",
+            "evidence": "Fictional description lists Java as required"
+          },
+          {
+            "name": "PostgreSQL",
+            "requirement": "preferred",
+            "evidence": "Fictional description lists PostgreSQL as preferred"
+          },
+          {
+            "name": "Kubernetes",
+            "requirement": "mentioned",
+            "evidence": "Fictional description lists Kubernetes as mentioned"
+          }
+        ]
+      }
+    },
+    {
+      "id": "demo-5",
+      "company": "Cedar Demo",
+      "title": "Frontend Engineer",
+      "roleType": "Frontend",
+      "location": "Berlin",
+      "workModel": "Hybrid",
+      "score": 74,
+      "addedOn": "2026-10-05",
+      "datePosted": "2026-10-01",
+      "freshness": "DATE_UNKNOWN",
+      "url": "https://example.com/",
+      "jd": "Fictional job description: TypeScript, React, JavaScript",
+      "reason": "Fictional evidence for interface demonstration.",
+      "gap": "Demonstration only. Do not apply.",
+      "analysis": {
+        "analyzedAt": "2026-10-05",
+        "industry": "Software",
+        "evidence": {
+          "industry": "Fictional employer industry: Software"
+        },
+        "technologies": [
+          {
+            "name": "TypeScript",
+            "requirement": "required",
+            "evidence": "Fictional description lists TypeScript as required"
+          },
+          {
+            "name": "React",
+            "requirement": "preferred",
+            "evidence": "Fictional description lists React as preferred"
+          },
+          {
+            "name": "JavaScript",
+            "requirement": "mentioned",
+            "evidence": "Fictional description lists JavaScript as mentioned"
+          }
+        ]
+      }
+    },
+    {
+      "id": "demo-6",
+      "company": "Alpine Demo",
+      "title": "Platform Engineer",
+      "roleType": "Platform / DevOps",
+      "location": "Munich / Berlin",
+      "workModel": "Remote",
+      "score": 75,
+      "addedOn": "2026-10-05",
+      "datePosted": "2026-10-01",
+      "freshness": "DATE_UNKNOWN",
+      "url": "https://example.com/",
+      "jd": "Fictional job description: Kubernetes, Docker, Google Cloud",
+      "reason": "Fictional evidence for interface demonstration.",
+      "gap": "Demonstration only. Do not apply.",
+      "analysis": {
+        "analyzedAt": "2026-10-05",
+        "industry": "Software",
+        "evidence": {
+          "industry": "Fictional employer industry: Software"
+        },
+        "technologies": [
+          {
+            "name": "Kubernetes",
+            "requirement": "required",
+            "evidence": "Fictional description lists Kubernetes as required"
+          },
+          {
+            "name": "Docker",
+            "requirement": "preferred",
+            "evidence": "Fictional description lists Docker as preferred"
+          },
+          {
+            "name": "Google Cloud",
+            "requirement": "mentioned",
+            "evidence": "Fictional description lists Google Cloud as mentioned"
+          }
+        ]
+      }
+    },
+    {
+      "id": "demo-7",
+      "company": "Orbit Demo",
+      "title": "Data Engineer",
+      "roleType": "Data Engineering",
+      "location": "Remote, Germany",
+      "workModel": "Remote",
+      "score": 76,
+      "addedOn": "2026-10-05",
+      "datePosted": "2026-10-01",
+      "freshness": "DATE_UNKNOWN",
+      "url": "https://example.com/",
+      "jd": "Fictional job description: Python, SQL",
+      "reason": "Fictional evidence for interface demonstration.",
+      "gap": "Demonstration only. Do not apply.",
+      "analysis": {
+        "analyzedAt": "2026-10-05",
+        "industry": null,
+        "evidence": {
+          "industry": ""
+        },
+        "technologies": [
+          {
+            "name": "Python",
+            "requirement": "required",
+            "evidence": "Fictional description lists Python as required"
+          },
+          {
+            "name": "SQL",
+            "requirement": "preferred",
+            "evidence": "Fictional description lists SQL as preferred"
+          }
+        ]
+      }
+    },
+    {
+      "id": "demo-8",
+      "company": "Birch Demo",
+      "title": "Full Stack Engineer",
+      "roleType": "Full Stack",
+      "location": "Frankfurt",
+      "workModel": "On-site",
+      "score": 77,
+      "addedOn": "2026-10-05",
+      "datePosted": "2026-10-01",
+      "freshness": "DATE_UNKNOWN",
+      "url": "https://example.com/",
+      "jd": "Fictional job description: Node.js, React, TypeScript",
+      "reason": "Fictional evidence for interface demonstration.",
+      "gap": "Demonstration only. Do not apply.",
+      "analysis": {
+        "analyzedAt": "2026-10-05",
+        "industry": "Retail",
+        "evidence": {
+          "industry": "Fictional employer industry: Retail"
+        },
+        "technologies": [
+          {
+            "name": "Node.js",
+            "requirement": "required",
+            "evidence": "Fictional description lists Node.js as required"
+          },
+          {
+            "name": "React",
+            "requirement": "preferred",
+            "evidence": "Fictional description lists React as preferred"
+          },
+          {
+            "name": "TypeScript",
+            "requirement": "mentioned",
+            "evidence": "Fictional description lists TypeScript as mentioned"
+          }
+        ]
+      }
+    },
+    {
+      "id": "demo-9",
+      "company": "Maple Demo",
+      "title": "Backend Engineer",
+      "roleType": "Backend",
+      "location": "Stuttgart",
+      "workModel": "Hybrid",
+      "score": 78,
+      "addedOn": "2026-10-05",
+      "datePosted": "2026-10-01",
+      "freshness": "DATE_UNKNOWN",
+      "url": "https://example.com/",
+      "jd": "Fictional job description: C++, Docker, Azure",
+      "reason": "Fictional evidence for interface demonstration.",
+      "gap": "Demonstration only. Do not apply.",
+      "analysis": {
+        "analyzedAt": "2026-10-05",
+        "industry": "Manufacturing",
+        "evidence": {
+          "industry": "Fictional employer industry: Manufacturing"
+        },
+        "technologies": [
+          {
+            "name": "C++",
+            "requirement": "required",
+            "evidence": "Fictional description lists C++ as required"
+          },
+          {
+            "name": "Docker",
+            "requirement": "preferred",
+            "evidence": "Fictional description lists Docker as preferred"
+          },
+          {
+            "name": "Azure",
+            "requirement": "mentioned",
+            "evidence": "Fictional description lists Azure as mentioned"
+          }
+        ]
+      }
+    },
+    {
+      "id": "demo-10",
+      "company": "Willow Demo",
+      "title": "Cloud Engineer",
+      "roleType": "SRE / Cloud",
+      "location": "Düsseldorf",
+      "workModel": "Remote",
+      "score": 79,
+      "addedOn": "2026-10-05",
+      "datePosted": "2026-10-01",
+      "freshness": "DATE_UNKNOWN",
+      "url": "https://example.com/",
+      "jd": "Fictional job description: Terraform, AWS, K8s",
+      "reason": "Fictional evidence for interface demonstration.",
+      "gap": "Demonstration only. Do not apply.",
+      "analysis": {
+        "analyzedAt": "2026-10-05",
+        "industry": "Telecommunications",
+        "evidence": {
+          "industry": "Fictional employer industry: Telecommunications"
+        },
+        "technologies": [
+          {
+            "name": "Terraform",
+            "requirement": "required",
+            "evidence": "Fictional description lists Terraform as required"
+          },
+          {
+            "name": "AWS",
+            "requirement": "preferred",
+            "evidence": "Fictional description lists AWS as preferred"
+          },
+          {
+            "name": "K8s",
+            "requirement": "mentioned",
+            "evidence": "Fictional description lists K8s as mentioned"
+          }
+        ]
+      }
+    },
+    {
+      "id": "demo-11",
+      "company": "Aspen Demo",
+      "title": "Backend Engineer",
+      "roleType": "Backend",
+      "location": "Berlin",
+      "workModel": "Hybrid",
+      "score": 80,
+      "addedOn": "2026-10-05",
+      "datePosted": "2026-10-01",
+      "freshness": "DATE_UNKNOWN",
+      "url": "https://example.com/",
+      "jd": "Fictional job description: Java, JavaScript, Postgres",
+      "reason": "Fictional evidence for interface demonstration.",
+      "gap": "Demonstration only. Do not apply.",
+      "analysis": {
+        "analyzedAt": "2026-10-05",
+        "industry": "Software",
+        "evidence": {
+          "industry": "Fictional employer industry: Software"
+        },
+        "technologies": [
+          {
+            "name": "Java",
+            "requirement": "required",
+            "evidence": "Fictional description lists Java as required"
+          },
+          {
+            "name": "JavaScript",
+            "requirement": "preferred",
+            "evidence": "Fictional description lists JavaScript as preferred"
+          },
+          {
+            "name": "Postgres",
+            "requirement": "mentioned",
+            "evidence": "Fictional description lists Postgres as mentioned"
+          }
+        ]
+      }
+    },
+    {
+      "id": "demo-12",
+      "company": "Elm Demo",
+      "title": "Data Engineer",
+      "roleType": "Data Engineering",
+      "location": "Nuremberg",
+      "workModel": "On-site",
+      "score": null,
+      "addedOn": "2026-10-05",
+      "datePosted": "2026-10-01",
+      "freshness": "DATE_UNKNOWN",
+      "url": "https://example.com/",
+      "jd": "Fictional job description: ",
+      "reason": "Fictional evidence for interface demonstration.",
+      "gap": "Demonstration only. Do not apply.",
+      "analysis": {
+        "analyzedAt": "2026-10-05",
+        "industry": null,
+        "evidence": {
+          "industry": ""
+        },
+        "technologies": []
+      }
+    }
+  ]
+}

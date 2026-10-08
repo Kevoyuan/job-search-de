@@ -54,3 +54,6 @@ jobs:
       - name: Run Universal Verification Tests
         run: |
           python3 scripts/test_ats_universal.py
+
+      - name: Run analytics and scoring regression tests
+        run: python3 -m unittest discover -s scripts -p "test_*.py"

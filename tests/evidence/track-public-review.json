@@ -1,0 +1,31 @@
+{
+  "status": "VALID",
+  "url": "https://job-search-analytics-demo.vercel.app/",
+  "sourceSha256": "c4ab99a2c217004adefea8130e4590cabbceeb091ba4114d34cf23178e01dbd9",
+  "checks": [
+    {
+      "width": 390,
+      "scrollWidth": 390,
+      "jobs": 12,
+      "demo": true,
+      "rows": 2,
+      "scope": "latest"
+    },
+    {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "jobs": 12,
+      "demo": true,
+      "rows": 2,
+      "scope": "latest"
+    },
+    {
+      "width": 1728,
+      "scrollWidth": 1728,
+      "jobs": 12,
+      "demo": true,
+      "rows": 2,
+      "scope": "latest"
+    }
+  ]
+}

@@ -15,13 +15,13 @@ for (const match of html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/gi)) new 
     const errors = [];
     page.on('pageerror', e => errors.push(e.message));
     await page.goto(pathToFileURL(file).href);
-    const expected = await page.evaluate(() => JOBS.filter(j => hasScore(j) && j.score >= 75).length);
+    const expected = await page.evaluate(() => JOBS.filter(j => isEvidenceEligible(j) && j.score >= 75).length);
     assert.equal(Number(await page.locator('#highFitCount').textContent()), expected);
     for (const [lang, label] of [['zh', '未评分'], ['en', 'Unrated'], ['de', 'Unbewertet']]) {
       await page.evaluate(lang => {
         if (!JOBS.some(j => j.id === 'test-unrated')) {
           JOBS.push({id: 'test-unrated', title: 'Unrated fixture', score: null});
-          JOBS.push({id: 'test-zero', title: 'Zero fixture', score: 0});
+          JOBS.push({id: 'test-zero', title: 'Zero fixture', score: 0, scoreStage: 'evidence', eligibility: {status:'NOT_EXCLUDED'}});
         }
         switchLanguage(lang); renderTable(); renderKanban(); filterJobs();
       }, lang);

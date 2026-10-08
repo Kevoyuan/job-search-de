@@ -1,0 +1,69 @@
+{
+  "url": "https://job-search-analytics-demo.vercel.app/",
+  "sourceSHA256": "dcb8570592cb1c5f2f049339e505a0aa122faf162b687b0c9a0e03d60d09a555",
+  "fictional": true,
+  "jobs": 12,
+  "measurements": [
+    {
+      "width": 390,
+      "tab": "distribution",
+      "height": 1108,
+      "svgWidth": 326,
+      "svgHeight": 396,
+      "scale": 1,
+      "headerToPlot": 336.046875,
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "tab": "cross",
+      "height": 960,
+      "svgWidth": 964,
+      "svgHeight": 384,
+      "scale": 1,
+      "headerToPlot": 424.4375,
+      "overflow": false
+    },
+    {
+      "width": 1440,
+      "tab": "distribution",
+      "height": 954,
+      "svgWidth": 1120,
+      "svgHeight": 396,
+      "scale": 1,
+      "headerToPlot": 238.9375,
+      "overflow": false
+    },
+    {
+      "width": 1440,
+      "tab": "cross",
+      "height": 835,
+      "svgWidth": 1120,
+      "svgHeight": 384,
+      "scale": 1,
+      "headerToPlot": 290.9375,
+      "overflow": false
+    },
+    {
+      "width": 1728,
+      "tab": "distribution",
+      "height": 954,
+      "svgWidth": 1120,
+      "svgHeight": 396,
+      "scale": 1,
+      "headerToPlot": 238.9375,
+      "overflow": false
+    },
+    {
+      "width": 1728,
+      "tab": "cross",
+      "height": 835,
+      "svgWidth": 1120,
+      "svgHeight": 384,
+      "scale": 1,
+      "headerToPlot": 290.9375,
+      "overflow": false
+    }
+  ],
+  "errors": []
+}

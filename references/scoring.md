@@ -46,3 +46,13 @@ Default calibrated verdicts:
 - below 60: `REJECT`
 
 Hard constraints override the numeric score when the requirement is explicit and non-negotiable.
+
+## Executable gates and score provenance
+
+Use `scripts/evidence_score.py --job job.json --settings .job-search/settings.ini --preferences .job-search/preferences.md --output review.json` to prepare a review. Fill its six `dimensions` with MATCH/PARTIAL/GAP/UNKNOWN, jobEvidence, candidateEvidence and reason, and review experience/language/drivingLicence in hardConstraints. Then run the same command with `--review review.json --output scored-job.json`. MATCH/PARTIAL/GAP contribute 1/0.5/0 of the dimension weight. UNKNOWN or missing evidence blocks a final score. This helper verifies completeness and computes a deterministic score; the reviewer must verify the cited evidence against the source. A hard-constraint GAP overrides the score.
+
+Persist `scoreStage: triage | evidence`; legacy or unsupported claims become `unverified`. Only validated evidence scores with no exclusion enter high-fit counters and filters. Never relabel title-keyword scores as evidence scores. Numeric legacy scores remain visible with an unverified label.
+
+`[seniority] target_years_min/max` are machine-readable candidate targets. `[thresholds] max_required_years` optionally overrides the maximum required experience; unset means use target_years_max, not a global junior assumption. Legacy explicit `Target Seniority: 0–3 years` is read as a fallback. Required ranges compare their lower bound. Preferred, negated, upper-bound and alternative qualification clauses do not cause automatic seniority exclusion; alternatives need review. Requirements retain original excerpts in analysis.requiredYearsEvidence. Excluded rows are retained with EXCLUDED_SENIORITY / EXCLUDED_MANAGEMENT for audit, never promoted by a high numeric score.
+
+Manager exclusions are opt-in using exclude_non_engineering_managers and manager_title_exceptions. Engineering/technical managers are not covered by that option; their explicit experience requirements still apply. Merge data by stable job identity, retaining evidenceAssessment and scoreStage together; rebuild/save reapplies gates so merging ats_results and verified_jobs cannot bypass them.

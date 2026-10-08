@@ -5,6 +5,29 @@ Usage: python3 parse_ats.py [--today YYYY-MM-DD] [--workdir DIR] [--keywords pat
 """
 import argparse, configparser, datetime, glob, html, json, os, re, sys
 import xml.etree.ElementTree as ET
+from html.parser import HTMLParser
+from save_job_analysis import enrich_job
+from scoring_policy import load_policy
+
+class DescriptionText(HTMLParser):
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.parts=[]
+        self.hidden=0
+    def handle_starttag(self, tag, attrs):
+        if tag in ('script','style'): self.hidden+=1
+        if not self.hidden and tag in ('p','div','li','br','h1','h2','h3','h4'): self.parts.append('\n')
+    def handle_endtag(self, tag):
+        if tag in ('script','style') and self.hidden: self.hidden-=1
+        elif not self.hidden and tag in ('p','div','li','h1','h2','h3','h4'): self.parts.append('\n')
+    def handle_data(self, data):
+        if not self.hidden: self.parts.append(data)
+
+def description_text(content):
+    parser=DescriptionText()
+    parser.feed(content or '')
+    return '\n'.join(line.strip() for line in ''.join(parser.parts).splitlines() if line.strip())
+
 
 ap = argparse.ArgumentParser()
 ap.add_argument('--today', default=None)
@@ -19,6 +42,13 @@ settings = configparser.ConfigParser()
 settings_path = os.path.join(CONFIG_DIR, 'settings.ini')
 if os.path.isfile(settings_path):
     settings.read(settings_path, encoding='utf-8')
+
+def read_policy_config(name):
+    path = os.path.join(CONFIG_DIR, name)
+    if not os.path.exists(path): return ''
+    with open(path, encoding='utf-8') as handle: return handle.read()
+
+SENIORITY_POLICY = load_policy(read_policy_config('settings.ini'), read_policy_config('preferences.md'))
 
 TODAY = datetime.date.fromisoformat(args.today) if args.today else datetime.date.today()
 FRESH_DAYS = settings.getint('search', 'fresh_days', fallback=14)
@@ -150,7 +180,7 @@ def add(src, title, company, loc, workmodel, date, url, salary, extra="", source
         return
     role_type = infer_role_type(title, content)
     freshness = classify(date)
-    out.append({
+    row = {
         "source": src,
         "discoverySource": "ats_" + src,
         "sourceConfidence": source_conf,
@@ -163,8 +193,17 @@ def add(src, title, company, loc, workmodel, date, url, salary, extra="", source
         "date": str(date) if date else None,
         "url": url,
         "salary": salary,
-        "extra": extra
-    })
+        "extra": extra,
+        "description_raw": content,
+        "jd": description_text(content),
+        "workModel": workmodel,
+        "descriptionSourceUrl": url,
+        "descriptionCapturedAt": TODAY.isoformat(),
+        "addedOn": TODAY.isoformat(),
+        "descriptionStatus": "saved" if content.strip() else "not_available_in_payload"
+    }
+    row['scoreStage'] = 'triage'
+    out.append(enrich_job(row, TODAY.isoformat(), SENIORITY_POLICY))
 
 def parse_date(s):
     if s is None or s == "": return None
@@ -218,7 +257,10 @@ def lv():
             if isinstance(cats, dict): loc = cats.get("location") or ""
             if isinstance(loc, list): loc = ", ".join(loc)
             if not title_match(t) or not loc_match(loc): continue
-            desc = j.get("descriptionPlain") or ""
+            desc = j.get("descriptionPlain") or j.get("description") or ""
+            for section in j.get("lists") or []:
+                if isinstance(section,dict): desc += "\n" + (section.get("text") or "") + "\n" + (section.get("content") or "")
+            desc += "\n" + (j.get("additionalPlain") or j.get("additional") or "")
             if not any(k in t.lower() for k in STRONG):
                 if not content_matches_target(desc): continue
             d = parse_date(j.get("createdAt"))
@@ -283,7 +325,9 @@ def sr():
             jid = j.get("id") or ""
             url = "https://jobs.smartrecruiters.com/" + comp + "/" + str(jid) if jid else ""
             add("smartrecruiters", t, comp, loc, "", d, url, "", "ref=" + (j.get("ref") or ""),
-                source_conf="official_ats")
+                source_conf="official_ats", content="\n".join(
+                    section.get("text", "") for section in (j.get("jobAd") or {}).get("sections", {}).values()
+                    if isinstance(section,dict)))
 
 def wd():
     for f in glob.glob(os.path.join(WORKDIR, "ats_raw/wd_*.json")):
@@ -297,7 +341,8 @@ def wd():
             d = parse_date(j.get("postedOn"))
             path = j.get("externalPath") or ""
             url = "https://" + tenant + ".wd3.myworkdayjobs.com/" + site + path
-            add("workday", t, tenant, loc, "", d, url, "", source_conf="official_ats")
+            add("workday", t, tenant, loc, "", d, url, "", source_conf="official_ats",
+                content=(j.get("jobPostingInfo") or {}).get("jobDescription") or j.get("jobDescription") or j.get("description") or "")
 
 def an():
     for f in glob.glob(os.path.join(WORKDIR, "ats_raw/an_*.json")):
@@ -331,7 +376,7 @@ def ro():
             if not content_matches_target(tags): continue
         d = parse_date(j.get("date"))
         add("remoteok", t, j.get("company") or "", loc, "remote", d, j.get("url") or "", "",
-            source_conf="aggregator", content=tags)
+            source_conf="aggregator", content=j.get("description") or tags)
 
 for fn in [gh, lv, ab, pj, sr, wd, an, ro]:
     try: fn()

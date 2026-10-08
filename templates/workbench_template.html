@@ -1955,6 +1955,8 @@
     .config-section-nav button { font: inherit; font-size: 12px; text-align: left; min-height: 44px; padding: 8px 12px; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); color: var(--text); background: var(--bg-surface); cursor: pointer; overflow-wrap: anywhere; }
     .config-sections { display: grid; gap: 16px; }
     .config-card { padding: 24px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--bg-surface); scroll-margin-block: 16px; min-width: 0; }
+    .config-section-heading { padding: 8px 0 0; scroll-margin-block: 16px; }
+    .config-section-heading h3 { margin: 0; font-size: 16px; line-height: 1.4; overflow-wrap: anywhere; }
     .config-card h3 { margin: 0 0 20px; font-size: 16px; line-height: 1.4; overflow-wrap: anywhere; }
     .config-field-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 20px 24px; }
     .config-field { min-width: 0; }
@@ -1980,6 +1982,7 @@
       .config-field-grid { grid-template-columns: minmax(0,1fr); gap: 16px; }
       .config-section-nav button { min-height: 44px; }
     }
+    __ANALYTICS_CSS__
   </style>
 </head>
 <body>
@@ -2118,7 +2121,7 @@
           <option value="85" data-i18n="score85">≥ 85 Score (Top Match)</option>
         </select>
 
-        <div class="view-toggle-btns">
+        <div class="view-toggle-btns" id="jobViewControls">
           <button id="viewBtnTable" class="btn-toggle-view active" onclick="switchView('table')">
             <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24"><path d="M12 3v18M3 9h18M3 15h18"/><rect width="18" height="18" x="3" y="3" rx="2"/></svg>
             <span data-i18n="tableView">Table</span>
@@ -2142,6 +2145,14 @@
       <button class="filter-chip-btn" onclick="setQuickFilter('fresh-only', this)" data-i18n="filterFresh">Fresh Only</button>
       <button class="filter-chip-btn" onclick="setQuickFilter('in-progress', this)" data-i18n="filterProgress">In Progress</button>
     </div>
+
+    <div class="analytics-switch" role="group" aria-label="Jobs / Analysis">
+      <button class="btn btn-primary" id="jobsViewButton" aria-pressed="true" onclick="switchAnalytics('jobs')">Jobs</button>
+      <button class="btn" id="analyticsViewButton" aria-pressed="false" onclick="switchAnalytics('analysis')">Analysis</button>
+    </div>
+    <p id="analyticsDemoNotice" class="analytics-note" hidden></p>
+    <div id="analyticsFilters" class="analytics-filters" hidden></div>
+    <section id="analyticsView" class="analytics-view" hidden></section>
 
     <!-- Table View -->
     <div id="tableView" class="table-container">
@@ -2293,6 +2304,8 @@
         </section>
       </div>
 
+      <section id="jobAnalyticsDetails" class="form-section analytics-view"></section>
+
       <!-- Application Status Selector -->
       <div class="form-section">
         <label class="form-label" data-i18n="detailStatus">Application Status</label>
@@ -2320,12 +2333,12 @@
       <!-- Personal Remarks / Notes -->
       <div class="form-section">
         <label class="form-label" data-i18n="detailNotes">Personal Remarks &amp; Tracking Notes (Auto-saved locally)</label>
-        <textarea id="jobNotesInput" class="form-input" style="min-height:90px;resize:vertical;" placeholder="Record interview questions, contacts, follow-up dates..." data-i18n-placeholder="notesPlaceholder" oninput="saveJobNotes()"></textarea>
+        <textarea id="jobNotesInput" class="form-input" style="min-height:90px;resize:none;" placeholder="Record interview questions, contacts, follow-up dates..." data-i18n-placeholder="notesPlaceholder" oninput="saveJobNotes()"></textarea>
       </div>
     </div>
     <div class="drawer-footer">
       <button class="btn" onclick="closeJobDetail()" data-i18n="btnClose">Close</button>
-      <a id="jobDetailApplyLink" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+      <a id="jobDetailApplyLink" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
         <span data-i18n="btnOfficialApply">Apply on Official Site</span>
         <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
       </a>
@@ -2377,7 +2390,7 @@
     <div class="drawer-body">
       <!-- Source Mode -->
       <div id="sourceEditorContainer" style="display: flex; flex-direction: column; flex: 1;">
-        <textarea aria-label="Configuration source" id="configTextarea" class="editor-textarea" oninput="markConfigDirty()" placeholder="Loading configuration content..." data-i18n-placeholder="cfgPlaceholder"></textarea>
+        <textarea aria-label="Configuration source" id="configTextarea" class="editor-textarea" style="resize:none;" oninput="markConfigDirty()" placeholder="Loading configuration content..." data-i18n-placeholder="cfgPlaceholder"></textarea>
       </div>
 
       <!-- Local, lossless configuration editor: no model or network rendering. -->
@@ -2528,7 +2541,7 @@
           <svg class="ui-icon ui-icon-sm" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
       </div>
-      <p style="font-size:13px;color:var(--text-muted);" data-i18n="shortcutsDesc">This workbench supports full keyboard navigation to accelerate job hunting:</p>
+      <p style="font-size:13px;color:var(--text-muted);" data-i18n="shortcutsDesc">Letter shortcuts use the key alone. Ctrl / ⌘ combinations keep their usual behavior, except saving an open configuration:</p>
       <div class="shortcut-list">
         <div class="shortcut-item"><span data-i18n="scSearch">Focus search input</span> <kbd>/</kbd></div>
         <div class="shortcut-item"><span data-i18n="scEsc">Close modal / Clear search</span> <kbd>Esc</kbd></div>
@@ -2557,76 +2570,8 @@
     const EMBEDDED_CONFIG = __EMBEDDED_CONFIG_JSON__;
     const RAW_JOBS = __JOBS_JSON__;
 
-    // Fallback Sample Jobs if RAW_JOBS is empty
-    const SAMPLE_JOBS = [
-      {
-        id: "DE-CEL-01",
-        company: "Celonis",
-        title: "Senior Platform / Infrastructure Engineer",
-        roleType: "Platform / DevOps",
-        location: "Munich, Germany",
-        workModel: "Hybrid",
-        datePosted: "2026-09-02",
-        freshness: "VERIFIED_FRESH",
-        score: 88,
-        isRecent: true,
-        url: "https://www.celonis.com/careers/"
-      },
-      {
-        id: "DE-DPL-02",
-        company: "DeepL",
-        title: "Staff Machine Learning Infrastructure Engineer",
-        roleType: "AI / ML Infrastructure",
-        location: "Cologne / Remote, Germany",
-        workModel: "Remote",
-        datePosted: "2026-09-03",
-        freshness: "VERIFIED_FRESH",
-        score: 92,
-        isRecent: true,
-        url: "https://www.deepl.com/jobs"
-      },
-      {
-        id: "DE-PER-03",
-        company: "Personio",
-        title: "Lead Backend Engineer (Go / Distributed Systems)",
-        roleType: "Backend",
-        location: "Munich, Germany",
-        workModel: "Hybrid",
-        datePosted: "2026-08-30",
-        freshness: "LIKELY_FRESH",
-        score: 82,
-        isRecent: true,
-        url: "https://www.personio.com/careers/"
-      },
-      {
-        id: "DE-TRB-04",
-        company: "Trade Republic",
-        title: "Senior Site Reliability Engineer (Fintech Core)",
-        roleType: "SRE / Cloud",
-        location: "Berlin, Germany",
-        workModel: "On-site",
-        datePosted: "2026-08-28",
-        freshness: "LIKELY_FRESH",
-        score: 78,
-        isRecent: false,
-        url: "https://traderepublic.com/careers"
-      },
-      {
-        id: "DE-DLH-05",
-        company: "Delivery Hero",
-        title: "Senior Data & Analytics Engineer",
-        roleType: "Data Engineering",
-        location: "Berlin / Remote, Germany",
-        workModel: "Hybrid",
-        datePosted: "2026-09-04",
-        freshness: "VERIFIED_FRESH",
-        score: 85,
-        isRecent: true,
-        url: "https://careers.deliveryhero.com/"
-      }
-    ];
-
-    const JOBS = (Array.isArray(RAW_JOBS) && RAW_JOBS.length > 0) ? RAW_JOBS : SAMPLE_JOBS;
+    const JOBS = Array.isArray(RAW_JOBS) ? RAW_JOBS : [];
+    const DEMO_MODE = __DEMO_MODE__;
 
     // Skill release metadata, injected by build_workbench.py at build time.
     // UPDATE_AVAILABLE reflects the newest known release; recheckSkillVersion()
@@ -2761,7 +2706,7 @@
         btnExport: "Export",
         btnSave: "Save Changes",
         shortcutsTitle: "Keyboard Shortcuts",
-        shortcutsDesc: "This workbench supports full keyboard navigation to accelerate job hunting:",
+        shortcutsDesc: "Letter shortcuts use the key alone. Ctrl / ⌘ combinations keep their usual behavior, except saving an open configuration:",
         scSearch: "Focus search input",
         scEsc: "Close modal / Clear search",
         scTable: "Toggle Table view",
@@ -2938,7 +2883,7 @@ I am preparing to apply. Based on my candidate profile (profile.md), please prov
         btnExport: "导出文件",
         btnSave: "保存修改",
         shortcutsTitle: "快捷键指南",
-        shortcutsDesc: "本求职工作台支持完整的键盘快捷操作，提高海投筛选效率：",
+        shortcutsDesc: "字母快捷键仅单独按键生效。Ctrl / ⌘ 组合保留常用功能，仅配置编辑中的保存除外：",
         scSearch: "聚焦搜索框",
         scEsc: "关闭弹窗/清空",
         scTable: "切换表格视图",
@@ -3115,7 +3060,7 @@ I am preparing to apply. Based on my candidate profile (profile.md), please prov
         btnExport: "Exportieren",
         btnSave: "Änderungen speichern",
         shortcutsTitle: "Tastaturkürzel",
-        shortcutsDesc: "Die Workbench unterstützt Tastaturnavigation für maximale Effizienz:",
+        shortcutsDesc: "Buchstaben gelten nur ohne Zusatztaste. Strg / ⌘ behalten ihre übliche Funktion, außer beim Speichern einer geöffneten Konfiguration:",
         scSearch: "Suchfeld fokussieren",
         scEsc: "Fenster schließen / Suche leeren",
         scTable: "Tabellenansicht",
@@ -3519,8 +3464,15 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
     const savedTheme = localStorage.getItem('job_workbench_theme') || 'notion';
     switchTheme(savedTheme);
 
+    __LIEFLAT_MONO_JS__
+
+    __ANALYTICS_JS__
+
+    let currentJobView = 'table';
     // 3. View Toggle (Table / Kanban)
     function switchView(view) {
+      currentJobView = view;
+      switchAnalytics('jobs');
       document.getElementById('tableView').style.display = view === 'table' ? 'block' : 'none';
       document.getElementById('kanbanView').style.display = view === 'kanban' ? 'grid' : 'none';
       document.getElementById('viewBtnTable').classList.toggle('active', view === 'table');
@@ -3557,7 +3509,7 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
       let highCount = 0;
       let recentCount = 0;
       JOBS.forEach(j => {
-        if (hasScore(j) && j.score >= 75) highCount++;
+        if (isEvidenceEligible(j) && j.score >= 75) highCount++;
         if (j.isRecent || j.freshness === 'VERIFIED_FRESH') recentCount++;
       });
       document.getElementById('totalJobsCount').textContent = total;
@@ -3569,12 +3521,20 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
       return typeof job.score === 'number' && Number.isFinite(job.score) && job.score >= 0 && job.score <= 100;
     }
 
+    function isEvidenceEligible(job) {
+      return hasScore(job) && job.scoreStage === 'evidence' && job.eligibility?.status === 'NOT_EXCLUDED';
+    }
     function scoreText(job) {
+      const excluded = job.eligibility?.status?.startsWith('EXCLUDED');
+      if (excluded) return currentLang === 'zh' ? '不符合硬性条件' : currentLang === 'de' ? 'Ausschlusskriterium' : 'Hard constraint failed';
+      if (!hasScore(job) && job.scoreStage === 'triage') return currentLang === 'zh' ? '未深度评估' : currentLang === 'de' ? 'Nicht vertieft geprüft' : 'Triage only';
+      if (!isEvidenceEligible(job) && hasScore(job)) return `${job.score} · ${currentLang === 'zh' ? (job.scoreStage === 'triage' ? '粗筛分／未深度评估' : '评分依据未验证') : currentLang === 'de' ? 'Nicht vertieft geprüft' : (job.scoreStage === 'triage' ? 'Triage only' : 'Unverified score')}`;
+
       return hasScore(job) ? job.score : (I18N[currentLang] || I18N.en).scoreUnrated;
     }
 
     function scoreClassName(job) {
-      return !hasScore(job) ? 'score-unrated' : (job.score >= 80 ? 'score-high' : (job.score >= 70 ? 'score-med' : 'score-low'));
+      return !isEvidenceEligible(job) ? 'score-unrated' : (job.score >= 80 ? 'score-high' : (job.score >= 70 ? 'score-med' : 'score-low'));
     }
 
     function renderTable() {
@@ -3771,24 +3731,26 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
       const freshness = document.getElementById('freshnessFilter').value;
 
       let visibleCount = 0;
+      const visibleJobs = [];
       const rows = document.querySelectorAll('#jobsTableBody tr');
       const cards = document.querySelectorAll('.kanban-card');
 
       JOBS.forEach((job) => {
-        const text = `${job.company} ${job.title} ${job.location} ${job.roleType} ${job.id}`.toLowerCase();
+        const text = `${job.company} ${job.title} ${job.location} ${job.roleType} ${job.id} ${FACET_KEYS.flatMap(k => facetValues(job,k)).filter(v => v !== UNKNOWN_FACET).join(" ")}`.toLowerCase();
         const matchesQ = !q || text.includes(q);
-        const matchesScore = minScore === 0 || (hasScore(job) && job.score >= minScore);
+        const matchesScore = minScore === 0 || (isEvidenceEligible(job) && job.score >= minScore);
         const matchesFresh = freshness === 'all' || job.freshness === freshness;
 
         // Quick filter checks
         let matchesQuick = true;
         const status = getJobStatus(job.id);
-        if (currentQuickFilter === 'high-fit') matchesQuick = hasScore(job) && job.score >= 75;
-        if (currentQuickFilter === 'remote-only') matchesQuick = /remote/i.test(job.workModel);
+        if (currentQuickFilter === 'high-fit') matchesQuick = isEvidenceEligible(job) && job.score >= 75;
+        if (currentQuickFilter === 'remote-only') matchesQuick = job.analytics?.workModel === 'remote' || /remote/i.test(job.workModel);
         if (currentQuickFilter === 'fresh-only') matchesQuick = job.freshness === 'VERIFIED_FRESH' || job.isRecent;
         if (currentQuickFilter === 'in-progress') matchesQuick = status === 'applied' || status === 'interview';
 
-        const isVisible = matchesQ && matchesScore && matchesFresh && matchesQuick;
+        const isVisible = matchesQ && matchesScore && matchesFresh && matchesQuick && matchesAnalytics(job);
+        if (isVisible) visibleJobs.push(job);
         if (isVisible) visibleCount++;
 
         // Table row visibility
@@ -3806,7 +3768,8 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
 
       // Toggle Empty State
       const emptyState = document.getElementById('emptyState');
-      if (visibleCount === 0) {
+      renderAnalytics(visibleJobs);
+      if (visibleCount === 0 && analyticsSection === 'jobs') {
         emptyState.style.display = 'flex';
       } else {
         emptyState.style.display = 'none';
@@ -3834,6 +3797,8 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
     }
 
     function resetAllFilters() {
+      analyticsFilters = {};
+      analyticsTimeScope = 'all';
       document.getElementById('searchInput').value = '';
       document.getElementById('freshnessFilter').value = 'all';
       document.getElementById('scoreFilter').value = '0';
@@ -3878,7 +3843,8 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
     function openJobDetail(job) {
       const dict = I18N[currentLang] || I18N.en;
       activeJobForDetail = job;
-      document.getElementById('jobDetailRequirements').textContent = jobAnalysisText(job, 'jd');
+      document.getElementById('jobAnalyticsDetails').innerHTML = analyticsJobEvidence(job);
+      document.getElementById('jobDetailRequirements').textContent = (job.eligibility?.reasons?.length ? job.eligibility.reasons.map(r => r.code + ': ' + [].concat(r.evidence || []).join('; ')).join('\n') + '\n\n' : '') + readableJobDescription(jobAnalysisText(job, 'jd'));
       document.getElementById('jobDetailSalary').textContent = jobAnalysisText(job, 'salary');
       document.getElementById('jobDetailStrengths').textContent = jobAnalysisText(job, 'reason');
       document.getElementById('jobDetailGaps').textContent = jobAnalysisText(job, 'gap');
@@ -3889,7 +3855,8 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
       const scoreBadge = document.getElementById('jobDetailScoreBadge');
       scoreBadge.className = 'score-badge ' + scoreClassName(job);
       const scoreLabel = currentLang === 'en' ? 'Fit Score: ' : (currentLang === 'de' ? 'Passung: ' : '契合分: ');
-      scoreBadge.textContent = scoreLabel + scoreText(job);
+      scoreBadge.textContent = (isEvidenceEligible(job) ? scoreLabel : '') + scoreText(job);
+      scoreBadge.title = (job.eligibility?.reasons || []).map(r => r.code + ': ' + [].concat(r.evidence || []).join('; ')).join('\n');
 
       document.getElementById('jobDetailLocation').textContent = job.location || '-';
       document.getElementById('jobDetailWorkModel').textContent = job.workModel || '-';
@@ -3916,6 +3883,28 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
 
       document.getElementById('jobDetailOverlay').classList.add('open');
       document.getElementById('jobDetailDrawer').classList.add('open');
+    }
+
+    function readableJobDescription(value) {
+      let text = String(value || '');
+      // Template contents are inert: never attach third-party markup to the DOM.
+      for (let pass = 0; pass < 2; pass++) {
+        if (!/<\/?[a-z][^>]*>|&(?:lt|gt|amp|quot|apos|nbsp|#\d+|#x[0-9a-f]+);/i.test(text)) break;
+        const template = document.createElement('template');
+        template.innerHTML = text;
+        template.content.querySelectorAll('script,style,iframe,object,embed,svg,math,template').forEach(el => el.remove());
+        const walk = node => {
+          if (node.nodeType === Node.TEXT_NODE) return node.textContent;
+          if (node.nodeType !== Node.ELEMENT_NODE && node.nodeType !== Node.DOCUMENT_FRAGMENT_NODE) return '';
+          const tag = node.nodeName.toLowerCase();
+          if (tag === 'br') return '\n';
+          const content = Array.from(node.childNodes, walk).join('');
+          if (tag === 'li') return '\n• ' + content.trim() + '\n';
+          return /^(p|div|section|article|h[1-6]|ul|ol|tr|blockquote)$/.test(tag) ? '\n' + content + '\n' : content;
+        };
+        text = walk(template.content);
+      }
+      return text.replace(/\u00a0/g, ' ').split('\n').map(line => line.trim()).join('\n').replace(/\n{3,}/g, '\n\n').trim();
     }
 
     function openJobDetailById(id) {
@@ -4014,6 +4003,7 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
     }
 
     function updateDirtyDisplay() {
+      if (analyticsSection === 'analysis') renderAnalytics();
       const dict = I18N[currentLang] || I18N.en;
       const dirty = isDirty[currentConfigTab];
       const indicator = document.getElementById('dirtyStatus');
@@ -4147,6 +4137,7 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
       let section;
       let offset = 0;
       let fence = null;
+      let proseBreak = false;
       const lines = text.match(/[^\n]*\n|[^\n]+$/g) || [];
       function ensureSection() {
         if (!section) sections.push(section = {title: configCopy('Overview', '概览', 'Übersicht'), items: []});
@@ -4164,8 +4155,19 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
         const heading = !wasFenced && !marker && (ini ? line.match(/^\s*\[([^\]]+)\]\s*$/) : line.match(/^#{1,6}\s+(.+?)\s*#*$/));
         if (heading) {
           sections.push(section = {title: heading[1], items: []});
+        } else if (!ini && !wasFenced && !marker && /^ {0,3}(?:(?:\*[ \t]*){3,}|(?:-[ \t]*){3,}|(?:_[ \t]*){3,})$/.test(line)) {
+          // Decorative Markdown remains in the source, outside editable spans.
+          proseBreak = true;
         } else if (line.trim()) {
-          const field = !wasFenced && !marker && (ini ? line.match(/^(\s*([^;#=][^=]*?)\s*=\s*)(.*)$/) : line.match(/^(\s*[-*+]\s+([^:：]+)[:：][ \t]*)(.*)$/));
+          let field = !wasFenced && !marker && (ini ? line.match(/^(\s*([^;#=][^=]*?)\s*=\s*)(.*)$/) : line.match(/^(\s*[-*+]\s+([^:：]+)[:：][ \t]*)(.*)$/));
+          if (!ini && !wasFenced && !marker) {
+            // Support both **Label:** value and **Label**: value. Keep the
+            // Markdown wrapper in the immutable prefix rather than in the input.
+            const bold = line.match(/^(\s*[-*+]\s+(\*\*|__)(.+?)(?:[:：]\2|\2[:：])[ \t]*)(.*)$/);
+            const boldEntry = line.match(/^(\s*[-*+]\s+(\*\*|__)(.+?)\2[ \t]+)(.*)$/);
+            const formatted = bold || boldEntry;
+            if (formatted) field = [formatted[0], formatted[1], formatted[3], formatted[4]];
+          }
           if (field) {
             const comment = ini ? field[3].match(/([ \t]+[;#].*)$/) : null;
             const suffix = comment ? comment[1].length : 0;
@@ -4173,10 +4175,11 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
           } else {
             const items = ensureSection().items;
             const prev = items[items.length - 1];
-            if (prev && !prev.field) { prev.end = end; prev.value = text.slice(prev.start, end); }
+            if (prev && !prev.field && !proseBreak) { prev.end = end; prev.value = text.slice(prev.start, end); }
             else items.push({value: line, start: offset, end, field: false});
           }
         }
+        if (line.trim() && !/^ {0,3}(?:(?:\*[ \t]*){3,}|(?:-[ \t]*){3,}|(?:_[ \t]*){3,})$/.test(line)) proseBreak = false;
         offset += raw.length;
       }
       return sections;
@@ -4248,7 +4251,7 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
       nav.setAttribute('aria-label', configCopy('Document sections', '文档章节', 'Dokumentabschnitte'));
       const sections = parseConfigDocument(configData[currentConfigTab] || '', currentConfigTab === 'settings');
       sections.forEach((section, sectionIndex) => {
-        const card = configElement('section', 'config-card');
+        const card = configElement('section', section.items.length ? 'config-card' : 'config-section-heading');
         card.id = `config-section-${sectionIndex}`;
         const heading = configElement('h3', '', configFieldLabel(section.title));
         heading.tabIndex = -1;
@@ -4340,15 +4343,19 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
     }
 
     window.addEventListener('keydown', (e) => {
-      const isInput = ['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName);
+      if (e.isComposing) return;
+      const isInput = ['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName) || e.target.isContentEditable || !!e.target.closest?.('[role="textbox"]');
       
-      if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+      if ((e.ctrlKey || e.metaKey) && !e.altKey && !e.shiftKey && e.key.toLowerCase() === 's') {
         if (document.getElementById('configDrawer').classList.contains('open')) {
           e.preventDefault();
           saveCurrentConfig();
           return;
         }
       }
+
+      // Letter shortcuts never intercept browser/OS combinations such as copy.
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
 
       if (e.key === 'Escape') {
         if (document.getElementById('shortcutsModal').classList.contains('open')) {
@@ -4433,11 +4440,14 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
 
     document.getElementById('recentSearchDays').value = recentSearchDays;
 
+    initAnalytics();
+
     // Initialize UI with preferred language
     applyLanguage(currentLang);
     renderJobs();
     renderUpdateBanner();
     renderDocsVersion();
+    if (location.hash === '#analysis') switchAnalytics('analysis');
 
     // When the build could not reach GitHub, retry the release check in-browser.
     if (!UPDATE_CHECKED) recheckSkillVersion(false);
