@@ -30,5 +30,24 @@ class ScoringPolicyTests(unittest.TestCase):
         self.assertEqual(result['eligibility']['status'],'EXCLUDED_SENIORITY')
         review['dimensions']['experience']['status']='UNKNOWN'
         self.assertEqual(apply_policy(job)['scoreStage'],'unverified')
+    def test_required_years_without_word_experience(self):
+        job={'description_raw':'Required Experience\n7+ years in engineering supply chain, technical procurement, or manufacturing engineering'}
+        result=apply_policy(job,{'maxRequiredYears':4})
+        self.assertEqual(result['analysis']['requiredYears'],7)
+        self.assertEqual(result['eligibility']['status'],'EXCLUDED_SENIORITY')
+    def test_company_age_and_alternatives_are_not_hard_exclusions(self):
+        for text in ('Over 20 years in business', '10 years of service and support',
+                     '7 years of experience or equivalent qualifications'):
+            with self.subTest(text=text):
+                result=apply_policy({'description_raw':text},{'maxRequiredYears':4})
+                self.assertEqual(result['eligibility']['status'],'NOT_EXCLUDED')
+
+    def test_audited_exclusion_survives_rebuild(self):
+        row={'score':95,'screeningExclusions':[{'code':'EXCLUDED_LOCATION','evidence':'Mandatory two-year onboarding in Madrid','reviewedOn':'2026-10-11','preferencesSource':'.job-search/preferences.md'}]}
+        first=apply_policy(row)
+        self.assertEqual(first['eligibility']['status'],'EXCLUDED_LOCATION')
+        self.assertEqual(apply_policy(first)['eligibility']['status'],'EXCLUDED_LOCATION')
+        row['screeningExclusions'][0].pop('reviewedOn')
+        self.assertEqual(apply_policy(row)['eligibility']['status'],'NOT_EXCLUDED')
 
 if __name__=='__main__':unittest.main()

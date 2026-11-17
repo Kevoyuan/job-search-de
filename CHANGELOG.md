@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.7.1 — 2026-11-17
+
+- Recognize experience requirements such as “7+ years in engineering”, including lists of alternative specialties, while keeping equivalent qualifications for review and avoiding company-age claims.
+- Preserve reviewed exclusion decisions with supporting evidence and preference provenance when normalizing jobs and rebuilding the workbench.
+
 ## 1.7.0 — 2026-11-17
 
 - Add a daily action queue for due follow-ups, applications being prepared and evidence-scored jobs to review.

@@ -53,13 +53,13 @@ def requirements(job):
         optional=bool(re.search(r'not required|nicht erforderlich|无需|不要求',clause,re.I))
         # Experience context prevents company ages, dates and benefit durations becoming requirements.
         years=re.search(r'(\d+)\s*(?:[-–—]\s*(\d+)\s*)?\+?\s*(?:years?|jahre[n]?|年)',clause,re.I)
-        experience=bool(re.search(r'experience|erfahrung|经验',clause,re.I))
+        experience=bool(re.search(r'experience|erfahrung|经验',clause,re.I)) or bool(re.search(r'\b\d+\s*(?:[-–—]\s*\d+\s*)?\+?\s*years?\s+in\b',clause,re.I) and not re.search(r'\byears?\s+in\s+(?:business|operation|existence)\b',clause,re.I))
         item={'text':clause,'level':'preferred' if preferred else 'mentioned' if optional else 'required', 'kind':'other'}
         if years and experience:
             item.update(kind='experience',minimum=int(years[1]),maximum=int(years[2]) if years[2] else None)
             if re.search(r'up to|bis zu|最多|不超过',clause,re.I): item['level']='mentioned'
             # Alternative qualifications need review, not an unconditional exclusion.
-            if re.search(r'\bor\b|\boder\b|或',clause,re.I): item['level']='review'
+            if re.search(r'\bor\b|\boder\b|或',clause,re.I) and re.search(r'degree|qualification|bachelor|master|phd|equivalent|alternative|studium|abschluss|gleichwertig|学位|学历|同等',clause,re.I): item['level']='review'
         elif re.search(r'english|german|deutsch|英语|德语',clause,re.I): item['kind']='language'
         elif re.search(r'driving licen[cs]e|driver.?s licen[cs]e|führerschein|驾照',clause,re.I): item['kind']='drivingLicence'
         if item not in items: items.append(item)
@@ -95,7 +95,13 @@ def apply_policy(job, policy=None):
     analysis['requiredYearsEvidence']=[x['text'] for x in explicit]
     analysis['hardRequirements']=[x for x in items if x['kind']!='other']
     result['analysis']=analysis
-    reasons=[]; limit=policy.get('maxRequiredYears')
+    # Preserve audited preference exclusions through save/build normalization.
+    # In particular, language/location/title reviews must not disappear when a
+    # workbench rebuild reapplies the deterministic experience gates.
+    reasons=[dict(x) for x in result.get('screeningExclusions', [])
+             if isinstance(x,dict) and str(x.get('code','')).startswith('EXCLUDED_')
+             and x.get('evidence') and x.get('reviewedOn') and x.get('preferencesSource')]
+    limit=policy.get('maxRequiredYears')
     if limit is not None and analysis['requiredYears'] is not None and analysis['requiredYears']>limit:
         reasons.append({'code':'EXCLUDED_SENIORITY','evidence':analysis['requiredYearsEvidence'],'limit':limit})
     title=str(result.get('title','')).lower()
