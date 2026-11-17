@@ -2204,6 +2204,10 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
  #analyticsView .analytics-time-select select { flex:1; }
 }
 
+    .today-actions {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:12px}
+    .today-actions h3 {font-size:14px;margin-bottom:8px}
+    .action-job {display:block;width:100%;min-height:44px;text-align:left;white-space:normal;overflow-wrap:anywhere;margin-top:6px}
+    @media(max-width:700px){.today-actions{grid-template-columns:1fr}}
   /* theme refresh pack */
 /* ==========================================================================
    Theme refresh pack — "索引编辑" (editorial index).
@@ -2324,7 +2328,7 @@ html[data-theme="bento"] .analysis-panel{ border-top:0; border-left:3px solid cu
         <svg class="ui-icon ui-icon-md" viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="5" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
       </div>
       <span id="brandTitleText">Germany Job Hunt Workbench</span>
-      <span class="brand-version-pill">v1.6.0</span>
+      <span class="brand-version-pill">v1.7.0</span>
     </div>
     <div class="header-actions">
       <!-- Usage Guide Button -->
@@ -2364,6 +2368,18 @@ html[data-theme="bento"] .analysis-panel{ border-top:0; border-left:3px solid cu
 
   <!-- Main Content Body -->
   <main class="main-container">
+    <section aria-labelledby="todayTitle" style="margin-bottom:20px">
+      <h2 id="todayTitle" data-tracking="title" style="font-size:18px"></h2>
+      <div id="todayActions" class="today-actions"></div>
+      <button id="expandActions" class="btn" aria-expanded="false" onclick="expandedActions=!expandedActions;renderTodayActions()"></button>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px">
+        <button class="btn" data-tracking="export" onclick="exportApplications()"></button>
+        <button class="btn" data-tracking="import" onclick="document.getElementById('applicationImport').click()"></button>
+        <input id="applicationImport" type="file" accept="application/json,.json" hidden onchange="importApplications(this.files[0])">
+      </div>
+      <p data-tracking="local" style="color:var(--text-muted);font-size:12px;margin-top:8px"></p>
+      <p id="trackingNotice" role="status" aria-live="polite" style="overflow-wrap:anywhere"></p>
+    </section>
     <section id="recentSearchSection" style="margin-bottom:20px;" aria-labelledby="recentSearchHeading">
       <div class="control-bar">
       <div class="stats-group" style="flex-wrap:wrap;">
@@ -2623,6 +2639,16 @@ html[data-theme="bento"] .analysis-panel{ border-top:0; border-left:3px solid cu
         </div>
       </div>
 
+      <section class="form-section">
+        <label class="form-label" for="application-appliedOn" data-tracking="applied"></label>
+        <input id="application-appliedOn" class="form-input" type="date" onchange="saveApplicationFields()">
+        <label class="form-label" for="application-followUpOn" data-tracking="follow"></label>
+        <input id="application-followUpOn" class="form-input" type="date" onchange="saveApplicationFields()">
+        <label class="form-label" for="application-contact" data-tracking="contact"></label>
+        <input id="application-contact" class="form-input" type="text" onchange="saveApplicationFields()">
+        <details><summary data-tracking="history"></summary><ul id="applicationHistory" style="max-height:180px;overflow:auto"></ul></details>
+        <p id="trackingDetailNotice" role="status" aria-live="polite"></p>
+      </section>
       <!-- AI Prompt Generation for Cover Letter & Resume Tuning -->
       <div class="form-section">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
@@ -2749,7 +2775,7 @@ html[data-theme="bento"] .analysis-panel{ border-top:0; border-left:3px solid cu
         <div>
           <div class="docs-version-label" data-i18n="docsVersionLabel">Installed skill version</div>
           <div class="docs-version-value">
-            <code>v<span id="docsCurrentVersion">1.6.0</span></code>
+            <code>v<span id="docsCurrentVersion">1.7.0</span></code>
             <span id="docsVersionBadge" class="update-badge" style="display:none;" data-i18n="docsUpdateBadge">Update available</span>
           </div>
         </div>
@@ -2758,7 +2784,7 @@ html[data-theme="bento"] .analysis-panel{ border-top:0; border-left:3px solid cu
           <span data-i18n="docsCheckNow">Check for updates</span>
         </button>
       </div>
-      <p id="docsVersionStatus" class="docs-version-status"></p>
+      <details data-maintenance-lang="zh" style="overflow-wrap:anywhere" hidden><summary>备份清理（生成时快照）</summary><p>时间: — · 清理数量: 0 · 状态: 正常</p></details><details data-maintenance-lang="en" style="overflow-wrap:anywhere"><summary>Backup cleanup (build snapshot)</summary><p>Time: — · Removed: 0 · Status: OK</p></details><details data-maintenance-lang="de" style="overflow-wrap:anywhere" hidden><summary>Backup-Bereinigung (Stand beim Erstellen)</summary><p>Zeit: — · Entfernt: 0 · Status: OK</p></details><p id="docsVersionStatus" class="docs-version-status"></p>
 
       <section class="docs-section">
         <h3 data-i18n="docsQuickStart">Quick start</h3>
@@ -2881,8 +2907,8 @@ html[data-theme="bento"] .analysis-panel{ border-top:0; border-left:3px solid cu
     // Skill release metadata, injected by build_workbench.py at build time.
     // UPDATE_AVAILABLE reflects the newest known release; recheckSkillVersion()
     // can refresh it at runtime when the browser can reach GitHub.
-    let CURRENT_SKILL_VERSION = "1.6.0";
-    let LATEST_SKILL_VERSION = "1.6.0";
+    let CURRENT_SKILL_VERSION = "1.7.0";
+    let LATEST_SKILL_VERSION = "1.7.0";
     let UPDATE_AVAILABLE = false;
     let UPDATE_CHECKED = false;
     const SLASH_UPDATE_COMMAND = "/update-skill";
@@ -3715,6 +3741,7 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
     }
 
     function applyLanguage(lang) {
+      document.querySelectorAll("[data-maintenance-lang]").forEach(el => { el.hidden = el.dataset.maintenanceLang !== lang; });
       const dict = I18N[lang] || I18N.en;
       const langSel = document.getElementById('langSelector');
       if (langSel) langSel.value = lang;
@@ -4307,16 +4334,6 @@ function analyticsJobEvidence(job) {
     }
 
     // 4. Job Status & Notes Persistence
-    function getJobStatus(jobId) {
-      return localStorage.getItem('job_status_' + jobId) || 'todo';
-    }
-    function updateJobStatus(jobId, status) {
-      localStorage.setItem('job_status_' + jobId, status);
-      renderKanban();
-      filterJobs();
-      const dict = I18N[currentLang] || I18N.en;
-      showToast(dict.toastStatusUpdated + formatStatusName(status));
-    }
     function formatStatusName(s) {
       const dict = I18N[currentLang] || I18N.en;
       return (dict.statusNames && dict.statusNames[s]) ? dict.statusNames[s] : s;
@@ -4324,6 +4341,7 @@ function analyticsJobEvidence(job) {
 
     // 5. Rendering & Filtering
     function renderJobs() {
+      renderTodayActions();
       renderRecentSearchResults();
       renderTable();
       renderKanban();
@@ -4704,6 +4722,8 @@ function analyticsJobEvidence(job) {
       const notes = localStorage.getItem('job_note_' + job.id) || '';
       document.getElementById('jobNotesInput').value = notes;
 
+      populateApplicationFields(job.id);
+
       // AI Prompt Preview
       const prompt = dict.aiPromptTemplate(job);
       document.getElementById('jobPromptBox').textContent = prompt;
@@ -4750,15 +4770,8 @@ function analyticsJobEvidence(job) {
         updateJobStatus(activeJobForDetail.id, status);
         ['todo', 'prep', 'applied', 'interview', 'offer'].forEach(st => {
           const btn = document.getElementById('statusBtn-' + st);
-          if (btn) btn.className = (st === status) ? 'btn btn-primary' : 'btn';
+          if (btn) btn.className = (st === getJobStatus(activeJobForDetail.id)) ? 'btn btn-primary' : 'btn';
         });
-      }
-    }
-
-    function saveJobNotes() {
-      if (activeJobForDetail) {
-        const val = document.getElementById('jobNotesInput').value;
-        localStorage.setItem('job_note_' + activeJobForDetail.id, val);
       }
     }
 
@@ -5264,6 +5277,46 @@ function analyticsJobEvidence(job) {
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;');
     }
+
+    // Versioned application records overlay legacy status/notes without rewriting them.
+const TRACKING_KEY = 'job_workbench_applications_v1';
+const TRACKING_TEXT = {
+ zh: {title:'今日待办',review:'待判断',prep:'待准备',due:'到期跟进',empty:'暂无待办',more:'显示全部',less:'收起',export:'导出申请记录',import:'恢复申请记录',local:'记录仅保存在当前浏览器；请定期导出备份。',saved:'已保存在当前浏览器',failed:'保存失败，请导出记录后重试',applied:'投递日期',follow:'下次跟进日期',contact:'联系人',history:'状态历史',none:'暂无状态变更',invalid:'备份格式无效，未导入任何记录',restored:'恢复完成；已有记录保留',preview:'将恢复 {new} 条记录，保留 {existing} 条已有记录。继续？',exported:'已生成备份下载，请确认文件已保存',unavailable:'记录无法读取，已停止写入以保护数据',overdue:'逾期',today:'今天'},
+ en: {title:'Today’s actions',review:'To evaluate',prep:'To prepare',due:'Follow-up due',empty:'Nothing pending',more:'Show all',less:'Show less',export:'Export applications',import:'Restore applications',local:'Records are stored in this browser only. Export backups regularly.',saved:'Saved in this browser',failed:'Save failed. Export records and retry.',applied:'Application date',follow:'Next follow-up',contact:'Contact',history:'Status history',none:'No status changes',invalid:'Invalid backup; no records imported',restored:'Restored; existing records kept',preview:'Restore {new} records and keep {existing} existing records. Continue?',exported:'Backup download created; confirm the file was saved',unavailable:'Cannot read records; writes stopped to protect data',overdue:'Overdue',today:'Today'},
+ de: {title:'Heute zu erledigen',review:'Zu prüfen',prep:'Vorzubereiten',due:'Nachfassen fällig',empty:'Nichts offen',more:'Alle anzeigen',less:'Weniger anzeigen',export:'Bewerbungen exportieren',import:'Bewerbungen wiederherstellen',local:'Daten liegen nur in diesem Browser. Regelmäßig exportieren.',saved:'In diesem Browser gespeichert',failed:'Speichern fehlgeschlagen. Daten exportieren und erneut versuchen.',applied:'Bewerbungsdatum',follow:'Nächste Nachfrage',contact:'Kontakt',history:'Statusverlauf',none:'Keine Statusänderungen',invalid:'Ungültige Sicherung; nichts importiert',restored:'Wiederhergestellt; vorhandene Daten beibehalten',preview:'{new} Einträge wiederherstellen, {existing} vorhandene behalten. Fortfahren?',exported:'Download erstellt; bitte gespeicherte Datei prüfen',unavailable:'Daten nicht lesbar; Schreiben zum Schutz gestoppt',overdue:'Überfällig',today:'Heute'}
+};
+function trackingText(){return TRACKING_TEXT[currentLang] || TRACKING_TEXT.en;}
+function trackingToday(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
+function validTrackingDate(s){if(s==='')return true;if(!/^\d{4}-\d{2}-\d{2}$/.test(s))return false;const d=new Date(s+'T12:00:00Z');return Number.isFinite(d.getTime()) && d.toISOString().slice(0,10)===s;}
+function validateApplication(r){
+ if(!r || typeof r!=='object' || Array.isArray(r))throw Error('record');
+ if(!['todo','prep','applied','interview','offer'].includes(r.status))throw Error('status');
+ for(const k of ['notes','appliedOn','followUpOn','contact'])if(typeof r[k]!=='string')throw Error(k);
+ if(!validTrackingDate(r.appliedOn)||!validTrackingDate(r.followUpOn))throw Error('date');
+ if(!Array.isArray(r.history)||r.history.some(h=>!h || !['todo','prep','applied','interview','offer'].includes(h.status)||typeof h.at!=='string'||!Number.isFinite(Date.parse(h.at))))throw Error('history');
+ return {status:r.status,notes:r.notes,appliedOn:r.appliedOn,followUpOn:r.followUpOn,contact:r.contact,history:r.history.map(h=>({status:h.status,at:h.at}))};
+}
+function readApplications(){const raw=localStorage.getItem(TRACKING_KEY);if(!raw)return {};const data=JSON.parse(raw);if(!data||data.version!==1||!data.records||typeof data.records!=='object'||Array.isArray(data.records))throw Error('schema');for(const r of Object.values(data.records))validateApplication(r);return data.records;}
+function legacyApplication(id){let status='todo',notes='';try{status=localStorage.getItem('job_status_'+id)||'todo';notes=localStorage.getItem('job_note_'+id)||'';}catch(e){trackingNotice('unavailable');}return {status,notes,appliedOn:'',followUpOn:'',contact:'',history:[]};}
+function applicationRecord(id){try{const records=readApplications();return Object.hasOwn(records,String(id))?records[id]:legacyApplication(id);}catch(e){trackingNotice('unavailable');return legacyApplication(id);}}
+function trackingNotice(key){for(const id of ['trackingNotice','trackingDetailNotice']){const el=document.getElementById(id);if(el)el.textContent=trackingText()[key];}}
+function writeApplication(id,changes){try{const records=readApplications();const record=validateApplication({...applicationRecord(id),...changes});Object.defineProperty(records,String(id),{value:record,enumerable:true,configurable:true,writable:true});localStorage.setItem(TRACKING_KEY,JSON.stringify({version:1,records}));trackingNotice('saved');renderTodayActions();return true;}catch(e){trackingNotice('failed');return false;}}
+function getJobStatus(id){return applicationRecord(id).status;}
+function updateJobStatus(id,status){const r=applicationRecord(id);if(r.status===status)return;const changes={status,history:[...r.history,{status,at:new Date().toISOString()}]};if(status==='applied'&&!r.appliedOn)changes.appliedOn=trackingToday();if(!writeApplication(id,changes))return;renderKanban();filterJobs();if(activeJobForDetail)populateApplicationFields(activeJobForDetail.id);showToast((I18N[currentLang]||I18N.en).toastStatusUpdated+formatStatusName(status));}
+function saveJobNotes(){if(activeJobForDetail)writeApplication(activeJobForDetail.id,{notes:document.getElementById('jobNotesInput').value});}
+function saveApplicationFields(){if(!activeJobForDetail)return;const changes={};for(const k of ['appliedOn','followUpOn','contact'])changes[k]=document.getElementById('application-'+k).value;writeApplication(activeJobForDetail.id,changes);}
+function populateApplicationFields(id){const r=applicationRecord(id);document.getElementById('jobNotesInput').value=r.notes;for(const k of ['appliedOn','followUpOn','contact'])document.getElementById('application-'+k).value=r[k];const list=document.getElementById('applicationHistory');list.replaceChildren();for(const h of [...r.history].reverse()){const li=document.createElement('li');li.textContent=new Date(h.at).toLocaleString(currentLang)+' · '+formatStatusName(h.status);list.append(li);}if(!r.history.length)list.textContent=trackingText().none;}
+function allApplicationRecords(){const records=readApplications();const ids=new Set();for(let i=0;i<localStorage.length;i++){const key=localStorage.key(i);for(const prefix of ['job_status_','job_note_'])if(key.startsWith(prefix))ids.add(key.slice(prefix.length));}for(const id of ids)if(!Object.hasOwn(records,id))Object.defineProperty(records,id,{value:validateApplication(legacyApplication(id)),enumerable:true});return records;}
+function exportApplications(){try{const blob=new Blob([JSON.stringify({format:'job-search-applications',version:1,exportedAt:new Date().toISOString(),records:allApplicationRecords()},null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='applications-'+trackingToday()+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);trackingNotice('exported');}catch(e){trackingNotice('unavailable');}}
+function parseApplicationBackup(text){const data=JSON.parse(text);if(data.format!=='job-search-applications'||data.version!==1||!data.records||typeof data.records!=='object'||Array.isArray(data.records))throw Error('format');const records={};for(const [id,r] of Object.entries(data.records)){if(!id||id.length>500)throw Error('id');Object.defineProperty(records,id,{value:validateApplication(r),enumerable:true,configurable:true});}return records;}
+async function importApplications(file){if(!file)return;try{if(file.size>10*1024*1024)throw Error('size');const incoming=parseApplicationBackup(await file.text());const existing=allApplicationRecords();const fresh=Object.keys(incoming).filter(id=>!Object.hasOwn(existing,id));const count=Object.keys(incoming).length-fresh.length;if(!confirm(trackingText().preview.replace('{new}',fresh.length).replace('{existing}',count)))return;for(const id of fresh)Object.defineProperty(existing,id,{value:incoming[id],enumerable:true});localStorage.setItem(TRACKING_KEY,JSON.stringify({version:1,records:existing}));renderJobs();if(activeJobForDetail)openJobDetail(activeJobForDetail);trackingNotice('restored');}catch(e){trackingNotice('invalid');}finally{document.getElementById('applicationImport').value='';}}
+let expandedActions=false;
+function todayActionGroups(){const groups={due:[],prep:[],review:[]};const today=trackingToday();for(const job of JOBS){const r=applicationRecord(job.id);if(r.status==='offer')continue;if(r.followUpOn&&r.followUpOn<=today){groups.due.push(job);continue;}if(r.status==='prep')groups.prep.push(job);else if(r.status==='todo'&&isEvidenceEligible(job)&&hasScore(job)&&job.score>=75)groups.review.push(job);}groups.due.sort((a,b)=>applicationRecord(a.id).followUpOn.localeCompare(applicationRecord(b.id).followUpOn));groups.review.sort((a,b)=>b.score-a.score);return groups;}
+function renderTodayActions(){const root=document.getElementById('todayActions');if(!root)return;document.querySelectorAll('[data-tracking]').forEach(el=>el.textContent=trackingText()[el.dataset.tracking]);root.replaceChildren();const groups=todayActionGroups();for(const [kind,jobs] of Object.entries(groups)){const section=document.createElement('section');section.className='detail-card';const heading=document.createElement('h3');heading.textContent=trackingText()[kind]+' · '+jobs.length;section.append(heading);if(!jobs.length){const p=document.createElement('p');p.textContent=trackingText().empty;section.append(p);}for(const job of (expandedActions?jobs:jobs.slice(0,5))){const btn=document.createElement('button');btn.className='btn action-job';btn.textContent=(job.company||'')+' · '+job.title;if(kind==='due'){const date=applicationRecord(job.id).followUpOn;btn.textContent+=' · '+date+' '+trackingText()[date<trackingToday()?'overdue':'today'];}btn.onclick=()=>openJobDetail(job);section.append(btn);}root.append(section);}document.getElementById('expandActions').textContent=trackingText()[expandedActions?'less':'more'];document.getElementById('expandActions').setAttribute('aria-expanded',String(expandedActions));document.getElementById('expandActions').hidden=!Object.values(groups).some(jobs=>jobs.length>5);}
+
+// Refresh due dates after a tab has been left open overnight.
+window.addEventListener('focus', () => renderTodayActions());
+
 
     document.getElementById('recentSearchDays').value = recentSearchDays;
 

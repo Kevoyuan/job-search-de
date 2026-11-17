@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.7.0 — 2026-11-17
+
+- Add a daily action queue for due follow-ups, applications being prepared and evidence-scored jobs to review.
+- Track application and follow-up dates, contacts and status history locally, with versioned JSON export and conflict-preserving restore. Existing browser notes and statuses remain readable.
+- Make reports opt-in. Add centralized, change-aware backups with retention controls, a preview command and a cleanup status snapshot in the workbench.
+- Write workbench and job analysis files atomically and skip unchanged data writes.
+
+Application records remain in the current browser until exported; filesystem backup cleanup does not back them up. Automatic scheduled cleanup is configured per machine, not installed by the skill.
+
 ## 1.6.0 — 2026-10-08
 
 - Add offline job analytics with primary track breakdown, collection-date scopes, distributions and cross-analysis. Charts share filters with the job list and support keyboard controls, three languages, five themes and mobile layouts.

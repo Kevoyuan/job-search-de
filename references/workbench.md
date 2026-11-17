@@ -89,7 +89,7 @@ Top notification banner and modal prompts display available updates alongside on
 
 ## Report HTML
 
-`report_zh.html` or another language-specific report is generated from Markdown by `scripts/build_html.sh`, then post-processed by `scripts/fix_html.py`. This is independent from the workbench.
+`report_zh.html` or another language-specific report is generated from Markdown only on explicit request by `scripts/build_html.sh --report`, then post-processed by `scripts/fix_html.py`. This is independent from the workbench.
 
 ## Deterministic architecture
 
@@ -176,3 +176,7 @@ copy, paste, undo, tab and other combinations. Ignore IME composition and text
 entry in native fields, contenteditable regions or textbox widgets. Ctrl/Meta+S
 is intercepted only in the open configuration editor, without Alt or Shift.
 `scripts/test_shortcuts_browser.cjs` verifies these boundaries and bare-key actions.
+
+## Application actions
+
+`templates/application-tracking.js` owns the today queue, versioned browser records, export/restore and detail date/contact/history controls. Existing `job_status_*` and `job_note_*` keys remain untouched and serve as fallback until a job is edited. The application JSON backup includes orphan records and has a versioned format; restore validates all records and keeps existing entries on collision. Export periodically to recover across browsers. File cleanup does not back up browser storage. Follow-up dates are local calendar dates, and the queue updates when the page renders or records change.

@@ -43,7 +43,7 @@ Copy this and replace the role and locations:
 Use job-search-de. My CV is at ./resume.pdf.
 Find software engineer jobs in Berlin or remote within Germany.
 Prioritize English-speaking roles posted in the last 14 days.
-Generate a match report and a job workbench in English.
+Generate a job workbench in English.
 ```
 
 The agent extracts your background, asks for missing preferences, searches company hiring pages, checks availability and dates, and compares requirements with evidence from your CV.
@@ -51,10 +51,12 @@ The agent extracts your background, asks for missing preferences, searches compa
 ## What you get
 
 - **Job shortlist:** official application links, locations, and freshness labels. Missing dates are marked as unknown.
-- **Match report:** strengths, gaps, and supporting CV evidence.
+- **Match evidence:** strengths, gaps, and supporting CV evidence in the workbench. Reports are available on request.
 - **Browser workbench:** open the generated `job-hunt-workbench.html` to filter jobs, switch between table and kanban views, and track applications. Includes five themes and Chinese, English, and German interfaces.
 
 ![Job workbench](docs/images/workbench-table.png)
+
+Track application dates, follow-ups, contacts and status changes in the workbench. Application records stay in the current browser: export them regularly and restore them when changing browsers.
 
 The skill does not submit applications or contact employers without your explicit authorization.
 

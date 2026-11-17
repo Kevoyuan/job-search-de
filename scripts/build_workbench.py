@@ -2,6 +2,8 @@
 """Build an interactive, modern Job Hunt Workbench HTML with local candidate config editing support."""
 
 import argparse
+import html
+from file_storage import atomic_write
 import base64
 import json
 import math
@@ -156,6 +158,8 @@ def main():
     template_html = template_html.replace("__INTER_FONT_DATA__", font_data)
     template_html = template_html.replace("__ANALYTICS_JS__", (SKILL_ROOT / "templates" / "analytics.js").read_text(encoding="utf-8"))
 
+    template_html = template_html.replace("__APPLICATION_TRACKING_JS__", (SKILL_ROOT / "templates/application-tracking.js").read_text(encoding="utf-8"))
+
     # 4b. Inject the optional theme refresh pack (scoped to the non-default themes).
     theme_refresh_file = SKILL_ROOT / "templates" / "theme-refresh.css"
     if theme_refresh_file.exists():
@@ -189,10 +193,34 @@ def main():
     rendered_html = rendered_html.replace("__JOBS_JSON__", safe_json_for_script(jobs_data))
     rendered_html = rendered_html.replace("__DEMO_MODE__", "true" if args.demo else "false")
 
+    # Show the cleanup snapshot in the guide; subsequent scheduled runs appear on rebuild.
+    from cleanup_backups import run_cleanup
+    cleanup_error = None
+    if not args.demo:
+        try:
+            run_cleanup(workdir)
+        except Exception as exc:
+            cleanup_error = str(exc)
+            print(f"Backup cleanup failed: {exc}", file=sys.stderr)
+    state_path = workdir / '.job-search/backup-cleanup-status.json'
+    try:
+        maintenance = json.loads(state_path.read_text()) if state_path.exists() else {}
+    except (OSError, ValueError):
+        maintenance = {}
+    labels = {'zh': ('备份清理（生成时快照）', '时间', '清理数量', '状态', '正常'),
+              'en': ('Backup cleanup (build snapshot)', 'Time', 'Removed', 'Status', 'OK'),
+              'de': ('Backup-Bereinigung (Stand beim Erstellen)', 'Zeit', 'Entfernt', 'Status', 'OK')}
+    panels = []
+    for lang, (label, time_label, count_label, status_label, ok) in labels.items():
+        summary = f"{time_label}: {maintenance.get('checkedAt', '—')} · {count_label}: {maintenance.get('removed', 0)} · {status_label}: {cleanup_error or maintenance.get('error') or ok}"
+        panels.append('<details data-maintenance-lang="' + lang + '" style="overflow-wrap:anywhere"' + (' hidden' if lang != args.lang else '') + '><summary>' + html.escape(label) + '</summary><p>' + html.escape(summary) + '</p></details>')
+    panel = ''.join(panels)
+    rendered_html = rendered_html.replace('<p id="docsVersionStatus"', panel + '<p id="docsVersionStatus"', 1)
+
     # 6. Save Output
     output_path = Path(args.output).resolve() if args.output else (workdir / "job-hunt-workbench.html")
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.write_text(rendered_html, encoding="utf-8")
+    atomic_write(output_path, rendered_html)
 
     if update_meta["updateAvailable"]:
         status = f"update available → v{update_meta['remote']}"
@@ -200,6 +228,7 @@ def main():
         status = f"up to date (v{update_meta['current']})"
     else:
         status = f"update check skipped (v{update_meta['current']})"
+
 
     print(f"✨ Generated Workbench HTML: {output_path} ({len(jobs_data)} jobs loaded)")
     print(f"   ↳ skill version: {status}")

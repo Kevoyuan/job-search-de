@@ -1,7 +1,12 @@
 #!/bin/bash
 # Build a styled HTML report from a configured Markdown report.
-# Usage: scripts/build_html.sh <workdir> [theme] [markdown-file]
-set -u
+# Usage: scripts/build_html.sh --report <workdir> [theme] [markdown-file]
+set -euo pipefail
+if [ "${1:-}" != "--report" ]; then
+  echo "Reports disabled by default. Use --report <workdir> [theme] [markdown-file] for an explicitly requested report."
+  exit 0
+fi
+shift
 WD="$1"
 THEME="${2:-modern}"
 INPUT="${3:-report_zh.md}"

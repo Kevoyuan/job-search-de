@@ -87,3 +87,9 @@ Scripts resolve configuration in this order:
 Candidate facts and preferences never fall back to a skill-owned personal profile.
 
 For first-run extraction and minimal-question behavior, read [onboarding.md](onboarding.md).
+
+Reports are opt-in: `[delivery].reports = false` by default. `report_languages` selects languages only and never enables report generation. Ordinary refreshes update structured data and the Workbench without generating `report_*`.
+
+`[maintenance].backup_retention_days = 30` controls automatic backup cleanup on Workbench builds. Only recognized backup names directly under the workdir and `.job-search` are eligible. Use `scripts/cleanup_backups.py --workdir <workdir> --dry-run` to preview.
+
+Backup count: `[maintenance].backup_max_per_file = 5`. New backups are written under `.job-search/backups/` only when bytes change, with atomic replacement of the destination. The newest `verified_jobs.json` backup is retained regardless of age. Cleanup status shown in the guide is a build-time snapshot, not a live view of the scheduler. Explicit reports require `build_html.sh --report`.

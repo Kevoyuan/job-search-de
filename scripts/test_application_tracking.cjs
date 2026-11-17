@@ -1,0 +1,22 @@
+const assert=require('node:assert/strict');const fs=require('node:fs');const vm=require('node:vm');
+const storage=new Map();let fail=false;
+const elements=new Map();const el=id=>{if(!elements.has(id))elements.set(id,{textContent:'',value:'',replaceChildren(){},append(){},setAttribute(){}});return elements.get(id);};
+const ctx=vm.createContext({console,Date,Set,Object,JSON,Error,Number,String,Array,Blob,URL,setTimeout,window:{addEventListener(){}},currentLang:'en',JOBS:[],activeJobForDetail:null,confirm:()=>true,document:{getElementById:el,querySelectorAll:()=>[],createElement:()=>({append(){}})},localStorage:{getItem:k=>storage.get(k)??null,setItem:(k,v)=>{if(fail)throw Error('quota');storage.set(k,v);},key:i=>[...storage.keys()][i],get length(){return storage.size}},isEvidenceEligible:j=>j.scoreStage==='evidence',hasScore:j=>typeof j.score==='number',renderJobs(){},renderKanban(){},filterJobs(){},showToast(){},formatStatusName:s=>s,I18N:{en:{toastStatusUpdated:''}}});
+vm.runInContext(fs.readFileSync('templates/application-tracking.js','utf8'),ctx);const run=s=>vm.runInContext(s,ctx);
+(async()=>{
+storage.set('job_status_old','prep');storage.set('job_note_old','legacy note');
+assert.equal(run("applicationRecord('old').notes"),'legacy note');
+assert(run("writeApplication('old',{contact:'Person'})"));assert.equal(storage.get('job_note_old'),'legacy note');
+run("updateJobStatus('old','applied')");assert.equal(run("applicationRecord('old').appliedOn"),run('trackingToday()'));assert.equal(run("applicationRecord('old').history.length"),1);
+run("updateJobStatus('old','applied')");assert.equal(run("applicationRecord('old').history.length"),1);
+const before=storage.get('job_workbench_applications_v1');fail=true;assert.equal(run("writeApplication('old',{notes:'lost'})"),false);fail=false;assert.equal(storage.get('job_workbench_applications_v1'),before);
+assert.equal(run("validTrackingDate('2026-02-30')"),false);assert.equal(run("validTrackingDate('2028-02-29')"),true);
+assert.throws(()=>run("parseApplicationBackup('{\"version\":2}')"));
+const record={status:'prep',notes:'restored note',appliedOn:'',followUpOn:'',contact:'',history:[]};ctx.backupText=JSON.stringify({format:'job-search-applications',version:1,records:{new:record,old:{...record,notes:'do not overwrite'}}});
+await run('importApplications({size:100,text:async()=>backupText})');assert.equal(run("applicationRecord('new').notes"),'restored note');assert.equal(run("applicationRecord('old').notes"),'legacy note');
+ctx.badText=JSON.stringify({format:'job-search-applications',version:1,records:{good:record,bad:{...record,followUpOn:'bad'}}});const saved=storage.get('job_workbench_applications_v1');await run('importApplications({size:100,text:async()=>badText})');assert.equal(storage.get('job_workbench_applications_v1'),saved);
+ctx.JOBS=[{id:'due',scoreStage:'evidence',score:80},{id:'offer',scoreStage:'evidence',score:90},{id:'unverified',score:99},{id:'review',scoreStage:'evidence',score:80}];run("writeApplication('due',{followUpOn:trackingToday()});writeApplication('offer',{status:'offer',followUpOn:'2020-01-01'})");assert.equal(run('todayActionGroups().due.length'),1);assert.equal(run('todayActionGroups().review.length'),1);
+storage.set('job_note_orphan','keep me');assert.equal(run("allApplicationRecords().orphan.notes"),'keep me');
+storage.set('job_workbench_applications_v1','broken');assert.equal(run("writeApplication('old',{notes:'new'})"),false);assert.equal(storage.get('job_workbench_applications_v1'),'broken');
+console.log('PASS: legacy compatibility, dates, history, quota failure, import merge/validation, orphan export, due queues, corrupt storage protection');
+})().catch(e=>{console.error(e);process.exit(1)});

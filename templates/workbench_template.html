@@ -1983,6 +1983,10 @@
       .config-section-nav button { min-height: 44px; }
     }
     __ANALYTICS_CSS__
+    .today-actions {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:12px}
+    .today-actions h3 {font-size:14px;margin-bottom:8px}
+    .action-job {display:block;width:100%;min-height:44px;text-align:left;white-space:normal;overflow-wrap:anywhere;margin-top:6px}
+    @media(max-width:700px){.today-actions{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
@@ -2059,6 +2063,18 @@
 
   <!-- Main Content Body -->
   <main class="main-container">
+    <section aria-labelledby="todayTitle" style="margin-bottom:20px">
+      <h2 id="todayTitle" data-tracking="title" style="font-size:18px"></h2>
+      <div id="todayActions" class="today-actions"></div>
+      <button id="expandActions" class="btn" aria-expanded="false" onclick="expandedActions=!expandedActions;renderTodayActions()"></button>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px">
+        <button class="btn" data-tracking="export" onclick="exportApplications()"></button>
+        <button class="btn" data-tracking="import" onclick="document.getElementById('applicationImport').click()"></button>
+        <input id="applicationImport" type="file" accept="application/json,.json" hidden onchange="importApplications(this.files[0])">
+      </div>
+      <p data-tracking="local" style="color:var(--text-muted);font-size:12px;margin-top:8px"></p>
+      <p id="trackingNotice" role="status" aria-live="polite" style="overflow-wrap:anywhere"></p>
+    </section>
     <section id="recentSearchSection" style="margin-bottom:20px;" aria-labelledby="recentSearchHeading">
       <div class="control-bar">
       <div class="stats-group" style="flex-wrap:wrap;">
@@ -2318,6 +2334,16 @@
         </div>
       </div>
 
+      <section class="form-section">
+        <label class="form-label" for="application-appliedOn" data-tracking="applied"></label>
+        <input id="application-appliedOn" class="form-input" type="date" onchange="saveApplicationFields()">
+        <label class="form-label" for="application-followUpOn" data-tracking="follow"></label>
+        <input id="application-followUpOn" class="form-input" type="date" onchange="saveApplicationFields()">
+        <label class="form-label" for="application-contact" data-tracking="contact"></label>
+        <input id="application-contact" class="form-input" type="text" onchange="saveApplicationFields()">
+        <details><summary data-tracking="history"></summary><ul id="applicationHistory" style="max-height:180px;overflow:auto"></ul></details>
+        <p id="trackingDetailNotice" role="status" aria-live="polite"></p>
+      </section>
       <!-- AI Prompt Generation for Cover Letter & Resume Tuning -->
       <div class="form-section">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
@@ -3410,6 +3436,7 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
     }
 
     function applyLanguage(lang) {
+      document.querySelectorAll("[data-maintenance-lang]").forEach(el => { el.hidden = el.dataset.maintenanceLang !== lang; });
       const dict = I18N[lang] || I18N.en;
       const langSel = document.getElementById('langSelector');
       if (langSel) langSel.value = lang;
@@ -3480,16 +3507,6 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
     }
 
     // 4. Job Status & Notes Persistence
-    function getJobStatus(jobId) {
-      return localStorage.getItem('job_status_' + jobId) || 'todo';
-    }
-    function updateJobStatus(jobId, status) {
-      localStorage.setItem('job_status_' + jobId, status);
-      renderKanban();
-      filterJobs();
-      const dict = I18N[currentLang] || I18N.en;
-      showToast(dict.toastStatusUpdated + formatStatusName(status));
-    }
     function formatStatusName(s) {
       const dict = I18N[currentLang] || I18N.en;
       return (dict.statusNames && dict.statusNames[s]) ? dict.statusNames[s] : s;
@@ -3497,6 +3514,7 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
 
     // 5. Rendering & Filtering
     function renderJobs() {
+      renderTodayActions();
       renderRecentSearchResults();
       renderTable();
       renderKanban();
@@ -3877,6 +3895,8 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
       const notes = localStorage.getItem('job_note_' + job.id) || '';
       document.getElementById('jobNotesInput').value = notes;
 
+      populateApplicationFields(job.id);
+
       // AI Prompt Preview
       const prompt = dict.aiPromptTemplate(job);
       document.getElementById('jobPromptBox').textContent = prompt;
@@ -3923,15 +3943,8 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
         updateJobStatus(activeJobForDetail.id, status);
         ['todo', 'prep', 'applied', 'interview', 'offer'].forEach(st => {
           const btn = document.getElementById('statusBtn-' + st);
-          if (btn) btn.className = (st === status) ? 'btn btn-primary' : 'btn';
+          if (btn) btn.className = (st === getJobStatus(activeJobForDetail.id)) ? 'btn btn-primary' : 'btn';
         });
-      }
-    }
-
-    function saveJobNotes() {
-      if (activeJobForDetail) {
-        const val = document.getElementById('jobNotesInput').value;
-        localStorage.setItem('job_note_' + activeJobForDetail.id, val);
       }
     }
 
@@ -4437,6 +4450,8 @@ Ich bereite mich auf die Bewerbung vor. Bitte erstelle basierend auf meinem Prof
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;');
     }
+
+    __APPLICATION_TRACKING_JS__
 
     document.getElementById('recentSearchDays').value = recentSearchDays;
 

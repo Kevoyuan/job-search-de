@@ -97,9 +97,11 @@ Read `profile.md` and `preferences.md` before scoring. Follow Evidence Before Sc
 
 Read [references/scoring.md](references/scoring.md) for the general defaults when the project does not override them.
 
-## 5. Reports
+## 5. Reports (explicit opt-in only)
 
-Derive report sections from location priorities in `preferences.md` and delivery settings in `settings.ini`, rather than from a fixed candidate or city:
+Do not generate or refresh `report_*` files during ordinary searches or Workbench refreshes. Reports are disabled by default (`[delivery].reports = false`); generate them only when the user explicitly requests a report. Preserve existing reports without updating them. Keep normalized jobs, evidence, pending leads and coverage records in their structured data files and deliver the Workbench. `report_languages` alone does not enable reports.
+
+When explicitly requested, derive report sections from location priorities in `preferences.md` and delivery settings in `settings.ini`, rather than from a fixed candidate or city:
 
 - primary location;
 - remote or Germany-wide scope;
@@ -151,7 +153,7 @@ Before delivering any Workbench change, run:
 
 Users or agents can invoke these specialized shortcuts:
 
-- `/refresh` [location/role/days]: Trigger an end-to-end fresh job discovery run (ATS download + targeted web search + date verification + two-stage evidence scoring + HTML report and Workbench update).
+- `/refresh` [location/role/days]: Trigger an end-to-end fresh job discovery run (ATS download + targeted web search + date verification + two-stage evidence scoring + structured data and Workbench update; reports only on explicit request).
 - `/update-skill`: Auto-update the `job-search-de` skill to the latest release from GitHub (`scripts/update_skill.sh` or `npx skills update job-search-de -g`).
 - `/match <url_or_jd>`: Fast deep evidence scoring of an ad-hoc job URL or pasted JD text against verified facts in `.job-search/profile.md`.
 - `/tailor <job_id_or_url>`: Generate tailored CV bullet points and a German Anschreiben (cover letter) grounded strictly in verified profile achievements.
@@ -191,3 +193,13 @@ Users or agents can invoke these specialized shortcuts:
 ### Mandatory scoring provenance
 
 Every acquired row starts as `scoreStage: triage`. Use `scripts/evidence_score.py` and `references/scoring.md` for a completed evidence assessment before publishing a final match score. Never turn keyword/title scores into evidence scores by changing a stage label. Apply structured settings.ini seniority constraints via the save/build pipeline after any merge; explicit hard exclusions override scores. Preserve original descriptions and requirement excerpts. Language/driving-licence uncertainty requires review rather than an invented match.
+
+## Backup retention
+
+Use `[maintenance].backup_retention_days` (default 30, positive integer). Run `python3 scripts/cleanup_backups.py --workdir <workdir>` after refreshes; Workbench builds also run this automatically. Preview with `--dry-run`. Only recognized backup files/directories directly inside the workdir or `.job-search` are eligible; never traverse symlinks, unrelated subdirectories, or delete live job data, configuration, reports or the Workbench. Directory age uses its newest descendant modification time. Avoid making backups unless replacing an existing artifact. For unattended cleanup, install a daily local scheduler for this command when the user requests it.
+
+Backup refinements: keep at most `[maintenance].backup_max_per_file = 5` copies per source, retaining the newest backup of `verified_jobs.json` even past expiry. New backups belong in `.job-search/backups/`; only changed contents are backed up. Use atomic replacement for data and Workbench writes. Explicit report generation requires `bash scripts/build_html.sh --report <workdir>`. Cleanup status is stored in `.job-search/backup-cleanup-status.json`; Workbench shows the snapshot at build time. Logs are capped during cleanup.
+
+### Application tracking and daily actions
+
+Preserve legacy browser statuses and notes. The versioned application store overlays existing values only after explicit user edits; do not bulk migrate browser data. Application export includes tracked jobs no longer in the current dataset. Restore validates the entire backup before writing, previews counts, and keeps existing records on conflict. Status history, application date, next follow-up and contact are user-managed records. Selecting Applied records today only when no application date exists; users may correct it. Daily actions show due follow-ups first, preparations, and evidence-eligible jobs scoring at least 75 for evaluation; future follow-ups and offers are not due. The queue does not submit applications or contact employers. Backups are explicit downloads, separate from filesystem maintenance backups.

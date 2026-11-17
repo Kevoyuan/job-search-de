@@ -55,6 +55,6 @@ class AcquisitionTagTests(unittest.TestCase):
             result=json.loads(file.read_text())
             self.assertEqual(result['metadata'],{'version':7})
             self.assertEqual(result['jobs'][0]['analysis']['technologyStatus'],'language_only')
-            self.assertEqual(next(Path(folder).glob('*.bak-before-tags-*')).read_text(),original)
+            self.assertEqual(next((Path(folder)/'.job-search/backups').glob('jobs.json.bak-*')).read_text(),original)
 
 if __name__=='__main__':unittest.main()

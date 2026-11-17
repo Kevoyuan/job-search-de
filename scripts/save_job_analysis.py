@@ -4,9 +4,8 @@ import argparse
 import copy
 import datetime
 import json
-import os
 from pathlib import Path
-import tempfile
+from file_storage import save_with_backup, atomic_write
 from analytics_data import normalize_analytics
 from scoring_policy import apply_policy, load_policy
 
@@ -47,6 +46,11 @@ def enrich_job(job, extracted_at, policy=None):
                     technologyStatus=derived['technologyStatus'],
                     technologyExtractionVersion=derived['extractionVersion'],
                     technologyExtractedAt=extracted_at)
+    timestamp_keys = ('roleClassifiedAt', 'trackClassifiedAt', 'technologyExtractedAt')
+    if {k: v for k, v in existing.items() if k not in timestamp_keys} == {k: v for k, v in analysis.items() if k not in timestamp_keys}:
+        for key in timestamp_keys:
+            if key in existing:
+                analysis[key] = existing[key]
     result['analysis'] = analysis
     return apply_policy(result, policy)
 
@@ -73,18 +77,14 @@ def main():
     else:
         data['jobs'] = enriched
     output = Path(args.output).resolve() if args.output else source
+    content = json.dumps(data, ensure_ascii=False, indent=2) + '\n'
     if output == source:
-        backup = source.with_name(source.name + '.bak-before-tags-' + datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%S%fZ'))
-        backup.write_bytes(original)
-    output.parent.mkdir(parents=True, exist_ok=True)
-    with tempfile.NamedTemporaryFile(mode='w', encoding='utf-8', dir=output.parent, delete=False) as handle:
-        temporary = handle.name
-        json.dump(data, handle, ensure_ascii=False, indent=2)
-        handle.write('\n')
-    try:
-        os.replace(temporary, output)
-    finally:
-        if os.path.exists(temporary): os.unlink(temporary)
+        changed = save_with_backup(output, content, source.parent)
+    else:
+        changed = atomic_write(output, content)
+    if not changed:
+        print('No changes; skipped writing and backup')
+        return
     print(f'Saved technology tags and job categories for {len(enriched)} jobs: {output}')
 
 
